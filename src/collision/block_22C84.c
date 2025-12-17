@@ -715,6 +715,9 @@ u32 calc_btyp(Obj *obj)
     if (!(block_flags[obj->btypes[0]] >> BLOCK_SOLID & 1))
     {
         if (obj->type == TYPE_RAYMAN)
+#ifdef PLATFORM_PSYZ
+            if(mp.map != NULL) // Todo: Port check from all the other ports that makes it not do this
+#endif
             btyp = mp.map[ray.ray_dist] >> 10;
         else
             btyp = PS1_BTYPAbsPos(obj->x_pos + obj->offset_bx, obj->y_pos + obj->offset_by);

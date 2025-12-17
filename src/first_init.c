@@ -31,19 +31,19 @@ void FUN_8019f8d0(void)
     SetGraphDebug(0);
     SetDispMask(0);
     PS1_ClearScreen();
-    SetDefDispEnv(&PS1_Displays[0].field0_0x0, 0, 0, 640, 480);
+    SetDefDispEnv(&PS1_Displays[0].display_environment, 0, 0, 640, 480);
     SetDefDrawEnv(&PS1_Displays[0].drawing_environment, 0, 0, 640, 480);
-    SetDefDispEnv(&PS1_Displays[1].field0_0x0, 0, 0, 640, 480);
+    SetDefDispEnv(&PS1_Displays[1].display_environment, 0, 0, 640, 480);
     SetDefDrawEnv(&PS1_Displays[1].drawing_environment, 0, 0, 640, 480);
     unk_1 = 1;
-    PS1_Displays[unk_1].field0_0x0.pad0 = 0;
-    PS1_Displays[0].field0_0x0.pad0 = 0;
-    PS1_Displays[1].field0_0x0.isinter = true;
-    PS1_Displays[0].field0_0x0.isinter = true;
+    PS1_Displays[unk_1].display_environment.pad0 = 0;
+    PS1_Displays[0].display_environment.pad0 = 0;
+    PS1_Displays[1].display_environment.isinter = true;
+    PS1_Displays[0].display_environment.isinter = true;
     PS1_InitDisplay(&PS1_Displays[0]);
     PS1_InitDisplay(&PS1_Displays[1]);
     ClearImage(&fb_rect, 0, 0, 0);
-    PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
+    PutDispEnv(&PS1_CurrentDisplay->display_environment);
     LOAD_SCREEN();
     playLevelMusic(0, 7);
     SetDispMask(1);
@@ -79,7 +79,7 @@ void FUN_8019fa94(u8 param_1)
 
     __builtin_memcpy(&fb_rect, &D_801CF0E8, sizeof(D_801CF0E8));
     StoreImage(&fb_rect, POINTER_CAST FILE_HEAP(D_801C438C[num_world - 1]));
-    MoveImage(&PS1_CurrentDisplay->field0_0x0.disp, fb_rect.x, fb_rect.y);
+    MoveImage(&PS1_CurrentDisplay->display_environment.disp, fb_rect.x, fb_rect.y);
     DrawSync(0);
     if (param_1)
     {
@@ -102,7 +102,7 @@ void FUN_8019fb84(void)
     D_801F4380 = ((u8 *) FILE_HEAP(D_801C438C[num_world - 1]) + 0x45000);
     FUN_8019df1c(num_world_choice);
     StoreImage(&fb_rect_1, POINTER_CAST FILE_HEAP((D_801C438C[num_world - 1])));
-    MoveImage(&PS1_CurrentDisplay->field0_0x0.disp, fb_rect_1.x, fb_rect_1.y);
+    MoveImage(&PS1_CurrentDisplay->display_environment.disp, fb_rect_1.x, fb_rect_1.y);
     DrawSync(0);
     FUN_8012d2b0(0);
     SYNCHRO_LOOP(PS1_RollUpRToL);
@@ -160,7 +160,7 @@ void FUN_8019fdd0(void)
     PS1_CurrentDisplay = new_disp;
 
     DISPLAY_FOND3();
-    PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
+    PutDispEnv(&PS1_CurrentDisplay->display_environment);
     PutDrawEnv(&PS1_CurrentDisplay->drawing_environment);
     PS1_InitDisplay(PS1_Displays);
     PS1_InitDisplay(&PS1_Displays[1]);
@@ -197,14 +197,14 @@ void FIRST_INIT(void)
         ChangeClearPAD(0);
     }
     SetDefDrawEnv(&PS1_Displays[0].drawing_environment, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    SetDefDispEnv(&PS1_Displays[0].field0_0x0, 0, 256, SCREEN_WIDTH, SCREEN_HEIGHT);
+    SetDefDispEnv(&PS1_Displays[0].display_environment, 0, 256, SCREEN_WIDTH, SCREEN_HEIGHT);
     SetDefDrawEnv(&PS1_Displays[1].drawing_environment, 0, 256, SCREEN_WIDTH, SCREEN_HEIGHT);
-    SetDefDispEnv(&PS1_Displays[1].field0_0x0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    PS1_Displays[1].field0_0x0.pad0 = 0;
-    PS1_Displays[0].field0_0x0.pad0 = 0;
+    SetDefDispEnv(&PS1_Displays[1].display_environment, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    PS1_Displays[1].display_environment.pad0 = 0;
+    PS1_Displays[0].display_environment.pad0 = 0;
     PS1_LoadImgSplash();
     SetDispMask(false);
-    PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
+    PutDispEnv(&PS1_CurrentDisplay->display_environment);
     PS1_ClearScreen();
     SetDispMask(true);
     PS1_PlayVideo(VIDEO_PRES);

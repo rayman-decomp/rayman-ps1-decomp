@@ -92,7 +92,10 @@ void PS1_LoadAllFixData(void)
     REMAP_OBJ(&raylittle);
     REMAP_OBJ(&clock_obj);
     REMAP_OBJ(&div_obj);
-    REMAP_OBJ(mapobj);
+    for(int i = 0; i < 25; i++)
+    {
+        REMAP_OBJ(&mapobj[i]);
+    }
     #endif
 }
 
@@ -101,12 +104,14 @@ void PS1_LoadLevelObjBlock(void)
 {
     __builtin_memcpy(&level, &PS1_LevelObjBlock[0], 8);
 #ifdef USE_CUSTOM_FILE_HEAP
-    level.objects = FILE_HEAP(level.objects);
+    level.objects = (Obj*)FILE_HEAP(level.objects);
+    for(int i = 0; i < level.nb_objects; i++)
+            REMAP_OBJ(&level.objects[i]);
 #endif
 
     __builtin_memcpy(D_801D7868, &PS1_LevelObjBlock[8], 8);
 #ifdef PLATFORM_PSYZ
-    link_init = (u8*)D_801D7868[0];
+    link_init = (u8*)FILE_HEAP((u8*)D_801D7868[0]);
 #else
     link_init = (u8*)D_801D7868[0];
 #endif

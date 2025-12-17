@@ -106,7 +106,7 @@ void PS1_PlayVideoFile(s16 video)
     }
     PS1_InitVideoState(&PS1_CurrentVideoState);
     DecDCToutCallback(FUN_80132980);
-    PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
+    PutDispEnv(&PS1_CurrentDisplay->display_environment);
     PS1_ReadVideoFile(PS1_CurrentVideoState.encoded_frame_buffers[PS1_CurrentVideoState.current_encode_buffer_index], video);
     PS1_CurrentVideoState.vsync_counter = 0;
     while ((PS1_VideoPlayState < 2) && ((u16) PS1_CurrentVideoState.frame_count < PS1_VideoLength))
@@ -258,7 +258,7 @@ void FUN_80132f8c(void)
     {
         PS1_CurrentVideoState.vsync_counter = 0;
         PutDrawEnv(&PS1_CurrentDisplay->drawing_environment);
-        PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
+        PutDispEnv(&PS1_CurrentDisplay->display_environment);
     }
 }
 #endif

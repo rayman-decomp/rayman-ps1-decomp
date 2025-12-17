@@ -16,7 +16,7 @@ typedef struct DRENVAndTile
 
 typedef struct Display
 {
-    DISPENV field0_0x0;
+    DISPENV display_environment;
     DRAWENV drawing_environment;
     DR_ENV map_drawing_environment_primitives[25];
     u8 field_0x6b0_0x7d7[296]; /* unused? */

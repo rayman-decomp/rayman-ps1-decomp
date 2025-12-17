@@ -8,7 +8,7 @@ void PS1_DisplayVRAM(void)
 
     TOUCHE(INPUT_READ);
     l1_pressed = 0;
-    prev_disp_env = PS1_Displays[0].field0_0x0;
+    prev_disp_env = PS1_Displays[0].display_environment;
     while (l1_pressed == 0)
     {
         if (FUN_80133714(0))
@@ -33,20 +33,20 @@ void PS1_DisplayVRAM(void)
             PS1_VRAMDisplayXPos = 0;
 
         SetDefDispEnv(
-            &PS1_Displays[0].field0_0x0,
+            &PS1_Displays[0].display_environment,
             PS1_VRAMDisplayXPos, PS1_VRAMDisplayYPos,
             SCREEN_WIDTH, SCREEN_HEIGHT
         );
-        PS1_Displays[0].field0_0x0.pad0 =
-        PS1_Displays[1].field0_0x0.pad0 = 1;
-        PutDispEnv(&PS1_Displays[0].field0_0x0);
+        PS1_Displays[0].display_environment.pad0 =
+        PS1_Displays[1].display_environment.pad0 = 1;
+        PutDispEnv(&PS1_Displays[0].display_environment);
         TOUCHE(INPUT_READ);
     }
 
     while (FUN_80133fe0(0) == 0)
         TOUCHE(INPUT_READ);
 
-    PS1_Displays[0].field0_0x0 = prev_disp_env;
+    PS1_Displays[0].display_environment = prev_disp_env;
 }
 
 /* 487A4 8016CFA4 -O2 -msoft-float */

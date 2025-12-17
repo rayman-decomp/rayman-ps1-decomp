@@ -111,7 +111,7 @@ void DO_MAIN_LOOP(void)
         VSync(0);
         VSync(0);
     }
-    PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
+    PutDispEnv(&PS1_CurrentDisplay->display_environment);
     PutDrawEnv(&PS1_CurrentDisplay->drawing_environment);
 
     if (PTR_PS1_MemoryUsageRect_801cee70 == &PS1_MemoryUsageRects[0])

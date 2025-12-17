@@ -5,10 +5,17 @@ project(rayman)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 98)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -m32")
-set(CMAKE_SYSTEM_LIBRARY_PATH /usr/lib32)
+if(UNIX)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -m32")
+    # todo: Find a way to not just hardcode this for arch
+    # best way would be to fix 64bit :p
+    set(CMAKE_SYSTEM_LIBRARY_PATH /usr/lib32) 
+elseif(WIN32)
+    set(CMAKE_GENERATOR_PLATFORM Win32)
+endif()
+
 set(SDL_STATIC ON)
 add_subdirectory(tools/psyz/psyz build)
 
