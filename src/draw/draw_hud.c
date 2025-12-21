@@ -12,18 +12,9 @@ Obj div_obj;
 /* 19A38 8013E238 -O2 */
 /*? ClearImage(s32, ?, ?, ?);*/
 
-#if defined(_MSC_VER) || defined(__MINGW32__)
-#include "glad/glad.h"
-#else
-#include <SDL3/SDL_opengl.h>
-#endif
 void CLRSCR(void)
 {
     ClearImage(&(PS1_CurrentDisplay->drawing_environment).clip, 0, 0, 0);
-#ifdef PLATFORM_PSYZ
-    glClearColor(0,0,0,1);
-    glClear(GL_COLOR_BUFFER_BIT);
-#endif
 }
 
 /* 19A6C 8013E26C -O2 */
