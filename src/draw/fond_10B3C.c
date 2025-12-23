@@ -333,7 +333,7 @@ void FUN_80135ab0(s16 param_1, s16 *param_2)
 INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80135d5c);
 #else
 #ifndef uintptr_t
-#define uintptr_t uint
+#define uintptr_t u32
 #endif
 /* score of 2810 */
 void FUN_80135d5c(s32 param_1, u16 *param_2, s32 param_3, s16 param_4)
@@ -1136,7 +1136,7 @@ void DRAW_MAP(void)
     int y_pos;
     u32 puVar5;
     int tile_index;
-    uint uVar6;
+    u32 uVar6;
     int x_pos;
     SPRT_16 *pSVar7;
     s32 iVar8;

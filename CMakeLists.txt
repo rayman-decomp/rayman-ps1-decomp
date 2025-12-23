@@ -12,8 +12,7 @@ if(UNIX)
     # todo: Find a way to not just hardcode this for arch
     # best way would be to fix 64bit :p
     set(CMAKE_SYSTEM_LIBRARY_PATH /usr/lib32) 
-elseif(WIN32)
-    set(CMAKE_GENERATOR_PLATFORM Win32)
+    set(SDL_X11 OFF) # idk, sdl is just funky and won't build with X11 sometimes
 endif()
 
 set(SDL_STATIC ON)

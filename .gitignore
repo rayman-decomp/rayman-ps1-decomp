@@ -1,5 +1,6 @@
 __pycache__/
 .vscode/
+.vs/
 asm/
 build/
 build_pc/
