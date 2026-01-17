@@ -2,7 +2,7 @@
 #define COMMON_H
 
 #ifdef PLATFORM_PSYZ
-#include <psyz.h>
+#include <psyz/types.h>
 #include "sys/types.h"
 #include <stdint.h>
 #else

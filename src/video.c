@@ -1,12 +1,5 @@
 #include "video.h"
 #ifdef PLATFORM_PSYZ
-// Implemented in PsyZ but not in headers
-extern int DecDCTvlc(u_long *bs, u_long *buf);
-
-extern void DecDCTin(u_long *buf, int mode);
-extern void DecDCTout(u_long *buf, int size);
-extern int DecDCTinCallback(void (*func)());
-extern int DecDCToutCallback(void (*func)());
 #define POINTER_CAST (u_long *)
 #else
 #define POINTER_CAST

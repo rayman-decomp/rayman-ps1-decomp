@@ -37,11 +37,6 @@ void DO_MAIN_LOOP(void)
     if (PS1_CurrentDisplay == &PS1_Displays[0])
         new_disp_1 = &PS1_Displays[1];
 
-#ifdef PLATFORM_PSYZ
-    CLRSCR();
-    glClearColor(0,0,0,1);
-    glClear(GL_COLOR_BUFFER_BIT);
-#endif
     for (i = 0; i < PS1_PolygonIndexTableCount; i++)
     {
         SetPolyFT4(&new_disp_1->polygons[PS1_PolygonIndexTable[i]]);

@@ -2,6 +2,7 @@
 #define OBJ_H
 
 #include "common.h"
+#define printf(...)
 
 typedef struct Sprite
 {

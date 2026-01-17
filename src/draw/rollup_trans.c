@@ -216,10 +216,10 @@ void PS1_RollUpTransition(s16 rollup_pos, s16 left_to_right)
         {
 #ifdef PLATFORM_PSYZ
             avg_z4 = AverageZ4( 
-                RotTransPers(&cur_vec[0], (long *) &cur_poly->x0, (long *) &rtp_p, (long *) &rtp_flag),
-                RotTransPers(&cur_vec[1], (long *) &cur_poly->x2, (long *) &rtp_p, (long *) &rtp_flag),
-                RotTransPers(&cur_vec[D_801F98F8] + 1, (long *) &cur_poly->x1, (long *) &rtp_p, (long *) &rtp_flag),
-                RotTransPers(&cur_vec[D_801F98F8] + 2, (long *) &cur_poly->x3, (long *) &rtp_p, (long *) &rtp_flag)
+                RotTransPers(&cur_vec[0], (int*)&cur_poly->x0, &rtp_p, &rtp_flag),
+                RotTransPers(&cur_vec[1], (int*)&cur_poly->x2, &rtp_p, &rtp_flag),
+                RotTransPers(&cur_vec[D_801F98F8] + 1, (int*)&cur_poly->x1, &rtp_p, &rtp_flag),
+                RotTransPers(&cur_vec[D_801F98F8] + 2, (int*)&cur_poly->x3, &rtp_p, &rtp_flag)
             );
 #else
             avg_z4 = AverageZ4(
@@ -244,14 +244,12 @@ void PS1_RollUpTransition(s16 rollup_pos, s16 left_to_right)
 s16 PS1_RollUpRToL(void)
 {
     CLRSCR();
-#ifndef PLATFORM_PSYZ
     if (PS1_RollUpPosition != 100)
     {
         PS1_RollUpTransition(PS1_RollUpPosition, false);
         PS1_RollUpPosition++;
         return false;
     }
-#endif
     return true;
 }
 
@@ -259,14 +257,12 @@ s16 PS1_RollUpRToL(void)
 s16 PS1_RollUpLToR(void)
 {
     CLRSCR();
-#ifndef PLATFORM_PSYZ
     if (PS1_RollUpPosition != 0)
     {
         PS1_RollUpTransition(PS1_RollUpPosition, true);
         PS1_RollUpPosition--;
         return false;
     }
-#endif
     return true;
 }
 
