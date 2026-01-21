@@ -6,14 +6,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: ghcr.io/rayman-decomp/rayman-ps1-build
+    container: ghcr.io/rayman-decomp/rayman-ps1-build:main
     steps:
     - name: Clone
       uses: actions/checkout@v4
       with:
         submodules: 'recursive'
-
-    - name: Install requirements
+    - name: Cache pip dependencies
       uses: actions/setup-python@v5
       with:
         python-version: '3.13'
