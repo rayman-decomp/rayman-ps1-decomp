@@ -6,14 +6,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: ghcr.io/rayman-decomp/rayman-ps1-build
     steps:
     - name: Clone
       uses: actions/checkout@v4
       with:
         submodules: 'recursive'
+
     - name: Install requirements
-      run: sudo apt install binutils-mipsel-linux-gnu cpp-mipsel-linux-gnu
-    - name: Cache pip dependencies
       uses: actions/setup-python@v5
       with:
         python-version: '3.13'
@@ -28,18 +28,11 @@ jobs:
           tools/gcc-2.5.7
         key: other-cache
     - if: steps.other-cache.outputs.cache-hit != 'true'
-      name: Get exe
-      uses: actions/checkout@v4
-      with:
-        repository: fuerchter/rayman-ps1-decomp
-        token: ${{ secrets.EXE_PAT }}
-        path: 'exe'
-    - if: steps.other-cache.outputs.cache-hit != 'true'
-      run: cp exe/SLUS-000.05 SLUS-000.05
+      run: cp /exe/SLUS-000.05 SLUS-000.05
     - if: steps.other-cache.outputs.cache-hit != 'true'
       name: Get gcc
       run:
-        wget https://github.com/decompals/old-gcc/releases/download/0.13/gcc-2.5.7.tar.gz &&
+        wget https://github.com/decompals/old-gcc/releases/download/latest/gcc-2.5.7.tar.gz &&
         mkdir tools/gcc-2.5.7 &&
         tar -xzvf gcc-2.5.7.tar.gz -C tools/gcc-2.5.7
     - name: Extract
