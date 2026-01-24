@@ -121,11 +121,7 @@ void DO_MAIN_LOOP(void)
     PTR_PS1_MemoryUsageRect_801cee70 = new_rect;
     if (PS1_MemoryUsageDisplayMode != 0)
         ClearImage(new_rect, 0, 0, 128);
-#ifndef PLATFORM_PSYZ 
-// TODO: Fix this function crashing the game on PC
-//       as it's responsible for rendering bgs
     PS1_DisplayFondSprites();
-#endif
     DrawSync(0);
     if (PS1_MemoryUsageDisplayMode == 2)
         ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 128, 0, 128);

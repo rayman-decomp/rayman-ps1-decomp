@@ -17,6 +17,7 @@ void main(void)
     RaymanEvents default_evts = PS1_DefaultRayEvts;
 
 #ifdef PLATFORM_PSYZ
+    Psyz_SetTitle("Rayman");
     Psyz_SetDiskPath("rom.cue");
 #endif
     ResetCallback();

@@ -298,7 +298,7 @@ void FUN_80135ab0(s16 param_1, s16 *param_2)
         PS1_CurrentDisplay->drawing_environment.tpage = cur_bg_sprite->tpage;
         SetDrawEnv(cur_dr_env, &PS1_CurrentDisplay->drawing_environment);
         AddPrim(PS1_PrevPrim, cur_dr_env);
-        PS1_PrevPrim = cur_dr_env;
+        PS1_PrevPrim = (OT_TYPE*)cur_dr_env;
         cur_dr_env++;
 
         cur_sprt->u0 = cur_bg_sprite->page_x;
@@ -310,7 +310,7 @@ void FUN_80135ab0(s16 param_1, s16 *param_2)
         cur_sprt->x0 = unk_x_1;
         cur_sprt->y0 = unk_y_1;
         AddPrim(PS1_PrevPrim, cur_sprt);
-        PS1_PrevPrim = cur_sprt;
+        PS1_PrevPrim = (OT_TYPE*)cur_sprt;
         cur_sprt++;
         D_801E4BC8++;
         if (PS1_FondHeight < unk_1 + SCREEN_HEIGHT)
@@ -318,7 +318,7 @@ void FUN_80135ab0(s16 param_1, s16 *param_2)
             __builtin_memcpy(cur_sprt, cur_sprt - 1, sizeof(SPRT));
             cur_sprt->y0 += PS1_FondHeight;
             AddPrim(PS1_PrevPrim, cur_sprt);
-            PS1_PrevPrim = cur_sprt;
+            PS1_PrevPrim = (OT_TYPE*)cur_sprt;
             cur_sprt++;
             D_801E4BC8++;
         }
@@ -340,7 +340,6 @@ void FUN_80135d5c(s32 param_1, u16 *param_2, s32 param_3, s16 param_4)
 {
     s16 sVar1_1;
     Display *pDVar2;
-    u32 *ppuVar3;
     u8 bVar4;
     s32 fw_1;
     s32 fw_2;
@@ -348,7 +347,7 @@ void FUN_80135d5c(s32 param_1, u16 *param_2, s32 param_3, s16 param_4)
     s16 fw_4;
     u8 uVar7;
     s16 sVar9;
-    SPRT *pSVar10;
+    s16 new_var_2;
     SPRT *cur_sprt;
     DR_ENV *cur_dr_env;
     DVECTOR *cur_pos;
@@ -356,14 +355,12 @@ void FUN_80135d5c(s32 param_1, u16 *param_2, s32 param_3, s16 param_4)
     u8 cnt_1;
     s16 test_1;
     s16 temp_v0_4;
-    u32 *new_var_1; /* ??? was permuter sugg. */
-    s16 new_var_2;
 
     cnt_1 = 0;
-    fw_1 = PS1_FondWidth;
-    fw_2 = PS1_FondWidth * 2;
-    fw_4 = ((PS1_FondWidth * 2 - 0x140));
-    fw_3 = ((PS1_FondWidth - 0x140));
+    fw_1 = (u16)PS1_FondWidth;
+    fw_2 = fw_1 * 2;
+    fw_4 = ((fw_1 * 2 - 0x140));
+    fw_3 = ((fw_1 - 0x140));
     /*test_1 = ((NbSprite + 0xffff) << 0x10) >> 0x10;*/
     test_1 = ((NbSprite - 1));
     cur_pos = &PS1_BackgroundPositions[test_1];
@@ -374,73 +371,44 @@ void FUN_80135d5c(s32 param_1, u16 *param_2, s32 param_3, s16 param_4)
 
     cur_sprt = &PS1_CurrentDisplay->sprites[test_1];
     bVar4 = NbSprite;
-    while (cnt_1 < bVar4)
-    {
+    while (cnt_1 < bVar4) {
         uVar7 = cur_bg_sprite->id - 1;
         sVar9 = 1000;
-        if (uVar7 == PS1_BandeBackCount)
-        {
+        if (uVar7 == PS1_BandeBackCount) {
             sVar1_1 = param_2[uVar7] % param_4;
             new_var_2 = cur_pos->vx - sVar1_1;
             temp_v0_4 = cur_pos->vy - param_3;
-            if (sVar9 > temp_v0_4)
-            {
+            if (sVar9 > temp_v0_4) {
                 sVar9 = temp_v0_4;
             }
             cur_sprt[0].x0 = new_var_2;
             cur_sprt[0].y0 = sVar9;
-            ppuVar3 = PS1_PrevPrim;
-            cur_sprt[0].tag = cur_sprt[0].tag & 0xff000000 | *ppuVar3 & 0xffffff;
-            *ppuVar3 = (*ppuVar3 & 0xff000000 | (uintptr_t) &cur_sprt[0] & 0xffffff);
-            if (fw_3 < sVar1_1)
-            {
+            addPrim(PS1_PrevPrim, cur_sprt);
+            if (fw_3 < sVar1_1) {
                 cur_sprt[0x10].x0 = param_4 + cur_sprt[0].x0;
                 cur_sprt[0x10].y0 = cur_sprt[0].y0;
-#ifdef PLATFORM_PSYZ
-                new_var_1 = (u32*)&cur_sprt[0x10].tag;
-#else
-                new_var_1 = &cur_sprt[0x10].tag;
-#endif
-                cur_sprt[0x10].tag = *new_var_1 & 0xff000000 | *ppuVar3 & 0xffffff;
-                *ppuVar3 = (*ppuVar3 & 0xff000000 | (uintptr_t) (&cur_sprt[0x10]) & 0xffffff);
+                addPrim(PS1_PrevPrim, &cur_sprt[0x10]);
             }
         }
-        else
-        {
+        else {
             PS1_PrevPrim = pDVar2->ordering_table;
-            ppuVar3 = PS1_PrevPrim;
             sVar1_1 = param_2[uVar7] % (s16) fw_1;
             new_var_2 = cur_pos->vx - sVar1_1;
             temp_v0_4 = cur_pos->vy - param_1;
-            if (sVar9 > temp_v0_4)
-            {
+            if (sVar9 > temp_v0_4) {
                 sVar9 = temp_v0_4;
             }
             cur_sprt[0].x0 = new_var_2;
             cur_sprt[0].y0 = sVar9;
-            cur_sprt[0].tag = cur_sprt[0].tag & 0xff000000 | *ppuVar3 & 0xffffff;
-            *ppuVar3 =
-                (*ppuVar3 & 0xff000000 | (uintptr_t) &cur_sprt[0] & 0xffffff);
-            if (fw_3 < sVar1_1)
-            {
+            addPrim(PS1_PrevPrim, cur_sprt);
+            if (fw_3 < sVar1_1) {
                 cur_sprt[0x10].x0 = cur_sprt[0].x0 + fw_1;
                 cur_sprt[0x10].y0 = cur_sprt[0].y0;
-#ifdef PLATFORM_PSYZ
-                new_var_1 = (u32*)&cur_sprt[0x10].tag;
-#else
-                new_var_1 = &cur_sprt[0x10].tag;
-#endif
-                cur_sprt[0x10].tag =
-                    *new_var_1 & 0xff000000 | *ppuVar3 & 0xffffff;
-                *ppuVar3 =
-                    (*ppuVar3 & 0xff000000 | (uintptr_t) (&cur_sprt[0x10]) & 0xffffff);
-                if (fw_4 < sVar1_1)
-                {
+                addPrim(PS1_PrevPrim, &cur_sprt[0x10]);
+                if (fw_4 < sVar1_1) {
                     cur_sprt[0x20].x0 = cur_sprt[0].x0 + fw_2;
                     cur_sprt[0x20].y0 = cur_sprt[0].y0;
-                    cur_sprt[0x20].tag = cur_sprt[0x20].tag & 0xff000000 | *ppuVar3 & 0xffffff;
-                    *ppuVar3 =
-                        (*ppuVar3 & 0xff000000 | (uintptr_t) (&cur_sprt[0x20]) & 0xffffff);
+                    addPrim(PS1_PrevPrim, &cur_sprt[0x20]);
                 }
             }
         }
@@ -448,12 +416,9 @@ void FUN_80135d5c(s32 param_1, u16 *param_2, s32 param_3, s16 param_4)
         cnt_1++;
         cur_pos--;
         cur_bg_sprite--;
-        pSVar10--;
         cur_sprt--;
-        ppuVar3 = PS1_PrevPrim;
         bVar4 = NbSprite;
-        cur_dr_env->tag = cur_dr_env->tag & 0xff000000 | *ppuVar3 & 0xffffff;
-        *ppuVar3 = (*ppuVar3 & 0xff000000 | (uintptr_t) cur_dr_env & 0xffffff);
+        addPrim(PS1_PrevPrim, cur_dr_env);
         cur_dr_env--;
     }
 }
@@ -1545,7 +1510,7 @@ void FUN_80138b84(s16 in_h_1, s16 *param_2, s16 in_h_2, s16 in_w_1)
         PS1_CurrentDisplay->drawing_environment.tpage = cur_bg_sprite->tpage;
         SetDrawEnv(cur_dr_env, &PS1_CurrentDisplay->drawing_environment);
         AddPrim(PS1_PrevPrim, cur_dr_env);
-        PS1_PrevPrim = cur_dr_env;
+        PS1_PrevPrim = (OT_TYPE*)cur_dr_env;
         cur_dr_env++;
 
         cur_sprt->u0 = cur_bg_sprite->page_x;
@@ -1556,7 +1521,7 @@ void FUN_80138b84(s16 in_h_1, s16 *param_2, s16 in_h_2, s16 in_w_1)
         cur_sprt->x0 = unk_x_1;
         cur_sprt->y0 = unk_y_1;
         AddPrim(PS1_PrevPrim, cur_sprt);
-        PS1_PrevPrim = cur_sprt;
+        PS1_PrevPrim = (OT_TYPE*)cur_sprt;
         cur_sprt++;
         D_801E4BC8++;
         if (PS1_FondWidth < unk_3 + SCREEN_WIDTH)
@@ -1564,7 +1529,7 @@ void FUN_80138b84(s16 in_h_1, s16 *param_2, s16 in_h_2, s16 in_w_1)
             __builtin_memcpy(cur_sprt, cur_sprt - 1, sizeof(SPRT));
             cur_sprt->x0 += unk_w_1;
             AddPrim(PS1_PrevPrim, cur_sprt);
-            PS1_PrevPrim = cur_sprt;
+            PS1_PrevPrim = (OT_TYPE*)cur_sprt;
             cur_sprt++;
             D_801E4BC8++;
         }
