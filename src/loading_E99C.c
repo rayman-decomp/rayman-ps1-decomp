@@ -131,7 +131,6 @@ s32 PS1_LoadFiles(FileInfo *files, s32 file_index, s32 count, s16 param_4)
         }
         if (j == 10000)
             num_not_found++;
-        return num_not_found;
 #else
                 char buffer[1024];
 

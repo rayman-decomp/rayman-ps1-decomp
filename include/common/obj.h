@@ -2,7 +2,9 @@
 #define OBJ_H
 
 #include "common.h"
+#ifdef PLATFORM_PSYZ
 #define printf(...)
+#endif
 
 typedef struct Sprite
 {

@@ -20,11 +20,6 @@ void DO_GROS_MOTEUR_NORMAL(void)
     }
 }
 
-#if defined(_MSC_VER) || defined(__MINGW32__)
-#include "glad/glad.h"
-#else
-#include <SDL3/SDL_opengl.h>
-#endif
 /* AE28 8012F628 -O2 -msoft-float */
 void DO_MAIN_LOOP(void)
 {
