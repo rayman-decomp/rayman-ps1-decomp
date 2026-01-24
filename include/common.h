@@ -16,7 +16,7 @@
 #ifdef PLATFORM_PSYZ
 #define NUGGET
 #define USE_CUSTOM_FILE_HEAP
-#define USE_EXTERNAL_FILE_LOADING
+#define USE_EXTERNAL_FILE_LOADING // TODO: Allow game to run with this off
 #endif
 
 #ifndef PLATFORM_PSYZ
