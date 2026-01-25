@@ -1,5 +1,9 @@
 #include "first_init.h"
 
+#ifdef PLATFORM_PSYZ
+#include <libapi.h>
+#endif
+
 const u8 s_loading_8012c368[] = "/loading.../";
 
 /* 7B048 8019F848 -O2 -msoft-float */

@@ -1,5 +1,9 @@
 #include "music.h"
 
+#ifdef PLATFORM_PSYZ
+#include <libapi.h>
+#endif
+
 /* TODO: PS1_TrkFiles and PS1_TracksExist are different size? correct? */
 
 #define PS1_SECTORS_P_SEC 75

@@ -892,9 +892,8 @@ void FUN_801366ac(void)
         /*ClearImage(&local_88, (PS1_FondImages[0][0].r * 8),
                    (PS1_FondImages[0][0].g * 8),
                    (PS1_FondImages[0][0].b * 8));*/
-        ClearImage(&local_88, (u8)((*(ushort *)PS1_FondImages[0] & (0x1f << 0)) << 3),
-                   (u8)((*(ushort *)PS1_FondImages[0] & (0x1f << 5)) >> 2),
-                   (u8)((*(ushort *)PS1_FondImages[0] & (0x1f << 10)) >> 7));
+        ClearImage(&local_88, (u8)((*(u16 *)PS1_FondImages[0] & (0x1f << 0)) << 3),
+                   (u8)((*(u16 *)PS1_FondImages[0] & (0x1f << 5)) >> 2), (u8) ((*(u16 *) PS1_FondImages[0] & (0x1f << 10)) >> 7));
         
     }
     if (var_s5 != 0)
@@ -906,9 +905,7 @@ void FUN_801366ac(void)
         /*ClearImage(&local_88, (PS1_FondImages[1][-1].r * 8),
                    (PS1_FondImages[1][-1].g * 8),
                    (PS1_FondImages[1][-1].b * 8));*/ /* -1 index??? */
-        ClearImage(&local_88, (u8)((*(ushort *)(PS1_FondImages[1] + -2) & (0x1f << 0)) << 3),
-                   (u8)((*(ushort *)(PS1_FondImages[1] + -2) & (0x1f << 5)) >> 2),
-                   (u8)((*(ushort *)(PS1_FondImages[1] + -2) & (0x1f << 10)) >> 7));
+        ClearImage(&local_88, (u8) ((*(u16 *) (PS1_FondImages[1] + -2) & (0x1f << 0)) << 3), (u8) ((*(u16 *) (PS1_FondImages[1] + -2) & (0x1f << 5)) >> 2), (u8) ((*(u16 *) (PS1_FondImages[1] + -2) & (0x1f << 10)) >> 7));
     }
     if (PS1_FondType == 0x0B)
     {
@@ -1110,8 +1107,8 @@ void DRAW_MAP(void)
     s32 test_2;
 
     iVar4 = -(((((u16) xmap << 0x10) >> 0x10) + ((((u16) xmap << 0x10) >> 0x10) / 16) * -0x10) << 0x10 >> 0x10);
-    y_pos = -(new_var2 = ((((((ushort) ymap) << 0x10) >> 0x10) + ((((((ushort) ymap) << 0x10) >> 0x10) / 16) * (-0x10))) << 0x10) >> 0x10);
-    iVar8 = (((ushort) ymap << 0x10) >> 0x14) * mp.width;
+    y_pos = -(new_var2 = ((((((u16) ymap) << 0x10) >> 0x10) + ((((((u16) ymap) << 0x10) >> 0x10) / 16) * (-0x10))) << 0x10) >> 0x10);
+    iVar8 = (((u16) ymap << 0x10) >> 0x14) * mp.width;
     test_2 = ((u16) xmap << 0x10) >> 0x14;
     pSVar7 = PS1_CurrentDisplay->tiles;
     while (y_pos < (PS1_CurrentDisplay->drawing_environment).clip.h)

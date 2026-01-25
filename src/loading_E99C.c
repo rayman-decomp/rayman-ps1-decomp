@@ -1,6 +1,5 @@
 #include "loading_E99C.h"
 #ifdef PLATFORM_PSYZ
-#include <stdio.h>
 #include <string.h>
 #endif
 

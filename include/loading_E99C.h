@@ -7,7 +7,6 @@
 #ifdef PLATFORM_PSYZ
 #include <libsnd.h>
 #include <libetc.h>
-#include <stdio.h>
 #else
 #include "LIBSND.H"
 #include "STDIO.H"

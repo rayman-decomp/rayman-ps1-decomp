@@ -6,7 +6,6 @@
 #include "common/world_map.h"
 #ifdef PLATFORM_PSYZ
 #include <libgpu.h>
-#include <stdio.h>
 #else
 #include "LIBGPU.H"
 #include "STDIO.H"

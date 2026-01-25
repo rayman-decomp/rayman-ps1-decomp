@@ -1,5 +1,9 @@
 #include "main.h"
 
+#ifdef PLATFORM_PSYZ
+#include <libapi.h>
+#endif
+
 #ifdef BSS_DEFS
 u8 fin_du_jeu;
 #endif

@@ -1,5 +1,10 @@
 #include "card.h"
 
+#ifdef PLATFORM_PSYZ
+#include <libapi.h>
+#include <libetc.h>
+#endif
+
 #ifdef BSS_DEFS
 LoadInfoRay loadInfoRay[6];
 u8 D_801F7F08[34];
@@ -520,7 +525,7 @@ s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
         devname = &PS1_SaveFilenames[slot_par - 1][0];
         if (devname[0] == 0)
         {
-            sprintf(devname, s_bu02xss4u_8012ade8, chan_par, s_BISLUS00005_8012aca8, save_ray[slot_par], (ushort) PS1_GlobalTimer);
+            sprintf(devname, s_bu02xss4u_8012ade8, chan_par, s_BISLUS00005_8012aca8, save_ray[slot_par], (u16) PS1_GlobalTimer);
         }
         fd = open(devname, 0x10200);
         if (fd != -1)
