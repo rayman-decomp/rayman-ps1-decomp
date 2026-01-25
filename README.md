@@ -1,3 +1,7 @@
+> [!NOTE]
+> The port repo has been moved to [rayman-decomp/rayman-ps1-decomp](https://github.com/rayman-decomp/rayman-ps1-decomp/tree/port_clean) as of January 2026.
+
+
 # rayman-ps1-decomp
 Please help matching the remaining [~50 nonmatching non-psyq functions](https://docs.google.com/spreadsheets/d/1vJuS9sQnzeYvZqrR-QtGGEMYePni6XKZGVvfAUoAtjU)!
 
