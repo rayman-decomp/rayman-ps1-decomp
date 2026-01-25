@@ -1,0 +1,44 @@
+name: CMake Build
+on:
+  push:
+    branches: ["main", "port_clean"]
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build
+      - name: Configure and build
+        run: |
+          cmake -GNinja -DSDL_STATIC=ON -B build/
+          cmake --build build/
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+      - name: Install dependencies
+        run: brew install cmake ninja
+      - name: Configure and build
+        run: |
+          cmake -GNinja -DSDL_STATIC=ON -B build/
+          cmake --build build/
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+      - name: Configure and build
+        run: |
+          cmake -TClangCl -DCMAKE_BUILD_TYPE=Debug -B build/
+          cmake --build build/ --config Debug
