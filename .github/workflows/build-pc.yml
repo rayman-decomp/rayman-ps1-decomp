@@ -1,19 +1,16 @@
 name: CMake Build
 on:
   push:
-    branches: ["main", "port_clean"]
+    branches: ["port_clean"]
 jobs:
   build-linux:
     runs-on: ubuntu-latest
+    container: registry.gitlab.steamos.cloud/steamrt/sniper/sdk:latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: 'recursive'
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y cmake ninja-build libsdl2-dev
       - name: Configure and build
         run: |
           cmake -GNinja -DSDL_STATIC=ON -B build/
