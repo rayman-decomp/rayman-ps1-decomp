@@ -5,7 +5,7 @@ on:
 jobs:
   build-linux:
     runs-on: ubuntu-latest
-    container: registry.gitlab.steamos.cloud/steamrt/sniper/sdk:latest
+    container: registry.gitlab.steamos.cloud/steamrt/steamrt4/sdk:latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
