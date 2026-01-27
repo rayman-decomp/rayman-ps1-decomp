@@ -1,7 +1,7 @@
 #include "obj/spider_plafond.h"
 
 #ifdef BSS_DEFS
-u8 D_801F55D0;
+u8 position_ray;
 #endif
 
 /* 537C0 80177FC0 -O2 -msoft-float */
@@ -162,9 +162,9 @@ void DO_SPIDER_PLAFOND(Obj *spipl_obj)
                     cur_obj->flags |= FLG(OBJ_READ_CMDS);
                     cur_obj->nb_cmd = 0;
                     if (ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40)
-                        D_801F55D0 = true;
+                        position_ray = true;
                     else
-                        D_801F55D0 = false;
+                        position_ray = false;
 
                     DO_DARD_PLAFOND_ALWAYS(cur_obj);
                     break;
@@ -349,7 +349,7 @@ void DO_DARD_PLAFOND_ALWAYS(Obj *obj)
     if (obj->cmd != 1)
     {
         diff_x = (ray.offset_bx + ray.x_pos) - (obj->offset_bx + (u16) obj->x_pos);
-        if (D_801F55D0 != 0)
+        if (position_ray != 0)
         {
             diff_y = (ray.offset_by + ray.y_pos) - (obj->offset_by + (u16) obj->y_pos);
         }
