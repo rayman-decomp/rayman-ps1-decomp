@@ -316,7 +316,7 @@ s16 saisie_nom_prg(void)
 }
 
 /* 7FE30 801A4630 -O2 -msoft-float */
-s16 selection_save_option_prg(void)
+s16 FUN_801a4630(void)
 {
     s32 done;
 
@@ -357,7 +357,7 @@ void FUN_801a4790(void)
     INIT_SAVE_CHOICE();
     INIT_SAVE_CONTINUE();
     TempsDemo = 0;
-    SYNCHRO_LOOP(selection_save_option_prg);
+    SYNCHRO_LOOP(FUN_801a4630);
     DO_FADE_OUT();
 }
 

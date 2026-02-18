@@ -102,7 +102,7 @@ void PS1_DisplayCardOrPassword(void);
 s16 selection_save_option_prg(void);
 void DO_SAVE_CHOICE(void);
 s16 saisie_nom_prg(void);
-s16 selection_save_option_prg(void);
+s16 FUN_801a4630(void);
 void FUN_801a4790(void);
 void AFFICHE_ECRAN_SAVE(void);
 s16 options_choice_prg(void);
