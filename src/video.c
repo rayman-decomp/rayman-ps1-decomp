@@ -39,8 +39,9 @@ void PS1_PlayVideo(Video video)
     D_801CF0CD = false;
 }
 
+// NOTE: Function name casing is unknown since the name comes from always lowercase hook names in the 30th anniversary edition
 /* E180 80132980 -O2 -msoft-float */
-void FUN_80132980(void)
+void videonext(void)
 {
     LoadImage(&PS1_CurrentVideoState.frame_rect, (u32 *) PS1_CurrentVideoState.decoded_frame);
     DrawSync(0);
@@ -90,8 +91,8 @@ void PS1_PlayVideoFile(s16 video)
     {
         PS1_LoadVideoFile(&PS1_VdoFiles[video].file.pos, 1);
     }
-    PS1_InitVideoState(&PS1_CurrentVideoState);
-    DecDCToutCallback(FUN_80132980);
+    videosetup(&PS1_CurrentVideoState);
+    DecDCToutCallback(videonext);
     PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
     PS1_ReadVideoFile(PS1_CurrentVideoState.encoded_frame_buffers[PS1_CurrentVideoState.current_encode_buffer_index], video);
     PS1_CurrentVideoState.vsync_counter = 0;
@@ -117,7 +118,7 @@ void PS1_PlayVideoFile(s16 video)
         }
         PS1_ReadVideoFile(pbVar3, video);
         if ((temp_s3) &&
-            ((sVar1 = but1pressed(0), sVar1 != 0 || (iVar2 = PS1_TOUCHE_0x9(0), iVar2 != 0))))
+            ((sVar1 = but1pressed(0), sVar1 != 0 || (iVar2 = butstart(0), iVar2 != 0))))
         {
             PS1_VideoPlayState = 2;
         }
@@ -147,7 +148,7 @@ void PS1_PlayVideoFile(s16 video)
         iVar2 = iVar2 + 1;
     } while (iVar2 < 4);
 
-    while (temp_s3 != 0 && (((s16) but1pressed(0)) || (PS1_TOUCHE_0x9(0))))
+    while (temp_s3 != 0 && (((s16) but1pressed(0)) || (butstart(0))))
     {
         readinput();
     }
@@ -155,8 +156,9 @@ void PS1_PlayVideoFile(s16 video)
 }
 #endif
 
+// NOTE: Function name casing is unknown since the name comes from always lowercase hook names in the 30th anniversary edition
 /* E574 80132D74 -O2 -msoft-float */
-void PS1_InitVideoState(VideoState *param_1)
+void videosetup(VideoState *param_1)
 {
     param_1->current_encode_buffer_index = 0;
     param_1->frame_count = 1;

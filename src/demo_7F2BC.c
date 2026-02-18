@@ -24,7 +24,7 @@ s16 PS1_DemoLoop(void)
     PS1_ShowDemoText();
 
     readinput();
-    if (!fade && (ValidButPressed() || StartButPressed()))
+    if (!fade && (but0pressed__CROSS() || but1pressed__START()))
         PS1_MENU_RETURN2 = true;
 
     TempsDemo++;

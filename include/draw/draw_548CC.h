@@ -32,7 +32,7 @@ extern u16 D_801CF086;
 extern s16 D_801CF088;
 extern s16 D_801CF08A;
 extern u16 D_801CF090;
-extern u16 D_801CF092; /* is this its own var? part of array or struct? see DISPLAY_FOND_MENU */
+extern u16 D_801CF092; /* is this its own var? part of array or struct? see volet */
 extern u16 D_801CF094;
 extern s16 D_801CF096;
 extern s16 D_801CF098;
@@ -53,10 +53,10 @@ extern s32 D_801F816C;
 extern s32 PS1_TPage_x; /* could also go in another file? */
 extern s32 PS1_TPage_y;
 
-void FUN_801790cc(Display *display);
-void Display_and_free_luciole(void);
-void PS1_PerfectBonusDrawBg(void);
-void DISPLAY_FOND_MENU(void);
-void FUN_8017b260(u16 param_1); /* TODO: all callers cast param_1 to s16??? */
+void InitLuciolle(Display *display);
+void Luciolle(void);
+void volet_perfect_bonus(void);
+void volet(void);
+void getparam(u16 param_1); /* TODO: all callers cast param_1 to s16??? */
 
 #endif

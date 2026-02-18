@@ -3,7 +3,7 @@
 /* 6E5E0 80192DE0 -O2 -msoft-float */
 s16 MURDUR(s16 x, s16 y)
 {
-    return PS1_BTYPAbsPos(x, y) == BTYP_SOLID;
+    return BTYP(x, y) == BTYP_SOLID;
 }
 
 /* 6E618 80192E18 -O2 -msoft-float */
@@ -95,7 +95,7 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
     temp_v1_0 = obj->offset_bx + (u16) obj->x_pos;
     temp_v0_0 = obj->offset_by + (u16) obj->y_pos;
     var_v0_2 = 0 << 0x10;
-    switch (PS1_BTYPAbsPos((s32) temp_v1_0, (s32) temp_v0_0))
+    switch (BTYP((s32) temp_v1_0, (s32) temp_v0_0))
     {
     case BTYP_NONE:
     case BTYP_CHDIR:
@@ -169,7 +169,7 @@ s32 calc_typ_trav(Obj *obj, u8 param_2)
                 var_s0_1 += 8;
             }
         }
-        switch (PS1_BTYPAbsPos(temp_v1_0, temp_v0_0 - 0x10))
+        switch (BTYP(temp_v1_0, temp_v0_0 - 0x10))
         {
         case BTYP_NONE:
         case BTYP_CHDIR:
@@ -641,7 +641,7 @@ void CALC_MOV_ON_BLOC(Obj *obj)
         var_s1 = var_s2_1 - var_s4;
         var_s0 = var_s5 + (obj->x_pos + obj->offset_bx);
         temp_s1_1 = var_s1 + (obj->y_pos + obj->offset_by);
-        temp_v0_1 = PS1_BTYPAbsPos((s16) var_s0, (s16) temp_s1_1);
+        temp_v0_1 = BTYP((s16) var_s0, (s16) temp_s1_1);
         var_s0 = var_s0 & 0xF;
         var_s4 = temp_s1_1 & 0xF;
         switch (temp_v0_1)
@@ -654,7 +654,7 @@ void CALC_MOV_ON_BLOC(Obj *obj)
         case 25:
             temp_s1_2 = var_s5 + (obj->x_pos + obj->offset_bx);
             temp_s0_3 = var_s1 + (obj->y_pos + obj->offset_by) + 0x10;
-            temp_v0_2 = dist_to_bloc_floor(PS1_BTYPAbsPos((s16) temp_s1_2, (s16) temp_s0_3), temp_s1_2 & 0xF, temp_s0_3 | ~0xF);
+            temp_v0_2 = dist_to_bloc_floor(BTYP((s16) temp_s1_2, (s16) temp_s0_3), temp_s1_2 & 0xF, temp_s0_3 | ~0xF);
             if (temp_v0_2 >= 3)
             {
             case 12:
@@ -693,7 +693,7 @@ void CALC_MOV_ON_BLOC(Obj *obj)
         case 14:
         case 15:
         case 30:
-            temp_v1_5 = PS1_BTYPAbsPos(obj->x_pos + obj->offset_bx + (s16) var_s5, (obj->y_pos + obj->offset_by + (s16) var_s1) - 0x10) & 0xFF;
+            temp_v1_5 = BTYP(obj->x_pos + obj->offset_bx + (s16) var_s5, (obj->y_pos + obj->offset_by + (s16) var_s1) - 0x10) & 0xFF;
             var_s2_2 = 0;
             switch (temp_v1_5)
             {
@@ -792,7 +792,7 @@ void recale_position(Obj *obj)
     /* also see y_floor(), not sure why it does this */
     s16 y = obj->offset_by + obj->y_pos & ~0xf;
     s16 x = obj->offset_bx + obj->x_pos & 0xf;
-    s16 btyp = PS1_BTYPAbsPos(obj->x_pos + obj->offset_bx, obj->y_pos + obj->offset_by);
+    s16 btyp = BTYP(obj->x_pos + obj->offset_bx, obj->y_pos + obj->offset_by);
     s16 unk_1;
 
     switch (btyp)

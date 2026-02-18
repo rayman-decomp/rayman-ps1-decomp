@@ -5,6 +5,6 @@
 #include "draw/fade.h"
 
 void fades(void);
-void FUN_8014e27c(void);
+void AVOID_SOME_BUGS(void);
 
 #endif

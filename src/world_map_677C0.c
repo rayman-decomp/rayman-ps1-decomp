@@ -60,7 +60,7 @@ void DoScrollInWorldMap(s16 h_speed, s16 v_speed)
 }
 
 /* 678DC 8018C0DC -O2 */
-void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y)
+void TEST_DISPLAY_PTS_WAY(s16 from, s16 to, s16 from_x, s16 from_y)
 {
     if (to != from)
     {
@@ -91,7 +91,7 @@ void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y)
 }
 
 /* 679D4 8018C1D4 -O2 -msoft-float */
-void DISPLAY_PLAT_WAY(void)
+void DISPLAY_PTS_WAY(void)
 {
     s16 i;
     WorldInfo *cur_wi;
@@ -114,10 +114,10 @@ void DISPLAY_PLAT_WAY(void)
         y_pos = cur_wi->y_pos;
         if (cur_wi->is_unlocked)
         {
-            PS1_DisplayPts(i, cur_wi->index_up, x_pos, y_pos);
-            PS1_DisplayPts(i, cur_wi->index_down, x_pos, y_pos);
-            PS1_DisplayPts(i, cur_wi->index_right, x_pos, y_pos);
-            PS1_DisplayPts(i, cur_wi->index_left, x_pos, y_pos);
+            TEST_DISPLAY_PTS_WAY(i, cur_wi->index_up, x_pos, y_pos);
+            TEST_DISPLAY_PTS_WAY(i, cur_wi->index_down, x_pos, y_pos);
+            TEST_DISPLAY_PTS_WAY(i, cur_wi->index_right, x_pos, y_pos);
+            TEST_DISPLAY_PTS_WAY(i, cur_wi->index_left, x_pos, y_pos);
             cur_wi->has_drawn_path = true;
         }
         i++;
@@ -126,7 +126,7 @@ void DISPLAY_PLAT_WAY(void)
 }
 
 /* 67B0C 8018C30C -O2 -msoft-float */
-void PS1_DisplayPlateau(void)
+void DISPLAY_PLAT_WAY(void)
 {
     s16 i = 0;
     WorldInfo *cur_wi = &t_world_info[i];
@@ -385,7 +385,7 @@ void PS1_CardDisplayPassword(void)
 }
 
 /* 691E0 8018D9E0 -O2 */
-void PS1_WorldMapMoveText(void)
+void DO_STAGE_NAMES(void)
 {
     if (text_to_display[0].x_pos > 160)
     {
@@ -581,7 +581,7 @@ void RESPOND_TO_LEFT(void)
 }
 
 /* 699A4 8018E1A4 -O2 */
-void MoveRayInWorldMap(void)
+void move_ray_map(void)
 {
     h_scroll_speed = ray.speed_x;
     v_scroll_speed = ray.speed_y;
@@ -713,7 +713,7 @@ void DO_RAYMAN_IN_WLD_MAP(void)
         }
     }
 
-    MoveRayInWorldMap();
+    move_ray_map();
     CalcObjPosInWorldMap(&ray);
     unk_6 = &ray; /* TODO: clean up somehow */
     set_proj_center(ray.screen_x_pos + ray.offset_bx, ray.screen_y_pos + ray.offset_by);
@@ -726,9 +726,9 @@ void DO_CHEMIN(void)
     horloges();
     DO_RAYMAN_IN_WLD_MAP();
     DO_MEDAILLONS();
-    RecaleRayPosInJumelle();
+    recale_ray_pos();
     DoScrollInWorldMap(h_scroll_speed, v_scroll_speed);
-    PS1_WorldMapMoveText();
+    DO_STAGE_NAMES();
 }
 
 /* 6A0C8 8018E8C8 -O2 -msoft-float */

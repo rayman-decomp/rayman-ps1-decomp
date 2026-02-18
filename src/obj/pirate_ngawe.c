@@ -153,7 +153,7 @@ void DO_ONE_NGW_COMMAND(Obj *obj)
                 if (
                     (block_flags[calc_typ_travd(obj, true)] >> BLOCK_FULLY_SOLID & 1) ||
                     !((u8) block_flags[
-                        PS1_BTYPAbsPos(obj->x_pos + obj->offset_bx + obj->speed_x, obj->y_pos + obj->offset_by)
+                        BTYP(obj->x_pos + obj->offset_bx + obj->speed_x, obj->y_pos + obj->offset_by)
                     ] >> BLOCK_SOLID & 1)
                 )
                     if (prev_flip_x == (obj->flags >> OBJ_FLIP_X & 1))

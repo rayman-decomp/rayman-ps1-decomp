@@ -5,9 +5,9 @@ u8 gele;
 #endif
 
 /* AD90 8012F590 -O2 -msoft-float */
-void DO_GROS_MOTEUR_NORMAL(void)
+void DO_GROS_MOTEUR(void)
 {
-    PS1_DoDemo(&record);
+    record_input(&record);
     if ((!PS1_DebugMode || !D_801CEFC8) && !in_pause)
     {
         if (gele == 0)
@@ -21,7 +21,7 @@ void DO_GROS_MOTEUR_NORMAL(void)
 }
 
 /* AE28 8012F628 -O2 -msoft-float */
-void DO_MAIN_LOOP(void)
+void DO_MAIN_LOOP_SNY(void)
 {
     s16 i;
     Display *new_disp_1;
@@ -57,7 +57,7 @@ void DO_MAIN_LOOP(void)
     if (PS1_MemoryUsageDisplayMode == 2)
         ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 128, 0, 0);
     D_801CEEA0 = 0;
-    DO_GROS_MOTEUR_NORMAL();
+    DO_GROS_MOTEUR();
     PS1_Ingame = true;
     D_801CEEA0 = 0;
     if (xmap < 0)
@@ -70,11 +70,11 @@ void DO_MAIN_LOOP(void)
         ymapmax = 0;
 
     if (in_pause)
-        DO_AFFICHE_PAUSE();
+        show_paused();
     if (PS1_MemoryUsageDisplayMode == 2)
         ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 0, 128, 0);
     if (num_world == 5 && num_level == 4)
-        Display_and_free_luciole();
+        Luciolle();
     if (PS1_MemoryUsageDisplayMode == 2)
         ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 0, 128, 128);
     display_flocons_behind();
@@ -87,20 +87,20 @@ void DO_MAIN_LOOP(void)
         if (((PS1_GlobalTimer & 0x3f) == 0) && myRand(256) > 128)
         {
             PlaySnd_old(195);
-            PS1_LightningLoop(8, 9);
+            effet(8, 9);
             D_801CEEA2 = 0;
         }
         else
-            PS1_LightningLoop(1, 9);
+            effet(1, 9);
     }
     if (is_fee)
         DISPLAY_TEXT_FEE();
     else
         DISPLAY_FIXE(left_time);
     display_time(left_time);
-    DRAW_MAP();
+    AddBlks();
     if (PS1_PictureInPicture)
-        PS1_DO_PICTURE_IN_PICTURE();
+        tele();
     if (PS1_MemoryUsageDisplayMode != 0)
         ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 0, 0, 0);
     DrawSync(0);
@@ -121,18 +121,18 @@ void DO_MAIN_LOOP(void)
     PTR_PS1_MemoryUsageRect_801cee70 = new_rect;
     if (PS1_MemoryUsageDisplayMode != 0)
         ClearImage(new_rect, 0, 0, 128);
-    PS1_DisplayFondSprites();
+    DrawBG_gen();
     DrawSync(0);
     if (PS1_MemoryUsageDisplayMode == 2)
         ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 128, 0, 128);
     DrawOTag((u_long *) PS1_CurrentDisplay->ordering_table);
-    PS1_CheckPauseAndCheatInputs();
+    handle_pad();
     if (dead_time != 64 && PS1_CanPlayDeathMusic)
     {
         start_cd_perdu();
         PS1_CanPlayDeathMusic = false;
     }
-    FUN_80168f48();
+    manage_snd();
     CdSync(1, null);
     FUN_8013045c();
     if (scrollLocked && !PS1_ScrollLockedAudio)

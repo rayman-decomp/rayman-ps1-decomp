@@ -21,7 +21,7 @@ typedef u8 VideoPlayState;
 #define VIDEOST_PLAYING 1
 #define VIDEOST_SKIPPED 2
 
-/* based on PS1_InitVideoState, RayCarrot found volatiles */
+/* based on videosetup, RayCarrot found volatiles */
 typedef struct VideoState
 {
     u32 *encoded_frame_buffers[2];
@@ -48,9 +48,9 @@ extern VideoPlayState PS1_VideoPlayState;
 extern s16 PS1_VideoLength;
 
 void PS1_PlayVideo(Video video);
-void FUN_80132980(void);
+void videonext(void);
 void PS1_PlayVideoFile(Video video);
-void PS1_InitVideoState(VideoState *param_1);
+void videosetup(VideoState *param_1);
 void PS1_LoadVideoFile(CdlLOC *lba, u32 param_2);
 void PS1_ReadVideoFile(u32 *param_1, Video video); /* param_1 name sugg. DecDCTvlc() runlevel? (LIBOVR section 7-8) */
 void FUN_80132f8c(void);

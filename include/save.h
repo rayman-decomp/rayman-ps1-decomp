@@ -66,7 +66,7 @@ void initGameSave(void);
 void doneGameSave(void);
 void saveGameState(Obj *obj, SaveState *state);
 void restoreGameState(SaveState *save);
-void PS1_PhotographerCollision(void);
+void DO_PHOTOGRAPHE_CMD(void);
 s16 get_offset_in_save_zone(s16 event_index);
 void reset_save_zone_level(void);
 void take_bonus(s16 event_index);

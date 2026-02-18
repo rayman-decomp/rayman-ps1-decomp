@@ -4,6 +4,6 @@
 #include "common.h"
 #include "sound.h"
 
-void DO_PHOTOGRAPHE_CMD(Obj *obj);
+void FUN_80172704(Obj *obj);
 
 #endif

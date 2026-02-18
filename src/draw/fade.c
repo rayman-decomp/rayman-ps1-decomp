@@ -7,7 +7,7 @@ u8 D_801F8480;
 #endif
 
 /* 44C20 80169420 -O2 -msoft-float */
-void FUN_80169420(Display *disp)
+void initeffet(Display *disp)
 {
     s16 i;
     TILE *cur_tile;
@@ -36,28 +36,28 @@ void FUN_80169420(Display *disp)
 }
 
 /* 44D64 80169564 -O2 -msoft-float */
-void PS1_LightningLoop(u32 param_1, s16 param_2)
+void effet(u32 param_1, s16 param_2)
 {
     if (D_801CEFF6 == 2)
-        PS1_LightningDraw(param_2);
+        eclair(param_2);
     else if (param_1 & 8 && D_801CEFF6 == 0)
     {
         D_801CEFF6 = 1;
-        PS1_LightningDraw(param_2);
+        eclair(param_2);
     }
     else if (param_1 & 1)
     {
         D_801CEFF4 = 1;
-        FUN_80169a3c(D_801C7D78[1], param_2);
+        fadenuitbleu(D_801C7D78[1], param_2);
     }
 }
 
 /* 44DEC 801695EC -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/draw/fade", PS1_LightningDraw);
+INCLUDE_ASM("asm/nonmatchings/draw/fade", eclair);
 #else
 /* clean up and label stuff */
-void PS1_LightningDraw(s16 param_1)
+void eclair(s16 param_1)
 {
     s32 unk_1; /* s16? */
     RGBAArray **unk_2; /* not sure why this needs to be ** */
@@ -177,7 +177,7 @@ void PS1_LightningDraw(s16 param_1)
 #endif
 
 /* 4523C 80169A3C -O2 -msoft-float */
-void FUN_80169a3c(RGBAArray *param_1, s16 param_2)
+void fadenuitbleu(RGBAArray *param_1, s16 param_2)
 {
     PS1_CurrentDisplay->field_0x60bc_0x660b[2].tile.r0 = param_1->data[0];
     PS1_CurrentDisplay->field_0x60bc_0x660b[2].tile.g0 = param_1->data[1];
@@ -293,7 +293,7 @@ void DO_FADE_OUT(void)
 }
 
 /* 45650 80169E50 -O2 -msoft-float */
-void PS1_DO_PICTURE_IN_PICTURE(void)
+void tele(void)
 {
     Display *new_disp;
     s32 cur_comp;

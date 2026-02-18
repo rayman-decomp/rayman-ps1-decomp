@@ -96,14 +96,14 @@ void FUN_801a6a04(u8 param_1)
 
 /* 82268 801A6A68 -O2 -msoft-float */
 /* still pretty gross. repeated sections, position == x check then x used as constant */
-void DO_COMMANDE_PAD(void)
+void DO_COMMANDE_OPTIONS(void)
 {
     s16 new_pos;
     s16 i;
 
-    if (SelectButPressed())
+    if (but2pressed__SELECT())
     {
-        while (SelectButPressed())
+        while (but2pressed__SELECT())
             readinput();
         MENU_RETURN = true;
     }
@@ -203,14 +203,14 @@ void DO_COMMANDE_PAD(void)
             }
         }
     }
-    if (position == 5 && ValidButPressed())
+    if (position == 5 && but0pressed__CROSS())
     {
         PlaySnd_old(68);
         if (PS1_Settings[5] == 1)
             PS1_Settings[5] = 0;
         else
             PS1_Settings[5] = 1;
-        while (ValidButPressed())
+        while (but0pressed__CROSS())
             readinput();
     }
     if ((u16) position < 3)

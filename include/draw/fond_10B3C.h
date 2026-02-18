@@ -65,7 +65,7 @@ extern u8 *D_801E4F50;
 extern u8 *D_801F8180;
 
 /*
-u16 * or u32 * or RGBA5551Color * doesn't seem to work (see FUN_8013613c LoadImage call e.g.)?
+u16 * or u32 * or RGBA5551Color * doesn't seem to work (see DrawBG_bande_h LoadImage call e.g.)?
 */
 extern u8 *PS1_FondImages[6];
 
@@ -74,25 +74,25 @@ extern s16 PS1_FondWidth;
 extern u8 D_801E4BC8; /* used as index into PS1_CurrentDisplay->sprites */
 extern u8 PS1_CurrentVitrailClignotement[5];
 
-void PS1_LoadFondSprites(void);
-void PS1_LoadFondDataAndPalettes(void);
-void PS1_LoadFond(void);
-void FUN_80135ab0(s16 param_1, s16 *param_2);
-void FUN_80135d5c(s32 param_1, u16 *param_2, s32 param_3, s16 param_4); /* param_2 is pointer? see PS1_DisplayFondSprites */
-void FUN_8013613c(u8 param_1, u32 param_2, u8 param_3, u32 param_4);
-void FUN_80136340(u16 *param_1, u32 param_2); /* param_1 is pointer? see PS1_DisplayFondSprites */
-void FUN_801366ac(void);
-void PS1_DisplayFondSprites(void);
+void init_bgm(void);
+void init_bgi(void);
+void InitBG(void);
+void DrawBG_spr_v(s16 param_1, s16 *param_2);
+void DrawBG_spr_h(s32 param_1, u16 *param_2, s32 param_3, s16 param_4); /* param_2 is pointer? see DrawBG_gen */
+void DrawBG_bande_h(u8 param_1, u32 param_2, u8 param_3, u32 param_4);
+void DrawBG_bande_v(u16 *param_1, u32 param_2); /* param_1 is pointer? see DrawBG_gen */
+void DrawBG_new(void);
+void DrawBG_gen(void);
 u8 FUN_80137998(u8 param_1, u8 param_2, s32 param_3);
 u8 PS1_GetTileV(u8 param_1, u8 param_2, s32 tile);
 u8 PS1_GetTileU(s32 param_1);
-void DRAW_MAP(void);
-void FUN_80137cc8(s16 param_1, s16 *param_2);
+void AddBlks(void);
+void draw_spr_v1(s16 param_1, s16 *param_2);
 void allume_vitraux(u8 (*param_1)[5]);
-void FUN_80138360(u8 *vit_clig);
-void FUN_80138718(u8 param_1);
-void FUN_80138b84(s16 in_h_1, s16 *param_2, s16 in_h_2, s16 in_w_1);
-void PS1_DisplayWorldMapBg2(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6);
+void do_allume_vitraux(u8 *vit_clig);
+void draw_spr_fix(u8 param_1);
+void draw_spr_brume(s16 in_h_1, s16 *param_2, s16 in_h_2, s16 in_w_1);
+void DISPLAY_ANYSIZE_FND(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6);
 void FUN_801392c8(void);
 void FUN_801392d0(void);
 

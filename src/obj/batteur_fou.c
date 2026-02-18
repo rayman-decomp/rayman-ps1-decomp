@@ -140,12 +140,12 @@ void bat_init_scroll(Obj *obj)
 
     x = obj->offset_bx + obj->x_pos;
     y = obj->offset_by + obj->y_pos + 24;
-    if (((block_flags[(u8)PS1_BTYPAbsPos(x, y)] >> 1) & 1) && x >= 0)
+    if (((block_flags[(u8)BTYP(x, y)] >> 1) & 1) && x >= 0)
     {
         do
         {
             x -= 16;
-        } while ((block_flags[(u8)PS1_BTYPAbsPos(x, y)] >> 1) & 1 && x >= 0);
+        } while ((block_flags[(u8)BTYP(x, y)] >> 1) & 1 && x >= 0);
     }
     bossScrollStartX = x - 64;
     if (bossScrollStartX < 0)
@@ -158,12 +158,12 @@ void bat_init_scroll(Obj *obj)
     }
     x = obj->offset_bx + obj->x_pos;
     y = obj->offset_by + obj->y_pos + 24;
-    if (((block_flags[(u8)PS1_BTYPAbsPos(x, y)] >> 1) & 1) && x <= xmapmax)
+    if (((block_flags[(u8)BTYP(x, y)] >> 1) & 1) && x <= xmapmax)
     {
         do
         {
             x += 16;
-        } while ((block_flags[(u8)PS1_BTYPAbsPos(x, y)] >> 1) & 1 && x <= xmapmax);
+        } while ((block_flags[(u8)BTYP(x, y)] >> 1) & 1 && x <= xmapmax);
     }
     bossScrollEndX = x + 32;
     if (bossScrollEndX < 0)

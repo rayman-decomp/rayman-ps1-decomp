@@ -38,7 +38,7 @@ extern u8 D_801CEEA2;
 /**/
 extern u8 gele;
 
-void DO_GROS_MOTEUR_NORMAL(void);
-void DO_MAIN_LOOP(void);
+void DO_GROS_MOTEUR(void);
+void DO_MAIN_LOOP_SNY(void);
 
 #endif

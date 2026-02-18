@@ -26,22 +26,22 @@ void DEPART_WORLD(void)
         {
             D_801CEDFC = 1;
             PS1_PlaySnd(PS1_NewWorldMusic[num_world_choice], 1);
-            FUN_8019fb84();
-            load_world(num_world_choice);
+            START_WORLD_VIGNET();
+            charge_wld(num_world_choice);
             INIT_MOTEUR_WORLD();
             PS1_ShouldFadeOutWorldIntro = true;
         }
         else
-            FUN_8019fa94(1);
+            curtainroll(1);
     }
 }
 
 /* 7B978 801A0178 -O2 -msoft-float */
 /*? DO_FADE_OUT();
-? LOAD_FND(s16);
+? charge_fnd(s16);
 ? LOAD_VIGNET_GAME();
-? PS1_OnPauseOff();
-? load_level();*/
+? stop_freeze_snd();
+? charge_lvl();*/
 
 void DEPART_LEVEL(void)
 {
@@ -60,8 +60,8 @@ void DEPART_LEVEL(void)
     if (!fin_du_jeu && new_level)
     {
         D_801E4C20 = 1;
-        LOAD_FND();
-        load_level();
+        charge_fnd();
+        charge_lvl();
         LOAD_VIGNET_GAME();
         if (PS1_ShouldFadeOutWorldIntro)
         {
@@ -70,21 +70,21 @@ void DEPART_LEVEL(void)
         }
     }
     in_pause = false;
-    PS1_OnPauseOff();
+    stop_freeze_snd();
 }
 
 /* 7BA7C 801A027C -O2 -msoft-float */
 /*? FUN_80168f38(s16);
-? playLevelMusic(s16, s16);*/
+? start_cd(s16, s16);*/
 
-void DEPART_DEAD_LOOP(void)
+void DEPART_LIFE(void)
 {
-    playLevelMusic(num_world, num_level);
+    start_cd(num_world, num_level);
     FUN_80168f38(num_world);
 }
 
 /* 7BABC 801A02BC -O2 -msoft-float */
-void FIN_DEAD_LOOP(void)
+void FIN_LEVEL(void)
 {
     s16 i;
 

@@ -87,11 +87,11 @@ void calc_bhand_typ(Obj *obj)
     if (RayEvts.demi)
         unk_1 = 80 - ((80 - unk_1) >> 1);
     y = unk_1 + obj->y_pos;
-    hand_btyp = PS1_BTYPAbsPos(x, y);
+    hand_btyp = BTYP(x, y);
     if (hand_btyp != BTYP_LIANE)
     {
-        hand_btypg = PS1_BTYPAbsPos(x - 8, y);
-        hand_btypd = PS1_BTYPAbsPos(x + 8, y);
+        hand_btypg = BTYP(x - 8, y);
+        hand_btypd = BTYP(x + 8, y);
     }
     else
     {

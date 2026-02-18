@@ -182,7 +182,7 @@ s16 get_center_y(Obj *obj)
 /* 22F80 80147780 -O2 -msoft-float */
 s16 on_block_chdir(Obj *obj, s16 offs_bx, s16 offs_by)
 {
-    return block_flags[PS1_BTYPAbsPos(obj->x_pos + offs_bx, obj->y_pos + offs_by)] >> BLOCK_CH_DIR & 1;
+    return block_flags[BTYP(obj->x_pos + offs_bx, obj->y_pos + offs_by)] >> BLOCK_CH_DIR & 1;
 }
 
 /* 22FE0 801477E0 -O2 -msoft-float */
@@ -595,7 +595,7 @@ void makeUturn(Obj *obj)
 }
 
 /* 23CAC 801484AC -O2 -msoft-float */
-u16 BTYP(s16 x, s16 y)
+u16 FUN_801484ac(s16 x, s16 y)
 {
     if (x >= 0 && (x <= mp.width - 1) && y >= 0 && (y <= mp.height - 1))
         return mp.map[x + y * mp.width] >> 10;
@@ -639,23 +639,23 @@ void calc_btyp_square(Obj *obj)
     x_3 = ashr16(x_2, 4);
     x_4 = ashr16(x_2 - x_offs, 4);
     x_5 = ashr16(x_2 + x_offs, 4);
-    obj->btypes[3] = BTYP(x_3, y_2 + -1);
-    obj->btypes[1] = BTYP(x_4, y_2);
+    obj->btypes[3] = FUN_801484ac(x_3, y_2 + -1);
+    obj->btypes[1] = FUN_801484ac(x_4, y_2);
     if (obj->main_etat == 2)
     {
         /* fixed point math */
         obj->btypes[0] = bloc_floor(
-            (u8) BTYP(x_3, y_2),
+            (u8) FUN_801484ac(x_3, y_2),
             (s16) (x_2 - (x_2 / 16 * 16)),
             (s16) (y_1 - (y_1 / 16 * 16))
         );
     }
     else
     {
-        obj->btypes[0] = BTYP(x_3, y_2);
+        obj->btypes[0] = FUN_801484ac(x_3, y_2);
     }
-    obj->btypes[2] = BTYP(x_5, y_2);
-    obj->btypes[4] = BTYP(x_3, y_2 + 1);
+    obj->btypes[2] = FUN_801484ac(x_5, y_2);
+    obj->btypes[4] = FUN_801484ac(x_3, y_2 + 1);
 }
 #endif
 
@@ -717,10 +717,10 @@ u32 calc_btyp(Obj *obj)
         if (obj->type == TYPE_RAYMAN)
             btyp = mp.map[ray.ray_dist] >> 10;
         else
-            btyp = PS1_BTYPAbsPos(obj->x_pos + obj->offset_bx, obj->y_pos + obj->offset_by);
+            btyp = BTYP(obj->x_pos + obj->offset_bx, obj->y_pos + obj->offset_by);
 
         if (obj->main_etat == 2 && !(block_flags[btyp] >> BLOCK_SOLID & 1))
-            btyp = PS1_BTYPAbsPos(obj->x_pos + obj->offset_bx, obj->y_pos + obj->offset_by + 16);
+            btyp = BTYP(obj->x_pos + obj->offset_bx, obj->y_pos + obj->offset_by + 16);
 
         if (!(block_flags[btyp] >> BLOCK_SOLID & 1))
         {
@@ -746,7 +746,7 @@ u32 calc_btyp(Obj *obj)
                         else
                             ray_x -= 16;
                         ray_y = ray.y_pos + ray.offset_by - 16;
-                        if (!(block_flags[(u8) PS1_BTYPAbsPos(ray_x, ray_y)] >> BLOCK_SOLID & 1))
+                        if (!(block_flags[(u8) BTYP(ray_x, ray_y)] >> BLOCK_SOLID & 1))
                         {
                             if (ray.main_etat != 2)
                             {

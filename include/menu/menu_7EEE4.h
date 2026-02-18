@@ -12,6 +12,6 @@ extern u8 PROC_EXIT;
 extern u8 D_801E5920;
 extern u8 PS1_CardShouldCheckFirstBoot; /* near card stuff instead? */
 
-void DO_MENU(void);
+void DO_MENUS(void);
 
 #endif

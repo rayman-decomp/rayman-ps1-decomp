@@ -196,7 +196,7 @@ u8 PS1_TestCard(u8 par_chan)
 
 /* 45E34 8016A634 -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/card", PS1_GetNbreFiles);
+INCLUDE_ASM("asm/nonmatchings/card", dir_file);
 #else
 /*
 matches, but
@@ -210,7 +210,7 @@ static inline u8 test_lt()
     return 0x4b;
 }
 
-s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *in_files)
+s32 dir_file(u8 *name_start, struct DIRENTRY *in_files)
 {
     u8 filename[128]; /* size correct? */
     s32 *cpy_src;
@@ -274,7 +274,7 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *in_files)
 }
 
 #ifdef ALTERNATIVE
-s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *in_files)
+s32 dir_file(u8 *name_start, struct DIRENTRY *in_files)
 {
     u8 sp10[128]; /* size correct? */
     s32 temp_v1;
@@ -350,7 +350,7 @@ s32 PS1_GetNbreFiles(u8 *name_start, struct DIRENTRY *in_files)
 #endif
 
 /* 45F90 8016A790 -O2 -msoft-float */
-s32 PS1_CardFilenameChecksum(u8 chan)
+s32 card_checksum(u8 chan)
 {
     struct DIRENTRY files[15];
     u8 name_start[8];
@@ -359,7 +359,7 @@ s32 PS1_CardFilenameChecksum(u8 chan)
     s32 sum = 0;
 
     sprintf(name_start, s_bu02x_801cf040, chan);
-    nbre_files = PS1_GetNbreFiles(name_start, files);
+    nbre_files = dir_file(name_start, files);
 
     for (cur_file = 0; cur_file < nbre_files; cur_file++)
         for (cur_char = 0; cur_char < (u32) strlen(files[cur_file].name); cur_char++)
@@ -394,7 +394,7 @@ void PS1_InitializeCard(u8 chan)
     _bu_init();
     _card_auto(1);
     if (PS1_TestCard(chan) == 2)
-        PS1_Checksum = PS1_CardFilenameChecksum(chan);
+        PS1_Checksum = card_checksum(chan);
 }
 
 /* 46270 8016AA70 -O2 -msoft-float */
@@ -427,7 +427,7 @@ void PS1_InitSaveRayAndFilenames(u8 param_1)
     u8 cnt2 = 0;
 
     sprintf(name_start, s_bu02x_801cf040, param_1);
-    nbre_files = PS1_GetNbreFiles(name_start, files);
+    nbre_files = dir_file(name_start, files);
     for (cnt1 = 0; cnt1 < nbre_files; cnt1++)
     {
         cur_file = &files[cnt1];
@@ -447,14 +447,14 @@ void PS1_InitSaveRayAndFilenames(u8 param_1)
 
 /* 46464 8016AC64 -O2 -msoft-float */
 #ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/card", PS1_WriteSave);
+INCLUDE_ASM("asm/nonmatchings/card", SaveGameOnCard);
 #else
 /*
 score of 295
 returns u8 instead? see SaveGameOnDisk and betw1 var
 */
-/* TODO: macro for 0x80 size? also in PS1_LoadSave */
-s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
+/* TODO: macro for 0x80 size? also in LoadGameOnCard */
+s32 SaveGameOnCard(u8 chan_par, u8 slot_par)
 {
     u8 *pbVar1;
     int event_res;
@@ -558,7 +558,7 @@ s32 PS1_WriteSave(u8 chan_par, u8 slot_par)
             write(fd, &finBosslevel, 0x80);
             close(fd);
             CHANGE_STAGE_NAMES();
-            PS1_Checksum = PS1_CardFilenameChecksum(chan_par);
+            PS1_Checksum = card_checksum(chan_par);
             betw1 = 1;
         }
         else
@@ -587,7 +587,7 @@ u8 *FUN_8016b2e8(u8 param_1, u8 param_2, u8 *param_3)
     u8 cnt2 = 0;
 
     sprintf(name_start, s_bu02x_801cf040, param_1);
-    nbre_files = PS1_GetNbreFiles(name_start, files);
+    nbre_files = dir_file(name_start, files);
     for (cnt1 = 0; cnt1 < nbre_files; cnt1++)
     {
         cur_file = &files[cnt1];
@@ -617,7 +617,7 @@ s32 SaveGameOnDisk(u8 slot)
         if (filename[0] != '\0')
             delete (filename);
         strncpy(&PS1_SaveFilenames[slot - 1][17], save_ray[slot], 3);
-        res = (u8) PS1_WriteSave(0, slot);
+        res = (u8) SaveGameOnCard(0, slot);
     }
     return res;
 }
@@ -637,13 +637,13 @@ s32 SaveFileRead(s32 file_desc, void *buf, s16 n_bytes)
 
 /* 46D24 8016B524 -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/card", PS1_LoadSave);
+INCLUDE_ASM("asm/nonmatchings/card", LoadGameOnCard);
 #else
 /*
 matches, but options_jeu as memcpy somehow?
 SaveFileRead() macro _only_ for this function?
 */
-void PS1_LoadSave(s32 param_1, u8 *filename)
+void LoadGameOnCard(s32 param_1, u8 *filename)
 {
     s32 file_desc = open(filename, O_RDONLY);
     u16 file_buffer[64];
@@ -708,7 +708,7 @@ void LoadGameOnDisk(u8 slot)
     if (NBRE_SAVE != 0)
     {
         PS1_CheckCardChanged();
-        PS1_LoadSave(0, PS1_SaveFilenames[slot - 1]);
+        LoadGameOnCard(0, PS1_SaveFilenames[slot - 1]);
     }
 }
 
@@ -761,7 +761,7 @@ void FUN_8016bbe4(void)
         filename = PS1_SaveFilenames[fichier_selectionne - 1];
         if (filename[0] != '\0')
             delete (filename);
-        PS1_Checksum = PS1_CardFilenameChecksum(0);
+        PS1_Checksum = card_checksum(0);
         *save_ray[fichier_selectionne] = '\0';
         *PS1_SaveFilenames[fichier_selectionne - 1] = '\0';
     }
@@ -782,7 +782,7 @@ u8 PS1_GetNbreSave3(u8 param_1)
     u8 res;
 
     sprintf(name_start, s_bu02x_801cf040, param_1);
-    nbre_files = PS1_GetNbreFiles(name_start, files);
+    nbre_files = dir_file(name_start, files);
     for (i = 0; i < nbre_files; i++)
     {
         sprintf(dev_name, s_ss_801cf058, name_start, files[i].name);
@@ -799,9 +799,9 @@ u8 PS1_GetNbreSave3(u8 param_1)
 }
 
 /* 475C4 8016BDC4 -O2 -msoft-float */
-s32 PS1_CardFilenameChecksumChanged(void)
+s32 has_MemCard_Changed(void)
 {
-    return PS1_Checksum != PS1_CardFilenameChecksum(0);
+    return PS1_Checksum != card_checksum(0);
 }
 
 /* 475F4 8016BDF4 -O2 -msoft-float */
@@ -832,14 +832,14 @@ u8 PS1_GetNbreSave2(void)
 }
 
 /* 4769C 8016BE9C -O2 -msoft-float */
-s32 FUN_8016be9c(void)
+s32 InitMemCard_IN(void)
 {
-    return (s16) PS1_CardFilenameChecksumChanged();
+    return (s16) has_MemCard_Changed();
 }
 
 /* 476C0 8016BEC0 -O2 -msoft-float */
 void FUN_8016bec0(void)
 {
     PS1_FormatFs(0);
-    PS1_Checksum = PS1_CardFilenameChecksum(0);
+    PS1_Checksum = card_checksum(0);
 }

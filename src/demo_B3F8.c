@@ -6,6 +6,6 @@ void PS1_FinishRecordingDemo(void)
     if (record.is_recording)
     {
         record.is_finished = true;
-        PS1_DoDemo(&record);
+        record_input(&record);
     }
 }

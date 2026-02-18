@@ -33,20 +33,20 @@ extern void *PS1_PrevPrim; /* should this be labelled as ordering table instead?
 extern u8 D_801E4C20;
 extern s16 D_801E4DF8;
 
-void PS1_DrawColoredSprite(Sprite *sprite, s16 in_x, s16 in_y, u8 disp_mode);
-void PS1_DrawSprite(Sprite *sprite, s16 x, s16 y, u8 param_4);
-void PS1_DrawScaledSprite(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 param_5); /* param_5 takes Obj.scale */
+void draw_sprite_gen(Sprite *sprite, s16 in_x, s16 in_y, u8 disp_mode);
+void draw_sprite(Sprite *sprite, s16 x, s16 y, u8 param_4);
+void draw_sprite_prof(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 param_5); /* param_5 takes Obj.scale */
 void FUN_80139d5c(s16 *p_poly_x, s16 *p_poly_y, s16 param_3, s16 param_4, s16 angle);
-void PS1_DrawRay(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 angle_ind);
+void draw_sprite_ray(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 angle_ind);
 void display_sprite(Obj *param_1, u8 sprite, s16 x, s16 y, u8 param_5);
-void display2(Obj *obj);
+void display(Obj *obj);
 void DISPLAY_POING(void);
 void DISPLAY_CLING(void);
 void display_bar_boss(Obj *boss_obj);
 void DISPLAY_FIXE(s16 left_time);
 void FUN_8013ad54(s16 param_1, s16 param_2, s16 param_3);
 void DrawWldPointPlan2Normal(s16 x0, s16 y0);
-void PS1_DisplayPtsPrim(void);
+void put_env_point_way(void);
 void DISPLAY_POINT(s32 x0, s32 y0);
 void DISPLAY_PTS_TO_PLAN2(s32 x1, s32 y1, s32 x2, s32 y2, s16 percentage);
 void DISPLAY_PLATEAU(Obj *obj);

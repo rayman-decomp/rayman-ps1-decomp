@@ -133,7 +133,7 @@ void move_down_ray(void)
 }
 
 /* 3103C 8015583C -O2 -msoft-float */
-void RecaleRayPosInJumelle(void)
+void recale_ray_pos(void)
 {
     s16 unk_y_1; s16 unk_y_2;
     s32 v_scr_temp;
@@ -333,7 +333,7 @@ void RAY_TO_THE_LEFT(void)
 }
 
 /* 31840 80156040 -O2 -msoft-float */
-void PS1_Ray_Cave_Vines_Slide(void)
+void make_ray_slide(void)
 {
     if (num_world == 5 && ray.main_etat == 4)
     {
@@ -369,7 +369,7 @@ void TEST_FIN_FOLLOW(void)
     if (ray.speed_y > 0)
     {
         ray.y_pos -= ray.speed_y;
-        btyp = PS1_BTYPAbsPos(ray.x_pos + ray.offset_bx, ray.y_pos + ray.offset_by);
+        btyp = BTYP(ray.x_pos + ray.offset_bx, ray.y_pos + ray.offset_by);
         ray.y_pos += ray.speed_y;
     }
     else

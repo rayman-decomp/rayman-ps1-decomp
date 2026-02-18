@@ -25,7 +25,7 @@ extern u8 D_801E5238;
 
 void PS1_PromptCardInput(void);
 s16 PS1_PromptCardYesNo(void);
-s16 PS1_PromptCardContinue(void);
+s16 display_Card_TestBut(void);
 s16 PS1_PleaseInsertPad(void);
 void PS1_CheckCardChanged(void);
 void FUN_801a0c68(void);

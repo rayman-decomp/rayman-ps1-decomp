@@ -11,9 +11,9 @@ u8 PS1_CardShouldCheckFirstBoot;
 
 /* 7EEE4 801A36E4 -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/menu/menu_7EEE4", DO_MENU);
+INCLUDE_ASM("asm/nonmatchings/menu/menu_7EEE4", DO_MENUS);
 #else
-void DO_MENU(void)
+void DO_MENUS(void)
 {
     s16 done;
 
@@ -72,14 +72,14 @@ do /* TODO: ??? */
             }
             break;
         case 1:
-            PS1_InitCardOrPassword();
+            DO_SAVE_CHOICE();
             if (PS1_SaveMode == 1)
                 menuEtape = 3;
             else
                 menuEtape = 2;
             break;
         case 2:
-            PS1_InitCardOrPassword();
+            DO_SAVE_CHOICE();
             if (PS1_SaveMode == 1)
                 menuEtape = 5;
             else
@@ -96,7 +96,7 @@ do /* TODO: ??? */
                 D_801E5920 = NBRE_SAVE;
                 if (NBRE_SAVE != 0)
                 {
-                    DO_SAVE_CHOICE();
+                    FUN_801a4790();
                     menuEtape = 4;
                 }
                 else
@@ -105,7 +105,7 @@ do /* TODO: ??? */
             else
             {
                 NBRE_SAVE = D_801E5920;
-                DO_SAVE_CHOICE();
+                FUN_801a4790();
                 menuEtape = 4;
             }
             break;

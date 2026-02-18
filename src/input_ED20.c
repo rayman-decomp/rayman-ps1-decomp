@@ -90,37 +90,37 @@ s32 downjoy(s32 param_1)
 }
 
 /* EEC4 801336C4 -O2 -msoft-float */
-s32 FUN_801336c4(s32 param_1)
+s32 upmenu(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_UP);
+        return (s16) padd(INPUT_UP);
     else
         return false;
 }
 
 /* EF14 80133714 -O2 -msoft-float */
-s32 FUN_80133714(s32 param_1)
+s32 leftmenu(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_LEFT);
+        return (s16) padd(INPUT_LEFT);
     else
         return false;
 }
 
 /* EF64 80133764 -O2 -msoft-float */
-s32 FUN_80133764(s32 param_1)
+s32 rightmenu(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_RIGHT);
+        return (s16) padd(INPUT_RIGHT);
     else
         return false;
 }
 
 /* EFB4 801337B4 -O2 -msoft-float */
-s32 FUN_801337b4(s32 param_1)
+s32 downmenu(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_DOWN);
+        return (s16) padd(INPUT_DOWN);
     else
         return false;
 }
@@ -285,91 +285,91 @@ s32 FUN_80133c70(s32 param_1)
 }
 
 /* F4C0 80133CC0 -O2 -msoft-float */
-s32 FUN_80133cc0(s32 param_1)
+s32 butL1(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_L1);
+        return (s16) padd(INPUT_L1);
     else
         return false;
 }
 
 /* F510 80133D10 -O2 -msoft-float */
-s32 FUN_80133d10(s32 param_1)
+s32 butL2(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_L2);
+        return (s16) padd(INPUT_L2);
     else
         return false;
 }
 
 /* F560 80133D60 -O2 -msoft-float */
-s32 FUN_80133d60(s32 param_1)
+s32 butR1(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_R1);
+        return (s16) padd(INPUT_R1);
     else
         return false;
 }
 
 /* F5B0 80133DB0 -O2 -msoft-float */
-s32 FUN_80133db0(s32 param_1)
+s32 butR2(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_R2);
+        return (s16) padd(INPUT_R2);
     else
         return false;
 }
 
 /* F600 80133E00 -O2 -msoft-float */
-s32 FUN_80133e00(s32 param_1)
+s32 but0pressed2__SQUARE(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_SQUARE);
+        return (s16) padd(INPUT_SQUARE);
     else
         return false;
 }
 
 /* F650 80133E50 -O2 -msoft-float */
-s32 FUN_80133e50(s32 param_1)
+s32 but1pressed2__CROSS(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_CROSS);
+        return (s16) padd(INPUT_CROSS);
     else
         return false;
 }
 
 /* F6A0 80133EA0 -O2 -msoft-float */
-s32 FUN_80133ea0(s32 param_1)
+s32 but2pressed__TRIANGLE(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_TRIANGLE);
+        return (s16) padd(INPUT_TRIANGLE);
     else
         return false;
 }
 
 /* F6F0 80133EF0 -O2 -msoft-float */
-s32 FUN_80133ef0(s32 param_1)
+s32 but3pressed__CIRCLE(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_CIRCLE);
+        return (s16) padd(INPUT_CIRCLE);
     else
         return false;
 }
 
 /* F740 80133F40 -O2 -msoft-float */
-s32 PS1_TOUCHE_0x9(s32 param_1)
+s32 butstart(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_START);
+        return (s16) padd(INPUT_START);
     else
         return false;
 }
 
 /* F790 80133F90 -O2 -msoft-float */
-s32 FUN_80133f90(s32 param_1)
+s32 butSelectPressed(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_SELECT);
+        return (s16) padd(INPUT_SELECT);
     else
         return false;
 }
@@ -384,52 +384,52 @@ s32 FUN_80133fe0(s32 param_1)
 }
 
 /* F830 80134030 -O2 -msoft-float */
-s32 PS1_TOUCHE_0xA(s32 param_1)
+s32 butvbl(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_SELECT);
+        return (s16) padd(INPUT_SELECT);
     else
         return false;
 }
 
 /* F880 80134080 -O2 -msoft-float */
-s32 FUN_80134080(s32 param_1)
+s32 butdbw(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_L1);
+        return (s16) padd(INPUT_L1);
     else
         return false;
 }
 
 /* F8D0 801340D0 -O2 -msoft-float */
-s32 PS1_TOUCHE_0xE(s32 param_1)
+s32 butmode(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_L2);
+        return (s16) padd(INPUT_L2);
     else
         return false;
 }
 
 /* F920 80134120 -O2 -msoft-float */
-s32 PS1_TOUCHE_0xC(s32 param_1)
+s32 butR2_2(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_R2);
+        return (s16) padd(INPUT_R2);
     else
         return false;
 }
 
 /* F970 80134170 -O2 -msoft-float */
-s32 PS1_TOUCHE_0xB(s32 param_1)
+s32 butR1_1(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
-        return (s16) PS1_SingleTOUCHE(INPUT_R1);
+        return (s16) padd(INPUT_R1);
     else
         return false;
 }
 
 /* F9C0 801341C0 -O2 -msoft-float */
-s32 PS1_TOUCHE_0xF(s32 param_1)
+s32 cheat_start(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_DISABLE_DEBUG);
@@ -438,7 +438,7 @@ s32 PS1_TOUCHE_0xF(s32 param_1)
 }
 
 /* FA10 80134210 -O2 -msoft-float */
-s32 PS1_TOUCHE_0x12(s32 param_1)
+s32 cheat1_start(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_UNUSED_12);
@@ -447,7 +447,7 @@ s32 PS1_TOUCHE_0x12(s32 param_1)
 }
 
 /* FA60 80134260 -O2 -msoft-float */
-s32 PS1_TOUCHE_0x13(s32 param_1)
+s32 cheat2_start(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_13);
@@ -456,7 +456,7 @@ s32 PS1_TOUCHE_0x13(s32 param_1)
 }
 
 /* FAB0 801342B0 -O2 -msoft-float */
-s32 PS1_TOUCHE_0x14(s32 param_1)
+s32 cheat3_start(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_14);
@@ -465,7 +465,7 @@ s32 PS1_TOUCHE_0x14(s32 param_1)
 }
 
 /* FB00 80134300 -O2 -msoft-float */
-s32 PS1_TOUCHE_0x15(s32 param_1)
+s32 cheat4_start(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_UNUSED_15);
@@ -474,7 +474,7 @@ s32 PS1_TOUCHE_0x15(s32 param_1)
 }
 
 /* FB50 80134350 -O2 -msoft-float */
-s32 PS1_TOUCHE_0x16(s32 param_1)
+s32 cheat5_start(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_UNUSED_16);
@@ -483,7 +483,7 @@ s32 PS1_TOUCHE_0x16(s32 param_1)
 }
 
 /* FBA0 801343A0 -O2 -msoft-float */
-s32 PS1_TOUCHE_0x17(s32 param_1)
+s32 cheat6_start(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_17);
@@ -492,7 +492,7 @@ s32 PS1_TOUCHE_0x17(s32 param_1)
 }
 
 /* FBF0 801343F0 -O2 -msoft-float */
-s32 PS1_TOUCHE_0x18(s32 param_1)
+s32 cheat7_start(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_18);
@@ -519,7 +519,7 @@ s32 FUN_80134490(s32 param_1)
 }
 
 /* FCE0 801344E0 -O2 -msoft-float */
-s32 PS1_TOUCHE_0x10(s32 param_1)
+s32 cheat_stop(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_ENABLE_DEBUG);
@@ -537,27 +537,27 @@ s32 FUN_80134530(s32 param_1)
 }
 
 /* FD80 80134580 -O2 -msoft-float */
-s32 ValidButPressed(void)
+s32 but0pressed__CROSS(void)
 {
-    return (s16) FUN_80133e50(0);
+    return (s16) but1pressed2__CROSS(0);
 }
 
 /* FDA4 801345A4 -O2 -msoft-float */
-s32 StartButPressed(void)
+s32 but1pressed__START(void)
 {
-    return (s16) PS1_TOUCHE_0x9(0);
+    return (s16) butstart(0);
 }
 
 /* FDC8 801345C8 -O2 -msoft-float */
-s32 FUN_801345c8(void)
+s32 butStartPressed(void)
 {
-    return (s16) PS1_TOUCHE_0x9(0);
+    return (s16) butstart(0);
 }
 
 /* FDEC 801345EC -O2 -msoft-float */
-s32 SelectButPressed(void)
+s32 but2pressed__SELECT(void)
 {
-    return (s16) FUN_80133f90(0);
+    return (s16) butSelectPressed(0);
 }
 
 /* FE10 80134610 -O2 -msoft-float */
@@ -692,7 +692,7 @@ u8 FUN_8013491c(void)
 }
 
 /* 10200 80134A00 -O2 -msoft-float */
-void PS1_DoDemo(Record *record)
+void record_input(Record *record)
 {
     u8 unk_1;
     s32 cur_offs = record->current_offset;
@@ -988,7 +988,7 @@ s32 TOUCHE(Input param_1)
 }
 
 /* 10B00 80135300 -O2 -msoft-float */
-s32 PS1_SingleTOUCHE(Input param_1)
+s32 padd(Input param_1)
 {
     if (PS1_ButtonStates[0] != PS1_ButtonStates[1])
         return TOUCHE(param_1);

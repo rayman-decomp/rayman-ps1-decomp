@@ -54,7 +54,7 @@ s16 PS1_PromptCardYesNo(void)
         PS1_compteur_mc--;
 
     done = false;
-    if (ValidButPressed())
+    if (but0pressed__CROSS())
         done = PS1_compteur_mc == 0;
     if (done)
         PlaySnd_old(69);
@@ -63,7 +63,7 @@ s16 PS1_PromptCardYesNo(void)
 }
 
 /* 7C264 801A0A64 -O2 -msoft-float */
-s16 PS1_PromptCardContinue(void)
+s16 display_Card_TestBut(void)
 {
     s16 done;
 
@@ -77,7 +77,7 @@ s16 PS1_PromptCardContinue(void)
         PS1_compteur_mc--;
 
     done = false;
-    if (ValidButPressed())
+    if (but0pressed__CROSS())
         done = PS1_compteur_mc == 0;
 
     return done;
@@ -105,16 +105,16 @@ s16 PS1_PleaseInsertPad(void)
 /* 7C3E0 801A0BE0 -O2 -msoft-float */
 void PS1_CheckCardChanged(void)
 {
-    if (PS1_CardFilenameChecksumChanged())
+    if (has_MemCard_Changed())
     {
-        PS1_ClearScreen();
+        clearbothdrawenv();
         DO_FADE_OUT();
         INIT_FADE_IN();
-        while (FUN_8016be9c())
+        while (InitMemCard_IN())
         {
             PS1_CardStringDisplayed = 8;
             PS1_DisplayCardContinueText = false;
-            SYNCHRO_LOOP(PS1_PromptCardContinue);
+            SYNCHRO_LOOP(display_Card_TestBut);
         }
         DO_FADE_OUT();
         INIT_FADE_IN();
@@ -124,7 +124,7 @@ void PS1_CheckCardChanged(void)
 /* 7C468 801A0C68 -O2 -msoft-float */
 void FUN_801a0c68(void)
 {
-    if (PS1_CardFilenameChecksumChanged())
+    if (has_MemCard_Changed())
         PS1_NoCard = true;
 }
 
@@ -157,7 +157,7 @@ void PS1_DoYouHaveCard(void)
             {
                 PS1_CardStringDisplayed = 1;
                 PS1_DisplayCardContinueText = false;
-                SYNCHRO_LOOP(PS1_PromptCardContinue);
+                SYNCHRO_LOOP(display_Card_TestBut);
                 PS1_NoCard = true;
                 for (i = 0; i < 30; i++)
                     VSync(0);
@@ -167,7 +167,7 @@ void PS1_DoYouHaveCard(void)
             {
                 PS1_CardStringDisplayed = 2;
                 PS1_DisplayCardContinueText = true;
-                SYNCHRO_LOOP(PS1_PromptCardContinue);
+                SYNCHRO_LOOP(display_Card_TestBut);
                 FUN_801a0c68();
                 NBRE_SAVE = 0;
             }
@@ -193,7 +193,7 @@ void PS1_PromptCardFormat(void)
             {
                 PS1_CardStringDisplayed = 4;
                 PS1_DisplayCardContinueText = true;
-                SYNCHRO_LOOP(PS1_PromptCardContinue);
+                SYNCHRO_LOOP(display_Card_TestBut);
                 FUN_801a0c68();
                 NBRE_SAVE = 0;
             }
@@ -217,7 +217,7 @@ void PS1_GetNbreSave1(void)
     {
         PS1_CardStringDisplayed = 6;
         PS1_DisplayCardContinueText = true; /* TODO: maybe do this with the goto instead to reduce duplication? */
-        SYNCHRO_LOOP(PS1_PromptCardContinue);
+        SYNCHRO_LOOP(display_Card_TestBut);
         FUN_801a0c68();
     }
     else if (NBRE_SAVE < 3)
@@ -235,7 +235,7 @@ void PS1_GetNbreSave1(void)
             PS1_CardStrings[PS1_CardStringDisplayed][16] = ' ';
         }
         PS1_DisplayCardContinueText = true;
-        SYNCHRO_LOOP(PS1_PromptCardContinue);
+        SYNCHRO_LOOP(display_Card_TestBut);
         FUN_801a0c68();
     }
 }
@@ -265,7 +265,7 @@ void FUN_801a1110(void)
         {
             do
             {
-                PS1_Checksum = PS1_CardFilenameChecksum(0);
+                PS1_Checksum = card_checksum(0);
                 NBRE_SAVE = 3;
                 PS1_NoCard = false;
                 PS1_DoYouHaveCard();
@@ -302,7 +302,7 @@ void FUN_801a1110(void)
 /* 7CAB8 801A12B8 -O2 -msoft-float */
 void PS1_PromptPad(void)
 {
-    PS1_ClearScreen();
+    clearbothdrawenv();
     if (fade == 0)
         INIT_FADE_IN();
     PS1_CardStringDisplayed = 12;

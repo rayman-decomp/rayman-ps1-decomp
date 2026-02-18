@@ -164,10 +164,10 @@ void STOPPE_RAY_EN_XY(void)
         y -= 8;
 
     x += ray.speed_x * 2;
-    btyp_1 = PS1_BTYPAbsPos(x, y - 8);
-    btyp_2 = PS1_BTYPAbsPos(x, y - 24);
-    btyp_3 = PS1_BTYPAbsPos(x, y - 40);
-    btyp_4 = PS1_BTYPAbsPos(x, y - 56);
+    btyp_1 = BTYP(x, y - 8);
+    btyp_2 = BTYP(x, y - 24);
+    btyp_3 = BTYP(x, y - 40);
+    btyp_4 = BTYP(x, y - 56);
 
     stop = false;
     if (block_flags[btyp_1] >> BLOCK_FLAG_4 & 1)
@@ -525,7 +525,7 @@ void DO_RAYMAN(void)
         if (ray.field20_0x36 != -1)
             RAY_FOLLOW();
 
-        PS1_Ray_Cave_Vines_Slide();
+        make_ray_slide();
         if (RayEstIlBloque())
         {
             if (ray.main_etat == 7)

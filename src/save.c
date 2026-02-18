@@ -259,7 +259,7 @@ void restoreGameState(SaveState *save_param)
 #endif
 
 /* 3F9C0 801641C0 -O2 -msoft-float */
-void PS1_PhotographerCollision(void)
+void DO_PHOTOGRAPHE_CMD(void)
 {
     s16 i = 0;
     Obj *cur_obj = &level.objects[actobj.objects[i]];

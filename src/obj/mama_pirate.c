@@ -124,12 +124,12 @@ s32 y_pos(s16 param_1, s16 param_2)
 
 s16 y_floor(s16 x, s16 y)
 {
-    u8 btyp = PS1_BTYPAbsPos(x, y);
+    u8 btyp = BTYP(x, y);
 
     while (!(block_flags[btyp] >> BLOCK_SOLID & 1))
     {
         y += 16;
-        btyp = PS1_BTYPAbsPos(x, y);
+        btyp = BTYP(x, y);
     }
 
     return dist_to_bloc_floor(btyp, x & 0xf, 0) + (y & ~0xf); /* TODO: what do these &s do? */

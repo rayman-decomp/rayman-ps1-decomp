@@ -34,15 +34,15 @@ extern Font alpha2;
 extern s16 D_801D7A60;
 extern s16 D_801F8188;
 extern s16 D_801F84A8;
-extern void *D_801F7E90; /* see loading_794DC, type? Obj * based on FUN_80132424? */
+extern void *D_801F7E90; /* see loading_794DC, type? Obj * based on init_ini? */
 extern s32 D_801D7868[2]; /* TODO: type? should be struct? first 4 bytes are pointer, next 4 bytes??? */
 
-void PS1_LoadLevelMapBlock(MapData *data);
+void load_unimap(MapData *data);
 void FUN_80132304(u32 *data, u8 height);
 void FUN_8013234c(u8 *param_1);
-void FUN_80132424(void);
-void PS1_LoadAllFixData(void);
-void PS1_LoadLevelObjBlock(void);
-void FUN_80132864(s16 param_1);
+void init_ini(void);
+void InitFix(void);
+void InitLevel(void);
+void swap_level(s16 param_1);
 
 #endif

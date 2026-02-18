@@ -12,7 +12,7 @@ s32 D_801D7868[2];
 #endif
 
 /* DA64 80132264 -O2 -msoft-float */
-void PS1_LoadLevelMapBlock(MapData *data)
+void load_unimap(MapData *data)
 {
     u8 unk_1 = *((u8 *) PS1_LevelMapBlock + 1);
 
@@ -53,14 +53,14 @@ void FUN_8013234c(u8 *param_1)
 }
 
 /* DC24 80132424 -O2 -msoft-float */
-void FUN_80132424(void)
+void init_ini(void)
 {
     __builtin_memcpy(&bigray, D_801F7E90, sizeof(bigray));
 }
 
 /* didn't get straight up copy of AllFixData fields to work */
 /* DCCC 801324CC -O2 -msoft-float */
-void PS1_LoadAllFixData(void)
+void InitFix(void)
 {
     u8 *cur = (u8 *) PS1_AllFixData;
 
@@ -80,7 +80,7 @@ void PS1_LoadAllFixData(void)
 }
 
 /* DFEC 801327EC -O2 -msoft-float */
-void PS1_LoadLevelObjBlock(void)
+void InitLevel(void)
 {
     __builtin_memcpy(&level, &PS1_LevelObjBlock[0], 8);
     __builtin_memcpy(D_801D7868, &PS1_LevelObjBlock[8], 8);
@@ -88,7 +88,7 @@ void PS1_LoadLevelObjBlock(void)
 }
 
 /* E064 80132864 -O2 -msoft-float */
-void FUN_80132864(s16 param_1)
+void swap_level(s16 param_1)
 {
     PS1_LevelMapBlock = (s16 *) 0x80780000;
     D_801F59E0 = D_801C4374[param_1 - 1];

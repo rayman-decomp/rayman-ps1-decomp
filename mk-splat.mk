@@ -1,7 +1,7 @@
 #NOTES
 #hardcoded pointers:
 #	the address 0x8005866C (main(), loading_794DC.c, loading_A0338.c, first_init.c)
-#	FUN_80132864 (unused), FUN_8019fb84, PS1_DrawColoredSprite
+#	swap_level (unused), START_WORLD_VIGNET, draw_sprite_gen
 #	loading_tex.c (??? i can't tell)
 #	(.data) loading_AA6EC.c, loading_9FB74.c, video_AA6DC.c
 
@@ -10,7 +10,7 @@
 #is there a way to inline EOA()? (include/common/macro.h)
 #rewrite some old while loops as for (or do{}while() as while), e.g. "allocate*" functions
 #places, where you might use ternary instead? (search "OBJ_FLIP_X) &&")
-#inline in PS1_DisplayWorldMapBg2 and do_flocons?
+#inline in DISPLAY_ANYSIZE_FND and do_flocons?
 
 #renamed duplicate cd_cw, cd_read, memcpy, set_alarm in the beginning of the decomp
 
