@@ -6,10 +6,11 @@
 .internal _MACRO_INC_GUARD
 .set _MACRO_INC_GUARD, 1
 
-.macro glabel label
-    .global \label
-    .balign 2
-    \label:
+.macro glabel label, visibility=global
+    .\visibility "\label"
+    .type "\label", @function
+    "\label":
+        .ent "\label"
 .endm
 
 .macro jlabel label
