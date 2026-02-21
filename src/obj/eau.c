@@ -26,7 +26,7 @@ void ACTIVE_L_EAU(Obj *eau_obj)
             cur_obj->speed_x = 0;
             cur_obj->x_pos = eau_obj->x_pos + 101 * 1;
             cur_obj->y_pos = eau_obj->y_pos;
-            calc_obj_pos(cur_obj);
+            calc_obj_pos_map(cur_obj);
             cur_obj->field23_0x3c = 130;
             cur_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
             cur_obj->sub_etat = 1;
@@ -41,7 +41,7 @@ void ACTIVE_L_EAU(Obj *eau_obj)
     cur_obj->speed_x = 0;
     cur_obj->x_pos = eau_obj->x_pos + 101 * 2;
     cur_obj->y_pos = eau_obj->y_pos;
-    calc_obj_pos(cur_obj);
+    calc_obj_pos_map(cur_obj);
     cur_obj->field23_0x3c = 130;
     cur_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
     cur_obj->sub_etat = 2;
@@ -52,7 +52,7 @@ void ACTIVE_L_EAU(Obj *eau_obj)
     cur_obj->speed_x = 0;
     cur_obj->x_pos = eau_obj->x_pos + 101 * 3;
     cur_obj->y_pos = eau_obj->y_pos;
-    calc_obj_pos(cur_obj);
+    calc_obj_pos_map(cur_obj);
     cur_obj->field23_0x3c = 130;
     cur_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
     cur_obj->sub_etat = 3;

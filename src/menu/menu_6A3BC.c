@@ -381,11 +381,11 @@ void MAIN_CONTINUE_PRG(void)
     if (horloge[2] == 0)
     {
         ray.x_pos = ray.x_pos + ray.speed_x;
-        calc_obj_pos(&ray);
+        calc_obj_pos_map(&ray);
         DO_ANIM(&ray);
     }
 
-    calc_obj_pos(&clock_obj);
+    calc_obj_pos_map(&clock_obj);
     DO_ANIM(&clock_obj);
     if (mapobj->flags & FLG(OBJ_ALIVE))
     {

@@ -40,7 +40,7 @@ void allocate_splash(Obj *base_obj)
                 y = height - offset_by;
             }
             cur_obj->y_pos = y;
-            calc_obj_pos(cur_obj);
+            calc_obj_pos_map(cur_obj);
             set_main_and_sub_etat(cur_obj, 0, 0);
             cur_obj->anim_frame = 0;
             base_obj->flags |= FLG(OBJ_FLAG_9); /* bad disassembly */
@@ -171,7 +171,7 @@ void DO_PYRANHA(Obj *in_obj)
                 cur_obj->hit_points = in_obj->init_hit_points;
                 cur_obj->timer = 0;
                 cur_obj->flags |= FLG(OBJ_READ_CMDS);
-                calc_obj_pos(cur_obj);
+                calc_obj_pos_map(cur_obj);
                 skipToLabel(cur_obj, 1, true);
                 break;
             }

@@ -155,7 +155,7 @@ void allocate_8_petits_rayons(s16 x, s16 y)
         found_obj->display_prio = 1;
         found_obj->field23_0x3c = 0;
         found_obj->flags |= FLG(OBJ_ACTIVE);
-        calc_obj_pos(found_obj);
+        calc_obj_pos_map(found_obj);
     }
     start_pix_gerbe(x + 140, y + 32);
     found_obj = findfirstObject(TYPE_RAYON);
@@ -327,7 +327,7 @@ void lance_pince(Obj *sko_obj)
     pince_obj->y_pos = sko_obj->y_pos;
     pince_obj->speed_x = -128;
     pince_obj->speed_y = 0;
-    calc_obj_pos(pince_obj);
+    calc_obj_pos_map(pince_obj);
 }
 
 /* 6D424 80191C24 -O2 -msoft-float */

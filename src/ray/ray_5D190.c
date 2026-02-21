@@ -45,7 +45,7 @@ void allocateRayLandingSmoke(void)
         if (obj)
         {
             set_main_and_sub_etat(obj, 0, 1);
-            calc_obj_pos(obj);
+            calc_obj_pos_map(obj);
         }
     }
 }
@@ -2728,7 +2728,7 @@ void DO_MORT_DE_RAY(void)
     ray.iframes_timer = -1;
     v_scroll_speed = 0;
     h_scroll_speed = 0;
-    calc_obj_pos(&ray);
+    calc_obj_pos_map(&ray);
     calc_btyp(&ray);
     RAY_IN_THE_AIR();
     RAY_SWIP();

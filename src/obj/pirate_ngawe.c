@@ -54,7 +54,7 @@ void allocatePirateNgaweRing(Obj *ngw_obj, s16 spd_y, u8 param_3)
             cur_obj->y_pos = ngw_y - ((cur_obj->offset_hy + cur_obj->offset_by) >> 1);
 
             skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
-            calc_obj_pos(cur_obj);
+            calc_obj_pos_map(cur_obj);
             cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             cur_obj->flags &= ~FLG(OBJ_FLAG_9);
 

@@ -49,7 +49,7 @@ void DO_CLOWN_TNT_ATTACK(Obj *ct_obj)
             cur_obj->init_y_pos = cur_obj->y_pos;
             cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             cur_obj->anim_frame = 0;
-            calc_obj_pos(ct_obj);
+            calc_obj_pos_map(ct_obj);
             break;
         }
         cur_obj++;

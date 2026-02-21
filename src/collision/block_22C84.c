@@ -370,7 +370,7 @@ s16 OBJ_IN_ZONE(Obj *obj)
 }
 
 /* 23730 80147F30 -O2 -msoft-float */
-void calc_obj_pos(Obj *obj)
+void calc_obj_pos_map(Obj *obj)
 {
     obj->screen_y_pos = obj->y_pos - ymap;
     obj->screen_x_pos = obj->x_pos - xmap;

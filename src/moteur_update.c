@@ -87,7 +87,7 @@ void DO_MOTEUR2(void)
             scroll_y = -1;
         }
         MOVE_OBJECTS();
-        calc_obj_pos(&ray);
+        calc_obj_pos_map(&ray);
         if (scroll_y != -1 && v_scroll_speed == 0x00FF)
             v_scroll_speed = 0;
         if (gele == 0 && ray_mode > MODE_NONE)
@@ -138,7 +138,7 @@ void DO_MOTEUR2(void)
             level.objects[poing_obj_id].x_pos += h_scroll_speed;
             level.objects[poing_obj_id].y_pos += v_scroll_speed;
         }
-        DO_SCROLL(&h_scroll_speed, &v_scroll_speed);
+        DO_SCROLL_MAP(&h_scroll_speed, &v_scroll_speed);
         build_active_table();
         RECALE_ALL_OBJECTS();
         if (ray.field20_0x36 != -1)

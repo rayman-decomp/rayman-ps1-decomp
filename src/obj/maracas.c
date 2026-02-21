@@ -22,7 +22,7 @@ void MARACAS_GO(Obj *in_obj)
             cur_obj->speed_x = 0;
             cur_obj->x_pos = in_obj->x_pos;
             cur_obj->y_pos = in_obj->y_pos;
-            calc_obj_pos(cur_obj);
+            calc_obj_pos_map(cur_obj);
             cur_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
             cur_obj->gravity_value_1 = 0;
             cur_obj->gravity_value_2 = 7;

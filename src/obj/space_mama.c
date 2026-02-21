@@ -192,7 +192,7 @@ void allocateMereDenisBombChips(Obj *bomb_obj)
                 set_main_and_sub_etat(
                     cur_obj, 1, (i == 0 ? sub_etat_1 : sub_etat_2)
                 );
-                calc_obj_pos(cur_obj);
+                calc_obj_pos_map(cur_obj);
                 skipToLabel(
                     cur_obj, (unk_1 ? i == 0 : i != 0), true
                 );
@@ -610,7 +610,7 @@ u8 prepareNewMereDenisAttack(Obj *smama_obj)
                 swapMereDenisCollZones(smama_obj, false);
                 set_main_and_sub_etat(mach_obj, 0, 37);
                 mach_obj->flags |= FLG(OBJ_ALIVE);
-                calc_obj_pos(mach_obj);
+                calc_obj_pos_map(mach_obj);
                 currentBossActionIsOver = true;
                 break;
             case 36:
@@ -1006,7 +1006,7 @@ void allocateSpaceMamaLaser(Obj *smama_obj)
             smama_obj->field20_0x36 = cur_obj->id;
             snapLaserToWeapon(cur_obj, true);
             cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
-            calc_obj_pos(cur_obj);
+            calc_obj_pos_map(cur_obj);
             break;
         }
         cur_obj++;

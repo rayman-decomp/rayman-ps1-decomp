@@ -110,7 +110,7 @@ void move_up_ray(void)
         if (ray.field20_0x36 != -1)
             RAY_HIT(ray.iframes_timer == -1, null);
     }
-    calc_obj_pos(&ray);
+    calc_obj_pos_map(&ray);
     v_scroll_speed = 0;
 }
 #endif
@@ -122,7 +122,7 @@ void move_down_ray(void)
         ray.speed_y = 0;
 
     ray.y_pos += ray.speed_y;
-    calc_obj_pos(&ray);
+    calc_obj_pos_map(&ray);
     if (ray.main_etat == 2)
     {
         if ((scroll_end_y - ymap > ray.speed_y) && ray.screen_y_pos >= 100)
@@ -303,7 +303,7 @@ void RAY_TO_THE_RIGHT(void)
         if (ray.main_etat != 2)
             ray.speed_y = 0;
     }
-    calc_obj_pos(&ray);
+    calc_obj_pos_map(&ray);
 }
 
 /* 3176C 80155F6C -O2 -msoft-float */

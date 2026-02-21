@@ -322,7 +322,7 @@ void allocateDog(Obj *bb1_obj)
                     skipToLabel(cur, 1, true);
                 else
                     skipToLabel(cur, 0, true);
-                calc_obj_pos(cur);
+                calc_obj_pos_map(cur);
                 if (niveau == 0)
                     cur->hit_points = 1;
                 break;
@@ -440,7 +440,7 @@ void allocateTir(Obj *bb1_obj, s16 param_2)
                 cur_obj->main_etat = 2;
                 cur_obj->sub_etat = 6;
                 skipToLabel(cur_obj, 1, true);
-                calc_obj_pos(cur_obj);
+                calc_obj_pos_map(cur_obj);
                 cur_obj->gravity_value_1 = 0;
                 cur_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
                 if (param_2 < 10)
@@ -487,7 +487,7 @@ void CreateFirstBBL(void)
                 obj->sub_etat = 6;
                 obj->flags = obj->flags & ~FLG(OBJ_FLIP_X);
                 skipToLabel(obj, 1, true);
-                calc_obj_pos(obj);
+                calc_obj_pos_map(obj);
                 obj->gravity_value_1 = 0;
                 obj->field23_0x3c = 2;
                 obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
@@ -504,7 +504,7 @@ void CreateFirstBBL(void)
 /* 58784 8017CF84 -O2 -msoft-float */
 void INIT_BBMONT(Obj *obj)
 {
-    calc_obj_pos(obj);
+    calc_obj_pos_map(obj);
     obj->field23_0x3c = 0;
     obj->gravity_value_2 = 10;
     Phase = 0;
@@ -661,7 +661,7 @@ void BBMONT_ECLAIR(Obj *bb1_obj)
                 cur_obj->init_x_pos = cur_obj->x_pos;
                 cur_obj->init_y_pos = cur_obj->y_pos;
                 skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
-                calc_obj_pos(cur_obj);
+                calc_obj_pos_map(cur_obj);
                 cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
                 allocateExplosion(cur_obj);
                 break;
@@ -701,7 +701,7 @@ void BBMONT_ETINCELLES(Obj *in_obj)
             cur_obj->init_x_pos = cur_obj->x_pos;
             cur_obj->init_y_pos = cur_obj->y_pos;
             skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
-            calc_obj_pos(cur_obj);
+            calc_obj_pos_map(cur_obj);
             cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
 
       /* sprite 2 */
@@ -722,7 +722,7 @@ void BBMONT_ETINCELLES(Obj *in_obj)
             cur_obj->init_x_pos = cur_obj->x_pos;
             cur_obj->init_y_pos = cur_obj->y_pos;
             skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
-            calc_obj_pos(cur_obj);
+            calc_obj_pos_map(cur_obj);
             cur_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
 
             allocateExplosion(cur_obj);

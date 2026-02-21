@@ -28,7 +28,7 @@ void GET_BB1_ZDCs(Obj *obj, s16 *x_1, s16 *y_1, s16 *w_1, s16 *h_1, s16 *x_2, s1
 s32 myRand(s16 max_incl); /* ret: s32 (based on DO_MAIN_LOOP_SNY?) */
 void calc_obj_dir(Obj *obj);
 s16 OBJ_IN_ZONE(Obj *obj);
-void calc_obj_pos(Obj *obj);
+void calc_obj_pos_map(Obj *obj);
 void makeUturn(Obj *obj);
 u16 FUN_801484ac(s16 x, s16 y);
 void calc_btyp_square(Obj *obj);

@@ -570,7 +570,7 @@ Obj *allocateMoskitoFruit(Obj *mst2_obj)
             cur_obj->speed_y = 0;
             cur_obj->anim_index = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].anim_index;
             cur_obj->anim_frame = 0;
-            calc_obj_pos(cur_obj);
+            calc_obj_pos_map(cur_obj);
             cur_obj->gravity_value_1 = 0;
             cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             cur_obj->flags = (cur_obj->flags & ~FLG(OBJ_FLIP_X)) | (mst2_obj->flags & FLG(OBJ_FLIP_X));

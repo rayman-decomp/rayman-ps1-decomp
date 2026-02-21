@@ -332,7 +332,7 @@ void DO_RAYMAN(void)
             RAY_HIT(true, null);
 
         joy_done = 0;
-        calc_obj_pos(&ray);
+        calc_obj_pos_map(&ray);
 
         unk_1 = ray.field20_0x36;
         if (!(unk_1 == -1 && (calc_btyp(&ray), ray.field20_0x36 == unk_1)))
@@ -600,7 +600,7 @@ void DO_RAY_ON_MS(void)
         RAY_HIT(true, null);
 
     joy_done = 0;
-    calc_obj_pos(&ray);
+    calc_obj_pos_map(&ray);
     if (ray.field20_0x36 == -1)
         calc_btyp(&ray);
 
@@ -687,7 +687,7 @@ void DO_PLACE_RAY(void)
     else if (ray.speed_y < 0)
         move_up_ray();
 
-    calc_obj_pos(&ray);
+    calc_obj_pos_map(&ray);
     if (ray.speed_x < 0)
         RAY_TO_THE_LEFT();
     else if (ray.speed_x > 0)

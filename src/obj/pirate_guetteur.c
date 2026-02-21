@@ -205,7 +205,7 @@ void allocatePirateGuetteurBomb(Obj *gue_obj, s32 param_2, u8 param_3, u8 param_
 
                     cur_obj->x_pos += mul_x_pos * ashr16(cur_obj->speed_x, 4);
                     skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
-                    calc_obj_pos(cur_obj);
+                    calc_obj_pos_map(cur_obj);
                     cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
                     cur_obj->timer = param_4;
                     cur_obj->flags &= ~FLG(OBJ_FLAG_9);

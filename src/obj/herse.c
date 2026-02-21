@@ -23,7 +23,7 @@ void allocateOtherPosts(Obj *her_bh_obj)
         cur_obj->field23_0x3c = her_bh_obj->field23_0x3c - unk_1;
         cur_obj->x_pos = cur_obj->init_x_pos;
         cur_obj->y_pos = cur_obj->init_y_pos;
-        calc_obj_pos(her_bh_obj);
+        calc_obj_pos_map(her_bh_obj);
         cur_id = link_init[cur_id];
     }
 }

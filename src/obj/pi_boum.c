@@ -33,7 +33,7 @@ void allocateEclatPS(Obj *in_obj, s16 param_2)
             cur_obj->x_pos = in_obj->x_pos;
             cur_obj->y_pos = in_obj->y_pos;
             skipToLabel(cur_obj, 1, true);
-            calc_obj_pos(cur_obj);
+            calc_obj_pos_map(cur_obj);
             cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             cur_obj->flags &= ~FLG(OBJ_FLAG_9);
             cur_obj->gravity_value_1 = 0;
@@ -122,7 +122,7 @@ void DO_PI_EXPLOSION(Obj *pi_obj)
                     cur_pi_b->x_pos = pi_x;
                     cur_pi_b->y_pos = pi_y;
                     skipToLabel(cur_pi_b, 1, true);
-                    calc_obj_pos(cur_pi_b);
+                    calc_obj_pos_map(cur_pi_b);
                     cur_pi_b->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
                 }
             }

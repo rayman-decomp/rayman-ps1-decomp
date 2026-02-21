@@ -26,6 +26,6 @@ void AVOID_SOME_BUGS(void)
     {
         ray.x_pos = PS1_StartMoteurRayX;
         ray.y_pos = PS1_StartMoteurRayY;
-        calc_obj_pos(&ray);
+        calc_obj_pos_map(&ray);
     }
 }

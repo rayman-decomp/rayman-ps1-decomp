@@ -24,14 +24,14 @@ u8 D_801F3EA0;
 #endif
 
 /* 677C0 8018BFC0 -O2 */
-void CalcObjPosInWorldMap(Obj *obj)
+static void calc_obj_pos_map(Obj *obj)
 {
     obj->screen_x_pos = obj->x_pos - xmap + 52;
     obj->screen_y_pos = obj->y_pos - ymap + 55;
 }
 
 /* 677F4 8018BFF4 -O2 -msoft-float */
-void DoScrollInWorldMap(s16 h_speed, s16 v_speed)
+static void DO_SCROLL_MAP(s16 h_speed, s16 v_speed)
 {
     ymap += v_speed;
     xmap += h_speed;
@@ -56,7 +56,7 @@ void DoScrollInWorldMap(s16 h_speed, s16 v_speed)
         ymap = scroll_end_y;
         dvspeed = 0;
     }
-    CalcObjPosInWorldMap(&ray);
+    calc_obj_pos_map(&ray);
 }
 
 /* 678DC 8018C0DC -O2 */
@@ -164,7 +164,7 @@ void DO_MEDAILLONS(void)
     cur_wi = &t_world_info[i];
     while (i < (s16) LEN(t_world_info))
     {
-        CalcObjPosInWorldMap(cur_obj);
+        calc_obj_pos_map(cur_obj);
         if (cur_wi->is_unlocking && chemin_percent >= 99)
         {
             cur_wi->is_unlocking = false;
@@ -517,7 +517,7 @@ void INIT_CHEMIN(void)
         cur_obj->offset_bx = 80;
         cur_obj->offset_by = 64;
         obj_init(cur_obj);
-        CalcObjPosInWorldMap(cur_obj);
+        calc_obj_pos_map(cur_obj);
         cur_obj->anim_frame =
             i % cur_obj->animations[
                 cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].anim_index
@@ -714,7 +714,7 @@ void DO_RAYMAN_IN_WLD_MAP(void)
     }
 
     move_ray_map();
-    CalcObjPosInWorldMap(&ray);
+    calc_obj_pos_map(&ray);
     unk_6 = &ray; /* TODO: clean up somehow */
     set_proj_center(ray.screen_x_pos + ray.offset_bx, ray.screen_y_pos + ray.offset_by);
     DO_ANIM(unk_6);
@@ -727,7 +727,7 @@ void DO_CHEMIN(void)
     DO_RAYMAN_IN_WLD_MAP();
     DO_MEDAILLONS();
     recale_ray_pos();
-    DoScrollInWorldMap(h_scroll_speed, v_scroll_speed);
+    DO_SCROLL_MAP(h_scroll_speed, v_scroll_speed);
     DO_STAGE_NAMES();
 }
 

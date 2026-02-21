@@ -724,7 +724,7 @@ void INIT_OBJECTS(u8 new_lvl)
                 eau_obj_id = cnt_1;
                 cur_obj->iframes_timer = 0;
                 cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
-                calc_obj_pos(cur_obj);
+                calc_obj_pos_map(cur_obj);
             }
             else if (!(eau_obj_id == -1 || num_world == 1))
             {
@@ -754,7 +754,7 @@ void INIT_OBJECTS(u8 new_lvl)
                     cur_obj->init_y_pos = cur_obj->y_pos;
                     cur_obj->field12_0x26 = 0;
                 }
-                calc_obj_pos(cur_obj);
+                calc_obj_pos_map(cur_obj);
                 cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
                 eau_obj_2 = &level.objects[eau_obj_id];
                 cur_obj->sub_etat = ++eau_obj_2->hit_points;
@@ -1149,7 +1149,7 @@ void REINIT_OBJECT(Obj *obj)
     obj_init(obj);
     obj->active_flag = ACTIVE_REINIT;
     obj->flags |= FLG(OBJ_ALIVE);
-    calc_obj_pos(obj);
+    calc_obj_pos_map(obj);
     obj->active_timer = 120;
     obj->flags &= ~FLG(OBJ_ACTIVE);
 }

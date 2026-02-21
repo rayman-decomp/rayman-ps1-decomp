@@ -28,7 +28,7 @@ void allocateDard(Obj *spi_obj)
             cur_obj->main_etat = 0;
             cur_obj->sub_etat = 9;
             skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
-            calc_obj_pos(cur_obj);
+            calc_obj_pos_map(cur_obj);
             cur_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
             cur_obj->flags &= ~FLG(OBJ_FLAG_9);
             cur_obj->anim_frame = 9;

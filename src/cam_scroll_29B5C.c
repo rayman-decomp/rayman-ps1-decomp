@@ -66,7 +66,7 @@ void DO_SCREEN_TREMBLE2(void)
 }
 
 /* 29CE4 8014E4E4 -O2 -msoft-float */
-void DO_SCROLL(s16 *h_speed, s16 *v_speed)
+void DO_SCROLL_MAP(s16 *h_speed, s16 *v_speed)
 {
     if (*v_speed == 0xFF)
         *v_speed = 0;
@@ -115,5 +115,5 @@ void DO_SCROLL(s16 *h_speed, s16 *v_speed)
         dvspeed = 0;
     }
 
-    calc_obj_pos(&ray);
+    calc_obj_pos_map(&ray);
 }

@@ -40,7 +40,7 @@ void DO_ECLAIR_COMMAND(Obj *ecl_obj)
                     cur_obj->y_pos = ecl_obj->y_pos - 48;
                     cur_obj->init_x_pos = cur_obj->x_pos;
                     cur_obj->init_y_pos = cur_obj->y_pos;
-                    calc_obj_pos(cur_obj);
+                    calc_obj_pos_map(cur_obj);
                     cur_obj->iframes_timer = 0x00FF;
                     cur_obj->field23_0x3c = 0x001E;
                     cur_obj->field24_0x3e = 0x001E;

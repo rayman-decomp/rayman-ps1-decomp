@@ -53,8 +53,10 @@ extern u8 dans_la_map_monde;
 extern u8 Nb_total_cages;
 extern u8 D_801F3EA0;
 
-void CalcObjPosInWorldMap(Obj *obj);
-void DoScrollInWorldMap(s16 h_speed, s16 v_speed);
+// Static, so don't include in the header
+// void CalcObjPosInWorldMap(Obj *obj);
+// void DO_SCROLL_MAP(s16 h_speed, s16 v_speed);
+
 void TEST_DISPLAY_PTS_WAY(s16 from, s16 to, s16 from_x, s16 from_y);
 void DISPLAY_PTS_WAY(void);
 void DISPLAY_PLAT_WAY(void);

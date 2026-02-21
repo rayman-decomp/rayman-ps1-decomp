@@ -2323,7 +2323,7 @@ void RECALE_ALL_OBJECTS(void)
 
     while (i < actobj.num_active_objects)
     {
-        calc_obj_pos(cur_obj);
+        calc_obj_pos_map(cur_obj);
         i++;
         cur_obj = &level.objects[actobj.objects[i]];
     }
@@ -2335,7 +2335,7 @@ void RECALE_ALL_OBJECTS(void)
         {
             GET_SPRITE_POS(cur_obj, cur_obj->follow_sprite, &x, &y, &w, &h);
             ray.y_pos = y + cur_obj->offset_hy - ray.offset_by;
-            calc_obj_pos(&ray);
+            calc_obj_pos_map(&ray);
         }
     }
 }

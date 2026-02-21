@@ -265,7 +265,7 @@ void DO_HYB_BBF2_LAS(Obj *las_obj)
                     if (las_obj->speed_x > 0)
                         cur_obj_1->x_pos += las_w;
                     cur_obj_1->y_pos = las_y + (las_h >> 1) - ((cur_obj_1->offset_by + cur_obj_1->offset_hy) >> 1);
-                    calc_obj_pos(cur_obj_1);
+                    calc_obj_pos_map(cur_obj_1);
                     cur_obj_1->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
                     break;
                 }
