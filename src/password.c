@@ -561,11 +561,11 @@ INCLUDE_ASM("asm/nonmatchings/password", FUN_801a3064);
 void FUN_801a3064(void)
 {
     s32 char_ind;
-    u8 valid_prs = ValidButPressed();
+    u8 valid_prs = but0pressed__CROSS();
 
     if ((compteur > delai_repetition || button_released != 0) && positiony != 2)
     {
-        if ((positiony == 1 && valid_prs) || StartButPressed())
+        if ((positiony == 1 && valid_prs) || but1pressed__START())
         {
             PlaySnd_old(69);
             for (char_ind = 0; char_ind < (s16) LEN(PS1_CurrentTypingPassword); char_ind++)
@@ -676,7 +676,7 @@ s16 PS1_MenuPassword(void)
     u8 should_ret = false;
 
     CLRSCR();
-    DISPLAY_FOND_MENU();
+    volet();
     DO_FADE();
     readinput();
 
@@ -686,12 +686,12 @@ s16 PS1_MenuPassword(void)
     FUN_801a3064();
     FUN_801a2d40();
 
-    if (SelectButPressed() != 0)
+    if (but2pressed__SELECT() != 0)
     {
         should_ret = true;
         MENU_RETURN = true;
 
-        while (SelectButPressed())
+        while (but2pressed__SELECT())
             readinput();
     }
 

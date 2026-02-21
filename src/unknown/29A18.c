@@ -14,7 +14,7 @@ void fades(void)
 }
 
 /* 29A7C 8014E27C -O2 -msoft-float */
-void FUN_8014e27c(void)
+void AVOID_SOME_BUGS(void)
 {
     if (ray_old_main_etat != 2 && ray.main_etat == 2)
         ray.field24_0x3e = 0;
@@ -26,6 +26,6 @@ void FUN_8014e27c(void)
     {
         ray.x_pos = PS1_StartMoteurRayX;
         ray.y_pos = PS1_StartMoteurRayY;
-        calc_obj_pos(&ray);
+        calc_obj_pos_map(&ray);
     }
 }

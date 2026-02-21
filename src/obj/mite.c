@@ -632,7 +632,7 @@ void DO_MITE2_COMMAND(Obj *obj)
         {
             if (
                 block_flags[
-                    PS1_BTYPAbsPos(obj->x_pos + obj->offset_bx, obj->y_pos + obj->offset_hy)
+                    BTYP(obj->x_pos + obj->offset_bx, obj->y_pos + obj->offset_hy)
                 ] >> BLOCK_FULLY_SOLID & 1 &&
                 obj->speed_y < 0
             )

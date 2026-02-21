@@ -33,5 +33,5 @@ void allocatePaillette(Obj *ray_obj)
     found_obj->init_main_etat = 0;
     found_obj->init_sub_etat = 0;
     found_obj->sub_etat = 0;
-    calc_obj_pos(found_obj);
+    calc_obj_pos_map(found_obj);
 }

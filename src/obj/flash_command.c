@@ -33,6 +33,6 @@ void DO_FLASH_COMMAND(Obj *obj)
         }
     }
 
-    calc_obj_pos(obj);
+    calc_obj_pos_map(obj);
     obj->anim_frame = obj->hit_points - 1;
 }

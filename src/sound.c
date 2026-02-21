@@ -94,7 +94,7 @@ void PS1_LoadAllFixSound(void)
         /* load RAY\SND\BIGFIX.ALL to 801D8B50 */
         PS1_BigFiles[0].dest = D_801D8B50;
         file_info = (SndFileInfo *) D_801D8B50;
-        PS1_FileTemp = PS1_LoadFiles(PS1_BigFiles, 0, 1, 0);
+        PS1_FileTemp = datafile_read(PS1_BigFiles, 0, 1, 0);
         if (file_info->field0_0x0 == 3)
         {
             PS1_AllFix_Ray_VabId = 0;
@@ -134,7 +134,7 @@ void PS1_LoadWorldSound(s16 param_1)
     stop_all_snd();
     PS1_SetStereoEnabled(options_jeu.StereoEnabled);
     SetVolumeSound(options_jeu.Soundfx * 127 / 20);
-    unk_1 = D_801D7840; /* .XXX loaded in load_world */
+    unk_1 = D_801D7840; /* .XXX loaded in charge_wld */
     if (unk_1->field0_0x0 != 0)
     {
         PS1_World_Ray_VabId = 1;
@@ -202,7 +202,7 @@ void SetVolumeSound(s16 vol)
 }
 
 /* 418AC 801660AC -O2 -msoft-float */
-void FUN_801660ac(void)
+void setVolumeStereo(void)
 {
     CdlATV vol;
 
@@ -215,7 +215,7 @@ void FUN_801660ac(void)
 }
 
 /* 418E8 801660E8 -O2 -msoft-float */
-void FUN_801660e8(void)
+void setVolumeMono(void)
 {
     CdlATV vol;
 
@@ -301,9 +301,9 @@ void PS1_SetSoundVolume(s16 vol)
 void PS1_SetStereoEnabled(s16 enabled)
 {
     if (enabled)
-        FUN_801660ac();
+        setVolumeStereo();
     else
-        FUN_801660e8();
+        setVolumeMono();
 }
 
 /* 41BD4 801663D4 -O2 -msoft-float */
@@ -1146,7 +1146,7 @@ void FUN_80168f40(void) {}
 
 /* 44748 80168F48 -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_80168f48);
+INCLUDE_ASM("asm/nonmatchings/sound", manage_snd);
 #else
 /*
 slightly more believable version below?
@@ -1156,7 +1156,7 @@ tried gotos-only also
 
 /*#define BELIEVABLE*/
 #ifndef BELIEVABLE
-void FUN_80168f48(void)
+void manage_snd(void)
 {
     s16 *var_s1;
     s16 *var_s2;
@@ -1218,7 +1218,7 @@ void FUN_80168f48(void)
     }
 }
 #else
-void FUN_80168f48(void)
+void manage_snd(void)
 {
     short sVar1;
     short var_a0;
@@ -1299,7 +1299,7 @@ void mute_snd_bouclant(void)
 }
 
 /* 44A4C 8016924C -O2 -msoft-float */
-void FUN_8016924c(void)
+void mute_snd(void)
 {
     s16 i;
 
@@ -1308,12 +1308,12 @@ void FUN_8016924c(void)
 }
 
 /* 44A9C 8016929C -O2 -msoft-float */
-void PS1_OnPauseOn(void)
+void start_freeze_snd(void)
 {
     s16 sep_access_num;
     s16 seq_num;
 
-    FUN_8016924c();
+    mute_snd();
     D_801CEFD8 = true;
     *(s16 *) &PS1_Music_pcom = CdlPause; /* TODO: s16? */
     CdControlB(CdlPause, null, null);
@@ -1324,7 +1324,7 @@ void PS1_OnPauseOn(void)
 }
 
 /* 44B50 80169350 -O2 -msoft-float */
-void PS1_OnPauseOff(void)
+void stop_freeze_snd(void)
 {
     s16 i;
     s16 vol;

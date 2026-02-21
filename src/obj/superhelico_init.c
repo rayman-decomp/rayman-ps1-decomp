@@ -19,7 +19,7 @@ void allocateSupHelico(Obj *mus_obj)
             cur_obj->screen_y_pos = cur_obj->y_pos - ymap;
             cur_obj->speed_y = -2;
             cur_obj->speed_x = 1;
-            calc_obj_pos(cur_obj);
+            calc_obj_pos_map(cur_obj);
             break;
         }
         cur_obj++;

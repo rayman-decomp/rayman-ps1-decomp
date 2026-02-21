@@ -117,7 +117,7 @@ void doShipCommand(Obj *obj)
                             }
                             suppressFromLinkList(test_5);
                             MOVE_OBJECT(test_5);
-                            calc_obj_pos(test_5);
+                            calc_obj_pos_map(test_5);
                             test_5->flags |= 0x400;
                             obj->field23_0x3c = test_5->id;
                         }

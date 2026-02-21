@@ -37,7 +37,7 @@ s16 display_vignet_prg(void)
     unk_1 = false;
     if (
         (
-            (ValidButPressed() || StartButPressed()) &&
+            (but0pressed__CROSS() || but1pressed__START()) &&
             loop_timing < 4
         ) || loop_timing < 1
     )
@@ -62,7 +62,7 @@ s16 display_vignet_prg(void)
 /* 9C28 8012E428 -O2 -msoft-float */
 void DISPLAY_GAME_VIGNET(void)
 {
-    FUN_8016924c();
+    mute_snd();
     DO_FADE_OUT();
     INIT_FADE_IN();
     INIT_VIGNET();

@@ -21,7 +21,7 @@ void PS1_StopLevelMusic(void)
 }
 
 /* 7BBC4 801A03C4 -O2 -msoft-float */
-void PS1_InitDisplay(Display *display)
+void InitDB(Display *display)
 {
     s32 i;
 
@@ -110,8 +110,8 @@ void PS1_InitDisplay(Display *display)
     display->field_0x6084_0x6093.r0 = 255;
     display->field_0x6084_0x6093.g0 = 255;
     display->field_0x6084_0x6093.b0 = 255;
-    FUN_801790cc(display);
-    FUN_80169420(display);
+    InitLuciolle(display);
+    initeffet(display);
 }
 
 /* 7BF50 801A0750 -O2 -msoft-float */

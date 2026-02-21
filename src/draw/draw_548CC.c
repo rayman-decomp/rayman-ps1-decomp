@@ -12,7 +12,7 @@ s32 PS1_TPage_y;
 #endif
 
 /* 548CC 801790CC -O2 -msoft-float */
-void FUN_801790cc(Display *display)
+void InitLuciolle(Display *display)
 {
     u16 i;
     u16 unk_2;
@@ -41,7 +41,7 @@ void FUN_801790cc(Display *display)
 
 /* 54A18 80179218 -O2 -msoft-float */
 #ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/draw_548CC", Display_and_free_luciole);
+INCLUDE_ASM("asm/nonmatchings/draw/draw_548CC", Luciolle);
 #else
 /* score of 7043 */
 /*
@@ -60,7 +60,7 @@ every save to stack is sh instr.
 801792ac sp30 = var_a0;
 801792b8 sp40 = sp38;
 */
-void Display_and_free_luciole(void)
+void Luciolle(void)
 {
     s16 unk_1;
     s16 unk_y_2_3_fourth;
@@ -475,7 +475,7 @@ skipped_1:
 #endif
 
 /* 55EF8 8017A6F8 -O2 -msoft-float */
-void PS1_PerfectBonusDrawBg(void)
+void volet_perfect_bonus(void)
 {
     s32 unk_1;
     u16 unk_2;
@@ -556,10 +556,10 @@ void PS1_PerfectBonusDrawBg(void)
 
 /* 5638C 8017AB8C -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/draw/draw_548CC", DISPLAY_FOND_MENU);
+INCLUDE_ASM("asm/nonmatchings/draw/draw_548CC", volet);
 #else
 /* clean up */
-void DISPLAY_FOND_MENU(void)
+void volet(void)
 {
     s32 unk_2;
     u16 ind_1;
@@ -654,7 +654,7 @@ void DISPLAY_FOND_MENU(void)
 #endif
 
 /* 56A60 8017B260 -O2 -msoft-float */
-void FUN_8017b260(u16 param_1)
+void getparam(u16 param_1)
 {
     if (GetGraphType() != 0)
     {

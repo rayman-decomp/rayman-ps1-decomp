@@ -25,7 +25,7 @@ typedef struct VoiceTableEntry
     s16 id;
     s16 field1_0x2;
     s16 field2_0x4; /* pan? see get_pan_snd, setpan */
-    s16 field3_0x6; /* hard_sound_table index based on FUN_80168f48? */
+    s16 field3_0x6; /* hard_sound_table index based on manage_snd? */
     u8 field4_0x8;
     u8 field5_0x9;
     u8 field6_0xa;
@@ -92,7 +92,7 @@ extern s16 Volume_Snd;
 extern s16 D_801CEFCC;
 extern s16 D_801CEFCE;
 extern u8 D_801CEFD0[8]; /* number of elements? */
-extern s16 D_801CEFD8; /* bool? toggle for pause and play? see PS1_OnPauseOff, FUN_801300ac */
+extern s16 D_801CEFD8; /* bool? toggle for pause and play? see stop_freeze_snd, FUN_801300ac */
 extern s16 PS1_CurrentAudio;
 extern s16 D_801CEFDC;
 
@@ -130,8 +130,8 @@ void PS1_StopPlayingSnd(s16 sep_ind);
 s32 PS1_SongIsPlaying(s16 sep_ind);
 void FUN_80166018(void);
 void SetVolumeSound(s16 vol);
-void FUN_801660ac(void);
-void FUN_801660e8(void);
+void setVolumeStereo(void);
+void setVolumeMono(void);
 void stop_all_snd(void);
 void FUN_8016617c(void);
 u8 get_pan_snd(Obj *obj);
@@ -157,10 +157,10 @@ void setvol(s16 param_1, u8 param_2);
 void setpan(s16 obj_id, u8 param_2);
 void FUN_80168f38(s16 param_1);
 void FUN_80168f40(void);
-void FUN_80168f48(void); /* this looks closest to manage_snd on android? */
+void manage_snd(void);
 void mute_snd_bouclant(void);
-void FUN_8016924c(void);
-void PS1_OnPauseOn(void);
-void PS1_OnPauseOff(void);
+void mute_snd(void);
+void start_freeze_snd(void);
+void stop_freeze_snd(void);
 
 #endif

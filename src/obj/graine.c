@@ -24,7 +24,7 @@ void DO_TARZAN(Obj *tz_obj)
                 cur_obj->y_pos = tz_obj->y_pos + 50;
                 cur_obj->speed_y = -2;
                 cur_obj->speed_x = 1;
-                calc_obj_pos(cur_obj);
+                calc_obj_pos_map(cur_obj);
                 set_sub_etat(tz_obj, 3);
                 tz_obj->speed_y = -8;
                 break;
@@ -106,7 +106,7 @@ void DO_GROWING_PLATFORM(void)
             oldest_obj->anim_index = oldest_obj->eta[main_etat][sub_etat].anim_index;
             oldest_obj->x_pos = (ray.x_pos + ray.offset_bx) - oldest_obj->offset_bx;
             oldest_obj->y_pos = (ray.y_pos + ray.offset_by) - oldest_obj->offset_by;
-            calc_obj_pos(oldest_obj);
+            calc_obj_pos_map(oldest_obj);
             D_801CF408 = true;
         }
     }

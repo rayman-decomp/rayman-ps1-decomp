@@ -45,7 +45,7 @@ void DO_ONE_STONECHIP_COMMAND(Obj *obj);
 void DO_PAC_COMMAND(Obj *obj);
 void DO_PAR_BOMB_COMMAND(Obj *obj);
 void DO_PETIT_COUTEAU_COMMAND(Obj *obj);
-void DO_PHOTOGRAPHE_CMD(Obj *obj);
+void FUN_80172704(Obj *obj);
 void DO_PIRATE_POELLE(Obj *obj);
 void DO_POELLE_COMMAND(Obj *obj);
 void DO_POING(Obj *obj);
@@ -498,7 +498,7 @@ void DO_THROWN_BOMB_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
         if (under)
         {
             while (
-                PS1_BTYPAbsPos(
+                BTYP(
                     obj->x_pos + obj->offset_bx,
                     obj->y_pos + obj->offset_by
                 ) == obj->btypes[0]
@@ -655,7 +655,7 @@ void DO_FRUIT_REBOND(Obj *obj, s16 pesanteur, s16 param_3)
         if (under)
         {
             while (
-                PS1_BTYPAbsPos(
+                BTYP(
                     obj->x_pos + obj->offset_bx,
                     obj->y_pos + obj->offset_by
                 ) == obj->btypes[0]
@@ -908,7 +908,7 @@ void OBJ_IN_THE_AIR(Obj *obj)
             spr_y = obj->y_pos + obj->offset_hy;
         }
 
-        if (block_flags[PS1_BTYPAbsPos(spr_x, spr_y + obj->speed_y)] >> BLOCK_FLAG_4 & 1)
+        if (block_flags[BTYP(spr_x, spr_y + obj->speed_y)] >> BLOCK_FLAG_4 & 1)
             obj->speed_y = 0;
     }
     if (
@@ -1265,8 +1265,8 @@ void MOVE_OBJECT(Obj *obj)
                 y_pos = obj->y_pos + obj->offset_by - 8;
                 if (
                     (
-                        !(block_flags[PS1_BTYPAbsPos(x_pos_1, y_pos)] >> BLOCK_FLAG_4 & 1) &&
-                        block_flags[PS1_BTYPAbsPos(x_pos_2, y_pos)] >> BLOCK_FLAG_4 & 1
+                        !(block_flags[BTYP(x_pos_1, y_pos)] >> BLOCK_FLAG_4 & 1) &&
+                        block_flags[BTYP(x_pos_2, y_pos)] >> BLOCK_FLAG_4 & 1
                     ) ||
                     x_pos_2 < 0 || (x_pos_2 > xmapmax + SCREEN_WIDTH)
                 )
@@ -2031,7 +2031,7 @@ void fptr_init(void)
             break;
         case TYPE_PHOTOGRAPHE:
             obj_fonction = &ObjectsFonctions[obj_type];
-            sel_fonction = DO_PHOTOGRAPHE_CMD;
+            sel_fonction = FUN_80172704;
             break;
         case TYPE_BATTEUR_FOU:
             obj_fonction = &ObjectsFonctions[obj_type];
@@ -2323,7 +2323,7 @@ void RECALE_ALL_OBJECTS(void)
 
     while (i < actobj.num_active_objects)
     {
-        calc_obj_pos(cur_obj);
+        calc_obj_pos_map(cur_obj);
         i++;
         cur_obj = &level.objects[actobj.objects[i]];
     }
@@ -2335,7 +2335,7 @@ void RECALE_ALL_OBJECTS(void)
         {
             GET_SPRITE_POS(cur_obj, cur_obj->follow_sprite, &x, &y, &w, &h);
             ray.y_pos = y + cur_obj->offset_hy - ray.offset_by;
-            calc_obj_pos(&ray);
+            calc_obj_pos_map(&ray);
         }
     }
 }

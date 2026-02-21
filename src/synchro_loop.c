@@ -55,7 +55,7 @@ void SYNCHRO_LOOP(s16 (*func)())
         func_done = func();
         if (PS1_MemoryUsageDisplayMode == 2)
             ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 128, 0, 128);
-        PS1_CheckPauseAndCheatInputs();
+        handle_pad();
         if (PS1_MemoryUsageDisplayMode == 2)
             ClearImage(PTR_PS1_MemoryUsageRect_801cee70, 128, 0, 128);
         DrawOTag((u32 *) PS1_CurrentDisplay->ordering_table);

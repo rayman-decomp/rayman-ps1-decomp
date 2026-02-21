@@ -24,14 +24,14 @@ u8 D_801F3EA0;
 #endif
 
 /* 677C0 8018BFC0 -O2 */
-void CalcObjPosInWorldMap(Obj *obj)
+static void calc_obj_pos_map(Obj *obj)
 {
     obj->screen_x_pos = obj->x_pos - xmap + 52;
     obj->screen_y_pos = obj->y_pos - ymap + 55;
 }
 
 /* 677F4 8018BFF4 -O2 -msoft-float */
-void DoScrollInWorldMap(s16 h_speed, s16 v_speed)
+static void DO_SCROLL_MAP(s16 h_speed, s16 v_speed)
 {
     ymap += v_speed;
     xmap += h_speed;
@@ -56,11 +56,11 @@ void DoScrollInWorldMap(s16 h_speed, s16 v_speed)
         ymap = scroll_end_y;
         dvspeed = 0;
     }
-    CalcObjPosInWorldMap(&ray);
+    calc_obj_pos_map(&ray);
 }
 
 /* 678DC 8018C0DC -O2 */
-void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y)
+void TEST_DISPLAY_PTS_WAY(s16 from, s16 to, s16 from_x, s16 from_y)
 {
     if (to != from)
     {
@@ -91,7 +91,7 @@ void PS1_DisplayPts(s16 from, s16 to, s16 from_x, s16 from_y)
 }
 
 /* 679D4 8018C1D4 -O2 -msoft-float */
-void DISPLAY_PLAT_WAY(void)
+void DISPLAY_PTS_WAY(void)
 {
     s16 i;
     WorldInfo *cur_wi;
@@ -114,10 +114,10 @@ void DISPLAY_PLAT_WAY(void)
         y_pos = cur_wi->y_pos;
         if (cur_wi->is_unlocked)
         {
-            PS1_DisplayPts(i, cur_wi->index_up, x_pos, y_pos);
-            PS1_DisplayPts(i, cur_wi->index_down, x_pos, y_pos);
-            PS1_DisplayPts(i, cur_wi->index_right, x_pos, y_pos);
-            PS1_DisplayPts(i, cur_wi->index_left, x_pos, y_pos);
+            TEST_DISPLAY_PTS_WAY(i, cur_wi->index_up, x_pos, y_pos);
+            TEST_DISPLAY_PTS_WAY(i, cur_wi->index_down, x_pos, y_pos);
+            TEST_DISPLAY_PTS_WAY(i, cur_wi->index_right, x_pos, y_pos);
+            TEST_DISPLAY_PTS_WAY(i, cur_wi->index_left, x_pos, y_pos);
             cur_wi->has_drawn_path = true;
         }
         i++;
@@ -126,7 +126,7 @@ void DISPLAY_PLAT_WAY(void)
 }
 
 /* 67B0C 8018C30C -O2 -msoft-float */
-void PS1_DisplayPlateau(void)
+void DISPLAY_PLAT_WAY(void)
 {
     s16 i = 0;
     WorldInfo *cur_wi = &t_world_info[i];
@@ -164,7 +164,7 @@ void DO_MEDAILLONS(void)
     cur_wi = &t_world_info[i];
     while (i < (s16) LEN(t_world_info))
     {
-        CalcObjPosInWorldMap(cur_obj);
+        calc_obj_pos_map(cur_obj);
         if (cur_wi->is_unlocking && chemin_percent >= 99)
         {
             cur_wi->is_unlocking = false;
@@ -385,7 +385,7 @@ void PS1_CardDisplayPassword(void)
 }
 
 /* 691E0 8018D9E0 -O2 */
-void PS1_WorldMapMoveText(void)
+void DO_STAGE_NAMES(void)
 {
     if (text_to_display[0].x_pos > 160)
     {
@@ -517,7 +517,7 @@ void INIT_CHEMIN(void)
         cur_obj->offset_bx = 80;
         cur_obj->offset_by = 64;
         obj_init(cur_obj);
-        CalcObjPosInWorldMap(cur_obj);
+        calc_obj_pos_map(cur_obj);
         cur_obj->anim_frame =
             i % cur_obj->animations[
                 cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].anim_index
@@ -581,7 +581,7 @@ void RESPOND_TO_LEFT(void)
 }
 
 /* 699A4 8018E1A4 -O2 */
-void MoveRayInWorldMap(void)
+void move_ray_map(void)
 {
     h_scroll_speed = ray.speed_x;
     v_scroll_speed = ray.speed_y;
@@ -713,8 +713,8 @@ void DO_RAYMAN_IN_WLD_MAP(void)
         }
     }
 
-    MoveRayInWorldMap();
-    CalcObjPosInWorldMap(&ray);
+    move_ray_map();
+    calc_obj_pos_map(&ray);
     unk_6 = &ray; /* TODO: clean up somehow */
     set_proj_center(ray.screen_x_pos + ray.offset_bx, ray.screen_y_pos + ray.offset_by);
     DO_ANIM(unk_6);
@@ -726,9 +726,9 @@ void DO_CHEMIN(void)
     horloges();
     DO_RAYMAN_IN_WLD_MAP();
     DO_MEDAILLONS();
-    RecaleRayPosInJumelle();
-    DoScrollInWorldMap(h_scroll_speed, v_scroll_speed);
-    PS1_WorldMapMoveText();
+    recale_ray_pos();
+    DO_SCROLL_MAP(h_scroll_speed, v_scroll_speed);
+    DO_STAGE_NAMES();
 }
 
 /* 6A0C8 8018E8C8 -O2 -msoft-float */

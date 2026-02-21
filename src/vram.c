@@ -1,6 +1,6 @@
 #include "vram.h"
 
-s32 PS1_LoadToVRAM(s16 w, s16 h, s16 x, s16 y, u8 *data)
+s32 do_load(s16 w, s16 h, s16 x, s16 y, u8 *data)
 {
     RECT rect;
 
@@ -13,13 +13,13 @@ s32 PS1_LoadToVRAM(s16 w, s16 h, s16 x, s16 y, u8 *data)
 
 /* A664 8012EE64 -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/vram", PS1_LoadVRAMBlock);
+INCLUDE_ASM("asm/nonmatchings/vram", load_img);
 #else
 /*
 clean up
 try shifts vs mult (what did i mean by this???)
 */
-void PS1_LoadVRAMBlock(s16 start_page, s16 start_pos, s16 end_page, s16 end_pos, s16 unused, u8 *data)
+void load_img(s16 start_page, s16 start_pos, s16 end_page, s16 end_pos, s16 unused, u8 *data)
 {
     u8 *temp_s0_1;
     s16 temp_t0 = start_page >> 1;
@@ -31,14 +31,14 @@ void PS1_LoadVRAMBlock(s16 start_page, s16 start_pos, s16 end_page, s16 end_pos,
     {
         if (start_page >= 8)
         {
-            data = &data[PS1_LoadToVRAM(
+            data = &data[do_load(
                 temp_t0 != 0 ? 0x80 : 0x40,
                 0x1E0 - temp_a2,
                 temp_t0 > 0 ? ((temp_t0 << 7) + 0x100) : 0x0140,
                 temp_a2,
                 data
             )];
-            PS1_LoadToVRAM(
+            do_load(
                 temp_s2 != 0 ? 0x80 : 0x40,
                 temp_s3,
                 temp_s2 > 0 ? ((temp_s2 << 7) + 0x100) : 0x0140,
@@ -48,21 +48,21 @@ void PS1_LoadVRAMBlock(s16 start_page, s16 start_pos, s16 end_page, s16 end_pos,
         }
         else if (start_page >= 6)
         {
-            temp_s0_1 = &data[PS1_LoadToVRAM(
+            temp_s0_1 = &data[do_load(
                 temp_t0 != 0 ? 0x80 : 0x40,
                 0x200 - temp_a2,
                 temp_t0 > 0 ? ((temp_t0 << 7) + 0x100) : 0x0140,
                 temp_a2,
                 data
             )];
-            data = &temp_s0_1[PS1_LoadToVRAM(
+            data = &temp_s0_1[do_load(
                 temp_s2 != 1 ? 0x80 : 0x40,
                 0x01E0,
                 (temp_s2 - 1) > 0 ? ((temp_s2 << 7) + 0x80) : 0x140,
                 0,
                 temp_s0_1
             )];
-            PS1_LoadToVRAM(
+            do_load(
                 temp_s2 != 0 ? 0x80 : 0x40,
                 temp_s3,
                 temp_s2 > 0 ? ((temp_s2 << 7) + 0x100) : 0x0140,
@@ -72,14 +72,14 @@ void PS1_LoadVRAMBlock(s16 start_page, s16 start_pos, s16 end_page, s16 end_pos,
         }
         else
         {
-            temp_s0_1 = &data[PS1_LoadToVRAM(
+            temp_s0_1 = &data[do_load(
                 temp_t0 != 0 ? 0x80 : 0x40,
                 0x200 - temp_a2,
                 temp_t0 > 0 ? ((temp_t0 << 7) + 0x100) : 0x0140,
                 temp_a2,
                 data
             )];
-            temp_s0_1 = &temp_s0_1[PS1_LoadToVRAM(
+            temp_s0_1 = &temp_s0_1[do_load(
                 (
                     ((temp_s2 - 1) > 0 ? (((temp_s2 - 2) << 7) + 0x40) : 0) +
                     ((temp_t0 + 1) > 0 ? (-(temp_t0 << 7) - 0x40) : 0)
@@ -89,14 +89,14 @@ void PS1_LoadVRAMBlock(s16 start_page, s16 start_pos, s16 end_page, s16 end_pos,
                 0,
                 temp_s0_1
             )];
-            data = &temp_s0_1[PS1_LoadToVRAM(
+            data = &temp_s0_1[do_load(
                 temp_s2 != 1 ? 0x80 : 0x40,
                 0x01E0,
                 (temp_s2 - 1) > 0 ? ((temp_s2 << 7) + 0x80) : 0x140,
                 0,
                 temp_s0_1
             )];
-            PS1_LoadToVRAM(
+            do_load(
                 temp_s2 != 0 ? 0x80 : 0x40,
                 temp_s3,
                 temp_s2 > 0 ? ((temp_s2 << 7) + 0x100) : 0x0140,
@@ -107,7 +107,7 @@ void PS1_LoadVRAMBlock(s16 start_page, s16 start_pos, s16 end_page, s16 end_pos,
     }
     else if (temp_t0 == temp_s2)
     {
-        PS1_LoadToVRAM(
+        do_load(
             temp_t0 != 0 ? 0x80 : 0x40,
             temp_s3 - temp_a2,
             temp_t0 > 0 ? ((temp_t0 << 7) + 0x100) : 0x0140,
@@ -117,7 +117,7 @@ void PS1_LoadVRAMBlock(s16 start_page, s16 start_pos, s16 end_page, s16 end_pos,
     }
     else if (temp_a2 == 0)
     {
-        data = &data[PS1_LoadToVRAM(
+        data = &data[do_load(
             (
                 (temp_s2 > 0 ? (((temp_s2 - 1) << 7) + 0x40) : 0) +
                 (temp_t0 > 0 ? (-((temp_t0 - 1) << 7) - 0x40) : 0)
@@ -127,7 +127,7 @@ void PS1_LoadVRAMBlock(s16 start_page, s16 start_pos, s16 end_page, s16 end_pos,
             0,
             data
         )];
-        PS1_LoadToVRAM(
+        do_load(
             temp_s2 != 0 ? 0x80 : 0x40,
             temp_s3,
             temp_s2 > 0 ? ((temp_s2 << 7) + 0x100) : 0x0140,
@@ -137,7 +137,7 @@ void PS1_LoadVRAMBlock(s16 start_page, s16 start_pos, s16 end_page, s16 end_pos,
     }
     else if ((temp_s2 - temp_t0) >= 2)
     {
-        temp_s0_1 = &data[PS1_LoadToVRAM(
+        temp_s0_1 = &data[do_load(
             temp_t0 != 0 ? 0x80 : 0x40,
             0x200 - temp_a2,
             temp_t0 > 0 ? ((temp_t0 << 7) + 0x100) : 0x0140,
@@ -145,7 +145,7 @@ void PS1_LoadVRAMBlock(s16 start_page, s16 start_pos, s16 end_page, s16 end_pos,
             data
         )];
 
-        data = &temp_s0_1[PS1_LoadToVRAM(
+        data = &temp_s0_1[do_load(
             (
                 (temp_s2 > 0 ? (((temp_s2 - 1) << 7) + 0x40) : 0) +
                 ((temp_t0 + 1) > 0 ? (-(temp_t0 << 7) - 0x40) : 0)
@@ -155,7 +155,7 @@ void PS1_LoadVRAMBlock(s16 start_page, s16 start_pos, s16 end_page, s16 end_pos,
             0,
             temp_s0_1
         )];
-        PS1_LoadToVRAM(
+        do_load(
             temp_s2 != 0 ? 0x80 : 0x40,
             temp_s3,
             temp_s2 > 0 ? ((temp_s2 << 7) + 0x100) : 0x0140,
@@ -165,14 +165,14 @@ void PS1_LoadVRAMBlock(s16 start_page, s16 start_pos, s16 end_page, s16 end_pos,
     }
     else
     {
-        data = &data[PS1_LoadToVRAM(
+        data = &data[do_load(
             temp_t0 != 0 ? 0x80 : 0x40,
             0x200 - temp_a2,
             temp_t0 > 0 ? ((temp_t0 << 7) + 0x100) : 0x140,
             temp_a2,
             data
         )];
-        PS1_LoadToVRAM(
+        do_load(
             temp_s2 != 0 ? 0x80 : 0x40,
             temp_s3,
             temp_s2 > 0 ? ((temp_s2 << 7) + 0x100) : 0x0140,

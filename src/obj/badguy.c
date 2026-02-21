@@ -30,7 +30,7 @@ void allocate_badguy(Obj *genbg_obj, s16 param_2, s16 spd_x, s16 spd_y)
                 cur_obj->speed_x = spd_x;
             else
                 cur_obj->speed_x = -spd_x;
-            calc_obj_pos(cur_obj);
+            calc_obj_pos_map(cur_obj);
             cur_obj->flags &= ~FLG(OBJ_READ_CMDS);
             break;
         }

@@ -43,13 +43,13 @@ extern u8 colour;
 extern s16 D_801F81B0;
 
 u8 PS1_deter_num_let_old(s32 param_1);
-s16 PS1_calc_let_Width(s16 sprite, u8 font);
+s16 SizeLettre(s16 sprite, u8 font);
 s32 calc_let_Width(u8 font, s16 sprite);
-s16 PS1_CalcTextWidth(u8 *str, u8 font);
+s16 SizeLigne(u8 *str, u8 font);
 void PS1_DisplayMenuText(u8 *str, u8 param_2, u8 color);
 void PS1_DisplayMenuTexts(u8 index, MenuText *in_menus); /* unused */
-void DrawFondBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness);
-void DrawBlackBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness);
+void display_blackboxborder(s16 x, s16 y, s16 w, s16 h, u8 brightness);
+void display_blackbox(s16 x, s16 y, s16 w, s16 h, u8 brightness);
 void DISPLAY_BLACKBOX(u16 x, u16 y, u16 w, u16 h, u8 param_5, u8 is_fond);
 void display_text_sin(u8 *text, s16 in_x, s16 in_y, s16 temps, u8 font_size, u8 clut_x);
 void display_text(u8 *text, s16 in_x, s16 in_y, u8 font_size, u8 param_5);

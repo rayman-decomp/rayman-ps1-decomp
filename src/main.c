@@ -5,7 +5,7 @@ u8 fin_du_jeu;
 #endif
 
 /* B438 8012FC38 -O2 -msoft-float */
-/*extern s32 D_8005866C;*/ /* data from PS1_LoadFiles seems to end up in here */
+/*extern s32 D_8005866C;*/ /* data from datafile_read seems to end up in here */
 
 void main(void)
 {
@@ -29,8 +29,8 @@ void main(void)
         if (menuEtape != 4)
             INIT_WORLD_INFO();
 
-        PS1_LoadFont();
-        DO_MENU();
+        charge_let2();
+        DO_MENUS();
         if (!fin_du_jeu)
         {
             if (status_bar.num_lives > -1 && new_world && ModeDemo == 0)
@@ -39,7 +39,7 @@ void main(void)
             while (!fin_du_jeu && status_bar.num_lives > -1 && new_world)
             {
                 SPECIAL_INIT();
-                PS1_LoadFont();
+                charge_let2();
                 DO_WORLD_MAP();
                 DEPART_WORLD();
                 while (!fin_du_jeu && !new_world && new_level)
@@ -51,14 +51,14 @@ void main(void)
                     PS1_StopPlayingSnd(PS1_NewWorldMusic[num_world]);
                     while (!fin_du_jeu && !new_level && !new_world)
                     {
-                        DEPART_DEAD_LOOP();
+                        DEPART_LIFE();
                         INIT_MOTEUR_DEAD();
                         INIT_RAY_ON_MS(&NewMs);
                         if (num_world == 6 && num_level == 2)
                             RayEvts = default_evts;
 
                         while (dead_time != 0 && !new_level && !new_world && ModeDemo != 2)
-                            DO_MAIN_LOOP();
+                            DO_MAIN_LOOP_SNY();
 
                         new_disp = &PS1_Displays[0];
                         if (PS1_CurrentDisplay == &PS1_Displays[0])
@@ -71,7 +71,7 @@ void main(void)
                         DO_VICTOIRE();
                     }
                     DONE_MOTEUR_LEVEL();
-                    FIN_DEAD_LOOP();
+                    FIN_LEVEL();
                 }
                 if (ModeDemo != 0)
                     fin_du_jeu = true;

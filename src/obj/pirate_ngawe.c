@@ -54,7 +54,7 @@ void allocatePirateNgaweRing(Obj *ngw_obj, s16 spd_y, u8 param_3)
             cur_obj->y_pos = ngw_y - ((cur_obj->offset_hy + cur_obj->offset_by) >> 1);
 
             skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
-            calc_obj_pos(cur_obj);
+            calc_obj_pos_map(cur_obj);
             cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             cur_obj->flags &= ~FLG(OBJ_FLAG_9);
 
@@ -153,7 +153,7 @@ void DO_ONE_NGW_COMMAND(Obj *obj)
                 if (
                     (block_flags[calc_typ_travd(obj, true)] >> BLOCK_FULLY_SOLID & 1) ||
                     !((u8) block_flags[
-                        PS1_BTYPAbsPos(obj->x_pos + obj->offset_bx + obj->speed_x, obj->y_pos + obj->offset_by)
+                        BTYP(obj->x_pos + obj->offset_bx + obj->speed_x, obj->y_pos + obj->offset_by)
                     ] >> BLOCK_SOLID & 1)
                 )
                     if (prev_flip_x == (obj->flags >> OBJ_FLIP_X & 1))

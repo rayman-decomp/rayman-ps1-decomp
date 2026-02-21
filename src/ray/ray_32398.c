@@ -164,10 +164,10 @@ void STOPPE_RAY_EN_XY(void)
         y -= 8;
 
     x += ray.speed_x * 2;
-    btyp_1 = PS1_BTYPAbsPos(x, y - 8);
-    btyp_2 = PS1_BTYPAbsPos(x, y - 24);
-    btyp_3 = PS1_BTYPAbsPos(x, y - 40);
-    btyp_4 = PS1_BTYPAbsPos(x, y - 56);
+    btyp_1 = BTYP(x, y - 8);
+    btyp_2 = BTYP(x, y - 24);
+    btyp_3 = BTYP(x, y - 40);
+    btyp_4 = BTYP(x, y - 56);
 
     stop = false;
     if (block_flags[btyp_1] >> BLOCK_FLAG_4 & 1)
@@ -332,7 +332,7 @@ void DO_RAYMAN(void)
             RAY_HIT(true, null);
 
         joy_done = 0;
-        calc_obj_pos(&ray);
+        calc_obj_pos_map(&ray);
 
         unk_1 = ray.field20_0x36;
         if (!(unk_1 == -1 && (calc_btyp(&ray), ray.field20_0x36 == unk_1)))
@@ -525,7 +525,7 @@ void DO_RAYMAN(void)
         if (ray.field20_0x36 != -1)
             RAY_FOLLOW();
 
-        PS1_Ray_Cave_Vines_Slide();
+        make_ray_slide();
         if (RayEstIlBloque())
         {
             if (ray.main_etat == 7)
@@ -600,7 +600,7 @@ void DO_RAY_ON_MS(void)
         RAY_HIT(true, null);
 
     joy_done = 0;
-    calc_obj_pos(&ray);
+    calc_obj_pos_map(&ray);
     if (ray.field20_0x36 == -1)
         calc_btyp(&ray);
 
@@ -687,7 +687,7 @@ void DO_PLACE_RAY(void)
     else if (ray.speed_y < 0)
         move_up_ray();
 
-    calc_obj_pos(&ray);
+    calc_obj_pos_map(&ray);
     if (ray.speed_x < 0)
         RAY_TO_THE_LEFT();
     else if (ray.speed_x > 0)

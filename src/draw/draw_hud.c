@@ -18,7 +18,7 @@ void CLRSCR(void)
 }
 
 /* 19A6C 8013E26C -O2 */
-/*? PS1_DrawSprite(Sprite *, s16, s16, ?);
+/*? draw_sprite(Sprite *, s16, s16, ?);
 u8 myRand(?, ? *);*/
 
 void display_etoile(s32 in_x, s32 in_y)
@@ -52,7 +52,7 @@ void display_etoile(s32 in_x, s32 in_y)
     )
     {
         sprite = loc_star_spr[star->sprite_table_index];
-        PS1_DrawSprite(
+        draw_sprite(
             &level.objects[poing_obj_id].sprites[sprite],
             draw_x,
             draw_y,
@@ -138,7 +138,7 @@ void DISPLAY_TEXT_FEE(void)
                     0,
                     false
                 );
-                display2(obj);
+                display(obj);
             }
             else
                 display_box_text(&ttd);
@@ -156,10 +156,10 @@ void DISPLAY_TEXT_FEE(void)
 
 /* 1A04C 8013E84C -O2 */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/draw/draw_hud", DisplayJumellesNormal);
+INCLUDE_ASM("asm/nonmatchings/draw/draw_hud", DISPLAY_JUMELLES);
 #else
 /* do{}while(0); */
-void DisplayJumellesNormal(void)
+void DISPLAY_JUMELLES(void)
 {
     s32 x_3;
     s32 x_5;
@@ -189,23 +189,23 @@ void DisplayJumellesNormal(void)
     do
     {
         x_4 = 160 - width_1 * 2;
-        PS1_DrawColoredSprite(sprite, x_4, 53, 1);
+        draw_sprite_gen(sprite, x_4, 53, 1);
     } while (0);
     x_3 = x_4 + sprite->width;
-    PS1_DrawColoredSprite(sprite, x_3, 53, 0);
+    draw_sprite_gen(sprite, x_3, 53, 0);
     x_3 += sprite->width;
-    PS1_DrawColoredSprite(sprite, x_3, 53, 1);
+    draw_sprite_gen(sprite, x_3, 53, 1);
     x_3 += sprite->width;
-    PS1_DrawColoredSprite(sprite, x_3, 53, 0);
+    draw_sprite_gen(sprite, x_3, 53, 0);
     x_1 = (x_4 - height_1) + 5;
     x_3 += sprite->width;
     y_1 = height_1 + 48;
-    PS1_DrawColoredSprite(sprite, x_1, y_1, 4);
-    PS1_DrawColoredSprite(sprite, x_1, sprite->width + y_1, 6);
+    draw_sprite_gen(sprite, x_1, y_1, 4);
+    draw_sprite_gen(sprite, x_1, sprite->width + y_1, 6);
     x_2 = x_3 - 5;
-    PS1_DrawColoredSprite(sprite, x_2, y_1, 7);
+    draw_sprite_gen(sprite, x_2, y_1, 7);
     y_2 = y_1 + sprite->width;
-    PS1_DrawColoredSprite(sprite, x_2, y_2, 5);
+    draw_sprite_gen(sprite, x_2, y_2, 5);
     w_h = height_1 - 5;
     DISPLAY_BLACKBOX(x_1, 53, w_h, w_h, 0, 0);
     DISPLAY_BLACKBOX(x_3, 53, w_h, w_h, 0, 0);
@@ -213,12 +213,12 @@ void DisplayJumellesNormal(void)
     DISPLAY_BLACKBOX(x_1, y_2, w_h, w_h, 0, 0);
     DISPLAY_BLACKBOX(x_3, y_2, w_h, w_h, 0, 0);
     y_3 = y_2 - 5;
-    PS1_DrawColoredSprite(sprite, x_4, y_3, 3);
+    draw_sprite_gen(sprite, x_4, y_3, 3);
     x_5 = x_4 + sprite->width;
-    PS1_DrawColoredSprite(sprite, x_5, y_3, 2);
+    draw_sprite_gen(sprite, x_5, y_3, 2);
     x_5 += sprite->width;
-    PS1_DrawColoredSprite(sprite, x_5, y_3, 3);
-    PS1_DrawColoredSprite(sprite, sprite->width + x_5, y_3, 2);
+    draw_sprite_gen(sprite, x_5, y_3, 3);
+    draw_sprite_gen(sprite, sprite->width + x_5, y_3, 2);
 
     height_2 = sprite->height;
     w_1 = x_4 - height_2;
@@ -235,9 +235,9 @@ void DisplayJumellesNormal(void)
 /* 1A338 8013EB38 -O2 */
 /*? FUN_80139014(s16, s16, s16, s16, s32, s32);*/
 
-void PS1_DisplayWorldMapBg1(s16 x1, s16 y1, s16 x2, s16 y2)
+void DISPLAY_JUMELLES_FOND(s16 x1, s16 y1, s16 x2, s16 y2)
 {
-    PS1_DisplayWorldMapBg2(x1, y1, x2, y2, 130, SCREEN_WIDTH - x2);
+    DISPLAY_ANYSIZE_FND(x1, y1, x2, y2, 130, SCREEN_WIDTH - x2);
 }
 
 /* 1A388 8013EB88 -O2 -msoft-float */
@@ -356,7 +356,7 @@ void display_time(s16 time)
 }
 
 /* 1AC60 8013F460 -O2 */
-void PS1_LoadPts(void)
+void init_spr(void)
 {
     u8 image [250];
     RECT rect;
@@ -462,10 +462,10 @@ void DISPLAY_CONTINUE_SPR(void)
         display_sprite(&div_obj, dig_0 + 28, 184, 162, 0);
         display_sprite(&div_obj, dig_1 + 28, 199, 162, 0);
     }
-    display2(&ray);
-    display2(&clock_obj);
+    display(&ray);
+    display(&clock_obj);
     if (mapobj->flags & FLG(OBJ_ALIVE))
-        display2(mapobj);
+        display(mapobj);
 }
 
 /* 1B0F8 8013F8F8 -O2 */

@@ -610,12 +610,12 @@ void PS1_PlayMusic(void)
 #endif
 
 /* D3A8 80131BA8 -O2 -msoft-float */
-void playLevelMusic(s16 world, s16 lvl)
+void start_cd(s16 world, s16 lvl)
 {
     D_801CEEBC = false;
     PS1_Cd_Callbacks_Disable();
     FUN_8013066c();
-    PS1_Cd_Pause();
+    pause_cd();
     CdSync(0, null);
     PS1_Cd_Callbacks_Enable();
     PS1_LevelMusic_World = world;
@@ -627,25 +627,25 @@ void playLevelMusic(s16 world, s16 lvl)
 /* D428 80131C28 -O2 -msoft-float */
 void start_cd_gros_rayman(void)
 {
-    playLevelMusic(0, 9);
+    start_cd(0, 9);
 }
 
 /* D44C 80131C4C -O2 -msoft-float */
 void start_cd_suspence(void)
 {
-    playLevelMusic(0, 6);
+    start_cd(0, 6);
 }
 
 /* D470 80131C70 -O2 -msoft-float */
 void start_cd_replay(void)
 {
-    playLevelMusic(0, 5);
+    start_cd(0, 5);
 }
 
 /* D494 80131C94 -O2 -msoft-float */
-void start_cd_credits(void)
+void start_cd_victory(void)
 {
-    playLevelMusic(0, 8);
+    start_cd(0, 8);
     stop_all_snd();
 }
 
@@ -667,35 +667,35 @@ void start_cd_perdu(void)
 {
     FUN_8016617c();
     PS1_StopPlayingAllSnd();
-    playLevelMusic(0, 1);
+    start_cd(0, 1);
 }
 
 /* D54C 80131D4C -O2 -msoft-float */
 void start_cd_rap(void)
 {
-    playLevelMusic(0, 3);
+    start_cd(0, 3);
 }
 
 /* D570 80131D70 -O2 -msoft-float */
 void start_cd_gameover(void)
 {
-    playLevelMusic(0, 2);
+    start_cd(0, 2);
 }
 
 /* D594 80131D94 -O2 -msoft-float */
 void start_cd_continue(void)
 {
-    playLevelMusic(0, 5);
+    start_cd(0, 5);
 }
 
 /* D5B8 80131DB8 -O2 -msoft-float */
-s32 FUN_80131db8(void)
+s32 track_is_finished(void)
 {
     return D_801CEEBC;
 }
 
 /* D5C8 80131DC8 -O2 -msoft-float */
-void PS1_Cd_Pause(void)
+void pause_cd(void)
 {
     CdControl(CdlPause, null, null);
 }

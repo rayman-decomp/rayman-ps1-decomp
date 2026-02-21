@@ -3,26 +3,26 @@
 const u8 s_loading_8012c368[] = "/loading.../";
 
 /* 7B048 8019F848 -O2 -msoft-float */
-s16 FUN_8019f848(void)
+s16 prg_vig_loader1(void)
 {
     D_801CF438++;
-    FUN_801809fc();
+    DISPLAY_FOND640();
     return (D_801CF438 <= 60) ^ 1;
 }
 
 /* 7B08C 8019F88C -O2 -msoft-float */
-s16 FUN_8019f88c(void)
+s16 prg_vig_loader2(void)
 {
     D_801CF440++;
-    FUN_801809fc();
+    DISPLAY_FOND640();
     return (D_801CF440 <= 60) ^ 1;
 }
 
 /* 7B0D0 8019F8D0 -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/first_init", FUN_8019f8d0);
+INCLUDE_ASM("asm/nonmatchings/first_init", loader);
 #else
-void FUN_8019f8d0(void)
+void loader(void)
 {
     s32 unk_1; /* TODO: remove */
     RECT fb_rect = D_801CF0E0;
@@ -30,7 +30,7 @@ void FUN_8019f8d0(void)
     ResetGraph(0);
     SetGraphDebug(0);
     SetDispMask(0);
-    PS1_ClearScreen();
+    clearbothdrawenv();
     SetDefDispEnv(&PS1_Displays[0].field0_0x0, 0, 0, 640, 480);
     SetDefDrawEnv(&PS1_Displays[0].drawing_environment, 0, 0, 640, 480);
     SetDefDispEnv(&PS1_Displays[1].field0_0x0, 0, 0, 640, 480);
@@ -40,15 +40,15 @@ void FUN_8019f8d0(void)
     PS1_Displays[0].field0_0x0.pad0 = 0;
     PS1_Displays[1].field0_0x0.isinter = true;
     PS1_Displays[0].field0_0x0.isinter = true;
-    PS1_InitDisplay(&PS1_Displays[0]);
-    PS1_InitDisplay(&PS1_Displays[1]);
+    InitDB(&PS1_Displays[0]);
+    InitDB(&PS1_Displays[1]);
     ClearImage(&fb_rect, 0, 0, 0);
     PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
-    LOAD_SCREEN();
-    playLevelMusic(0, 7);
+    charge_vig_loader1();
+    start_cd(0, 7);
     SetDispMask(1);
-    SYNCHRO_LOOP(FUN_8019f848);
-    while (FUN_80131db8() == false) {};
+    SYNCHRO_LOOP(prg_vig_loader1);
+    while (track_is_finished() == false) {};
     DO_FADE_OUT();
 }
 #endif
@@ -62,8 +62,9 @@ u8 PS1_OldLoadingScreen(void)
     return fade == 0;
 }
 
+// NOTE: Function name casing is unknown since the name comes from always lowercase hook names in the 30th anniversary edition
 /* 7B294 8019FA94 -O2 -msoft-float */
-void FUN_8019fa94(u8 param_1)
+void curtainroll(u8 param_1)
 {
     RECT fb_rect;
 
@@ -81,7 +82,7 @@ void FUN_8019fa94(u8 param_1)
 }
 
 /* 7B384 8019FB84 -O2 -msoft-float */
-void FUN_8019fb84(void)
+void START_WORLD_VIGNET(void)
 {
     u8 *unk_1;
     RECT fb_rect_1;
@@ -90,7 +91,7 @@ void FUN_8019fb84(void)
     unk_1 = D_801F4380;
     __builtin_memcpy(&fb_rect_1, &D_801CF0E8, sizeof(D_801CF0E8));
     D_801F4380 = ((u8 *) D_801C438C[num_world - 1] + 0x45000);
-    FUN_8019df1c(num_world_choice);
+    charge_wld_vignette(num_world_choice);
     StoreImage(&fb_rect_1, D_801C438C[num_world - 1]);
     MoveImage(&PS1_CurrentDisplay->field0_0x0.disp, fb_rect_1.x, fb_rect_1.y);
     DrawSync(0);
@@ -119,7 +120,7 @@ void FUN_8019fd40(void)
     ResetGraph(0);
     SetGraphDebug(0);
     SetDispMask(false);
-    PS1_ClearScreen();
+    clearbothdrawenv();
     SsInit();
     PS1_InitializeCard(0);
     CdInit();
@@ -152,12 +153,12 @@ void FUN_8019fdd0(void)
     DISPLAY_FOND3();
     PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
     PutDrawEnv(&PS1_CurrentDisplay->drawing_environment);
-    PS1_InitDisplay(PS1_Displays);
-    PS1_InitDisplay(&PS1_Displays[1]);
+    InitDB(PS1_Displays);
+    InitDB(&PS1_Displays[1]);
 }
 
 /* 7B68C 8019FE8C -O2 -msoft-float */
-void FUN_8019fe8c(void)
+void GAME_INIT2(void)
 {
     PS1_DebugMode = false;
     FUN_80166018();
@@ -179,8 +180,8 @@ void FIRST_INIT(void)
     FUN_8019fd40();
     D_801F4380 = (void *) 0x8005866C;
     PS1_Init_ImgLdrVdoTrk_Files();
-    FUN_8019fe8c();
-    FUN_8019f8d0();
+    GAME_INIT2();
+    loader();
     if (PS1_InitPAD())
     {
         StartPAD();
@@ -195,15 +196,15 @@ void FIRST_INIT(void)
     PS1_LoadImgSplash();
     SetDispMask(false);
     PutDispEnv(&PS1_CurrentDisplay->field0_0x0);
-    PS1_ClearScreen();
+    clearbothdrawenv();
     SetDispMask(true);
     PS1_PlayVideo(VIDEO_PRES);
     FUN_8019fdd0();
     FUN_8019dd74();
-    PS1_LoadPts();
-    FUN_8012ecf0();
+    init_spr();
+    DO_GROS_RAYMAN();
     PS1_SetLevelto_4_1();
-    PS1_LoadAllFixData();
+    InitFix();
     no_fnd = -1;
-    FUN_8019fa94(true);
+    curtainroll(true);
 }

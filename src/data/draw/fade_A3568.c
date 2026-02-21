@@ -2,7 +2,7 @@
 
 void (*D_801C7D68[])(RGBAArray *, s16) =
 {
-    FUN_80169a3c,
+    fadenuitbleu,
     FUN_80169ac8,
     FUN_80169b54,
     FUN_80169b5c

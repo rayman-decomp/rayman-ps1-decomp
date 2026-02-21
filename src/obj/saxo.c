@@ -14,7 +14,7 @@ u8 NiveauDansPhase;
 void INIT_SAXO(Obj *sax_obj)
 {
     sax_obj->y_pos = firstFloorBelow(sax_obj) - sax_obj->offset_by;
-    calc_obj_pos(sax_obj);
+    calc_obj_pos_map(sax_obj);
     sax_obj->speed_x = 0;
     sax_obj->speed_y = 0;
     Phase = 0;
@@ -65,11 +65,11 @@ void allocateNote2(Obj *note_obj, s16 param_2)
                     cur_obj->init_x_pos = cur_obj->x_pos;
                     cur_obj->init_y_pos = cur_obj->y_pos;
                     skipToLabel(cur_obj, 1, true);
-                    calc_obj_pos(cur_obj);
+                    calc_obj_pos_map(cur_obj);
                     cur_obj->flags = (cur_obj->flags | FLG(OBJ_ALIVE)) & ~FLG(OBJ_FLAG_9) | FLG(OBJ_ACTIVE);
                     cur_obj->gravity_value_1 = 0;
                     cur_obj->iframes_timer = note_obj->iframes_timer - 1;
-                    calc_obj_pos(cur_obj);
+                    calc_obj_pos_map(cur_obj);
                     cur_obj->field23_0x3c = 10;
                     allocateExplosion(cur_obj);
                     break;
@@ -86,7 +86,7 @@ void DO_EXPLOSE_NOTE2(Obj *obj)
 {
     obj->speed_x = 0;
     obj->speed_y = 0;
-    calc_obj_pos(obj);
+    calc_obj_pos_map(obj);
     set_main_and_sub_etat(obj, 0, 1);
     PlaySnd(0xf6, obj->id);
     allocateExplosion(obj);
@@ -245,9 +245,9 @@ void Cree_Eclat_Note(Obj *bnote, Obj *note1, s16 index)
         bnote->main_etat = 2;
         bnote->sub_etat = 5;
         skipToLabel(bnote, 1, true);
-        calc_obj_pos(bnote);
+        calc_obj_pos_map(bnote);
         bnote->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
-        calc_obj_pos(bnote);
+        calc_obj_pos_map(bnote);
     }
 }
 
@@ -341,14 +341,14 @@ void BonneNote(Obj *orig_obj)
                 obj->sub_etat = 3;
                 obj->init_x_pos = obj->x_pos;
                 skipToLabel(obj, 1, true);
-                calc_obj_pos(obj);
+                calc_obj_pos_map(obj);
                 obj->gravity_value_1 = 0;
 
                 obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
                 obj->iframes_timer = 200;
                 orig_obj->flags &= ~FLG(OBJ_ACTIVE);
                 orig_obj->flags &= ~FLG(OBJ_ALIVE);
-                calc_obj_pos(obj);
+                calc_obj_pos_map(obj);
                 break;
             }
             obj++;
@@ -394,7 +394,7 @@ void DO_NOTE_REBOND(Obj *obj)
             obj->speed_y--;
 
         obj->gravity_value_1 = 10 - obj->gravity_value_1;
-        calc_obj_pos(obj);
+        calc_obj_pos_map(obj);
         break;
     }
 }
@@ -435,12 +435,12 @@ void allocateNote(Obj *obj)
                     note_obj->main_etat = 2;
                     note_obj->sub_etat = atak[NextNote].type;
                     skipToLabel(note_obj, 1, true);
-                    calc_obj_pos(note_obj);
+                    calc_obj_pos_map(note_obj);
                     note_obj->flags = (note_obj->flags | FLG(OBJ_ALIVE)) & ~FLG(OBJ_FLAG_9) | FLG(OBJ_ACTIVE);
                     note_obj->gravity_value_1 = 0;
                     note_obj->gravity_value_2 = 10;
                     note_obj->iframes_timer = atak[NextNote].initial_iframes;
-                    calc_obj_pos(note_obj);
+                    calc_obj_pos_map(note_obj);
                     break;
                 }
             }

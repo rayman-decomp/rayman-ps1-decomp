@@ -85,17 +85,17 @@ s16 WORLD_CHOICE(void)
 {
     let_shadow = false;
     DO_FADE();
-    PS1_DisplayWorldMapBg1(xmap, ymap, 44, 55);
-    DISPLAY_PLAT_WAY();
-    PS1_DisplayPtsPrim();
-    display2(&ray);
+    DISPLAY_JUMELLES_FOND(xmap, ymap, 44, 55);
+    DISPLAY_PTS_WAY();
+    put_env_point_way();
+    display(&ray);
     DO_CHEMIN();
-    PS1_DisplayPlateau();
-    DisplayJumellesNormal();
+    DISPLAY_PLAT_WAY();
+    DISPLAY_JUMELLES();
     DISPLAY_STAGE_NAMES();
 
     readinput();
-    PROC_EXIT = SelectButPressed() != 0;
+    PROC_EXIT = but2pressed__SELECT() != 0;
     return new_world || PROC_EXIT;
 }
 
@@ -103,7 +103,7 @@ s16 WORLD_CHOICE(void)
 void DO_WORLD_MAP(void)
 {
     if (ModeDemo == 0)
-        PS1_LoadImgWorld();
+        charge_wm();
 
     start_cd_rap();
     INIT_FADE_IN();

@@ -82,7 +82,7 @@ void allocate_toons(Obj *src_obj, u8 count)
             GET_SPRITE_POS(src_obj, i % layers, &spr_x, &spr_y, &spr_w, &spr_h);
             obj->x_pos = spr_x + (spr_w >> 1) - obj->offset_bx;
             obj->y_pos = spr_y + (spr_h >> 1) - obj->offset_by;
-            calc_obj_pos(obj);
+            calc_obj_pos_map(obj);
             obj->anim_frame = 0;
             obj->anim_index = obj->eta[obj->main_etat][obj->sub_etat].anim_index;
             obj->flags &= ~FLG(OBJ_FLAG_9);

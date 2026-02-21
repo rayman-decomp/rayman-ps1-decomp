@@ -168,7 +168,7 @@ void DO_REDEYE_FIRE(s16 x_pos, s16 y_pos, s16 param_3)
             cur_obj->speed_y = 0;
             cur_obj->init_x_pos = cur_obj->iframes_timer;
             cur_obj->init_y_pos = cur_obj->field20_0x36;
-            calc_obj_pos(cur_obj);
+            calc_obj_pos_map(cur_obj);
             cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             PlaySnd(205, i);
             break;

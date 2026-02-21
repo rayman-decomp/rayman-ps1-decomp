@@ -27,7 +27,7 @@ void allocateLandingSmoke(Obj *in_obj)
                     cur_obj->display_prio = 2;
                 else
                     cur_obj->display_prio = 7;
-                calc_obj_pos(cur_obj);
+                calc_obj_pos_map(cur_obj);
                 break;
             }
             cur_obj++;

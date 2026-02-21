@@ -16,7 +16,7 @@ extern s16 delai_stereo;
 void FUN_801a6808(void);
 void FUN_801a6984(void);
 void FUN_801a6a04(u8 param_1);
-void DO_COMMANDE_PAD(void);
+void DO_COMMANDE_OPTIONS(void);
 void FUN_801a76e4(void);
 
 #endif

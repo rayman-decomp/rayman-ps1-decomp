@@ -37,7 +37,7 @@ void move_fruit_in_water(Obj *obj)
                 x2 = x;
                 if (obj->speed_x > -1)
                     x2 += w;
-                btyp = PS1_BTYPAbsPos(x2, y + 0x10);
+                btyp = BTYP(x2, y + 0x10);
                 if (block_flags[btyp] >> BLOCK_SOLID & 1)
                 {
                     set_main_and_sub_etat(obj, 0, 0xd);

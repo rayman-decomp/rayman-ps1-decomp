@@ -132,8 +132,8 @@ if (select_pressed) yes
 */
 void PS1_InputCardOrPassword(void)
 {
-    s16 valid_pressed = ValidButPressed();
-    s16 select_pressed = SelectButPressed();
+    s16 valid_pressed = but0pressed__CROSS();
+    s16 select_pressed = but2pressed__SELECT();
 
     if (!valid_pressed)
     {
@@ -203,7 +203,7 @@ block_28:
         MENU_RETURN = true;
         PlaySnd_old(77);
     }
-    if (menuEtape == 2 && StartButPressed())
+    if (menuEtape == 2 && but1pressed__START())
     {
         PS1_MENU_RETURN2 = true;
         PS1_SaveMode = 2;
@@ -259,7 +259,7 @@ void PS1_DisplayCardOrPassword(void)
 }
 
 /* 7FC58 801A4458 -O2 */
-s16 PS1_MenuCardOrPassword(void)
+s16 selection_save_option_prg(void)
 {
     u8 done;
 
@@ -267,7 +267,7 @@ s16 PS1_MenuCardOrPassword(void)
         PS1_InputCardOrPassword();
 
     CLRSCR();
-    DISPLAY_FOND_MENU();
+    volet();
     DO_FADE();
     PS1_DisplayCardOrPassword();
     readinput();
@@ -279,13 +279,13 @@ s16 PS1_MenuCardOrPassword(void)
 }
 
 /* 7FCEC 801A44EC -O2 */
-void PS1_InitCardOrPassword(void)
+void DO_SAVE_CHOICE(void)
 {
     LOAD_SAVE_SCREEN();
     PS1_TextBoxCardOrPassword();
     start_cd_rap();
     INIT_FADE_IN();
-    SYNCHRO_LOOP(PS1_MenuCardOrPassword);
+    SYNCHRO_LOOP(selection_save_option_prg);
     DO_FADE_OUT();
 }
 
@@ -316,7 +316,7 @@ s16 saisie_nom_prg(void)
 }
 
 /* 7FE30 801A4630 -O2 -msoft-float */
-s16 selection_save_option_prg(void)
+s16 FUN_801a4630(void)
 {
     s32 done;
 
@@ -335,7 +335,7 @@ s16 selection_save_option_prg(void)
         if (!MENU_RETURN)
             SaveGameOnDisk(fichier_selectionne);
     }
-    while (ValidButPressed())
+    while (but0pressed__CROSS())
         readinput();
     if (realisation_effectuee)
         INIT_SAVE_CONTINUE();
@@ -347,7 +347,7 @@ s16 selection_save_option_prg(void)
 }
 
 /* 7FF90 801A4790 -O2 -msoft-float */
-void DO_SAVE_CHOICE(void)
+void FUN_801a4790(void)
 {
     let_shadow = true;
     LOAD_SAVE_SCREEN();
@@ -357,7 +357,7 @@ void DO_SAVE_CHOICE(void)
     INIT_SAVE_CHOICE();
     INIT_SAVE_CONTINUE();
     TempsDemo = 0;
-    SYNCHRO_LOOP(selection_save_option_prg);
+    SYNCHRO_LOOP(FUN_801a4630);
     DO_FADE_OUT();
 }
 
@@ -389,7 +389,7 @@ void AFFICHE_ECRAN_SAVE(void)
         compteur_clignote = 0;
     DO_FADE();
     CLRSCR();
-    DISPLAY_FOND_MENU();
+    volet();
     display_text(s_choose_a_game_8012c4e0, 160, debut_titre, 1, 11);
     display_text(s_copy_801cf124, 30, debut_sortie, 1, 8);
     display_text(s_erase_801cf12c, 125, debut_sortie, 1, 8);
@@ -466,17 +466,17 @@ void AFFICHE_ECRAN_SAVE(void)
 }
 
 /* 80538 801A4D38 -O2 -msoft-float*/
-s16 PS1_DoGameOptionsLoop(void)
+s16 options_choice_prg(void)
 {
     s32 done;
 
     readinput();
-    AFFICHE_PAD_SCREEN();
-    DO_COMMANDE_PAD();
+    AFFICHE_ECRAN_OPTIONS();
+    DO_COMMANDE_OPTIONS();
     PS1_SetSoundVolume(PS1_Settings[4]);
     PS1_SetStereoEnabled(PS1_Settings[5]);
     PS1_SetMusicVolume(PS1_Settings[3]);
-    if ((ValidButPressed() && position == 7) || StartButPressed())
+    if ((but0pressed__CROSS() && position == 7) || but1pressed__START())
     {
         D_801D7A50 = true;
         PlaySnd_old(69);
@@ -499,20 +499,20 @@ void PS1_DoGameOptions(void)
     FUN_8019eb30();
     INIT_FADE_IN();
     FUN_801a76e4();
-    SYNCHRO_LOOP(PS1_DoGameOptionsLoop);
+    SYNCHRO_LOOP(options_choice_prg);
     FUN_801a6984();
     DO_FADE_OUT();
 }
 
 /* TODO: display_text x and y calculations as macro */
 /* 806E8 801A4EE8 -O2 -msoft-float */
-void AFFICHE_PAD_SCREEN(void)
+void AFFICHE_ECRAN_OPTIONS(void)
 {
     s16 i;
 
     DO_FADE();
     CLRSCR();
-    DISPLAY_FOND_MENU();
+    volet();
     DISPLAY_OPTIONS_POING();
     if (compteur < max_compteur)
     {
@@ -548,9 +548,9 @@ void AFFICHE_PAD_SCREEN(void)
         display_text(PS1_SettingStrings[5], basex, debut_sortie + 5 * (PS1_display_y2 + 15), 2, 12);
     else
         display_text(PS1_SettingStrings[6], basex, debut_sortie + 5 * (PS1_display_y2 + 15), 2, 12);
-    PS1_DisplayPadButton(PS1_Settings[0], 150, debut_sortie + 0 * (PS1_display_y2 + 15), 2, 0);
-    PS1_DisplayPadButton(PS1_Settings[1], 150, debut_sortie + 1 * (PS1_display_y2 + 15), 2, 0);
-    PS1_DisplayPadButton(PS1_Settings[2], 150, debut_sortie + 2 * (PS1_display_y2 + 15), 2, 0);
+    DISPLAY_SYMBOLE(PS1_Settings[0], 150, debut_sortie + 0 * (PS1_display_y2 + 15), 2, 0);
+    DISPLAY_SYMBOLE(PS1_Settings[1], 150, debut_sortie + 1 * (PS1_display_y2 + 15), 2, 0);
+    DISPLAY_SYMBOLE(PS1_Settings[2], 150, debut_sortie + 2 * (PS1_display_y2 + 15), 2, 0);
 
     for (i = 0; i < PS1_Settings[3]; i++)
     {
@@ -707,28 +707,28 @@ void DO_COMMANDE_SAVE(void) /* TODO: macro(s)? */
     else
         button_released = 0;
 
-    if (SelectButPressed() && button_released != 0)
+    if (but2pressed__SELECT() && button_released != 0)
         MENU_RETURN = true;
 }
 
 /* 81634 801A5E34 -O2 -msoft-float */
 void SELECTION_SAVE_OPTION(void)
 {
-    if (positionx2 == 1 && ValidButPressed())
+    if (positionx2 == 1 && but0pressed__CROSS())
     {
         action = 1;
-        while (ValidButPressed())
+        while (but0pressed__CROSS())
             readinput();
         PlaySnd_old(69);
     }
-    if (positionx2 == 2 && ValidButPressed())
+    if (positionx2 == 2 && but0pressed__CROSS())
     {
         action = 2;
-        while (ValidButPressed())
+        while (but0pressed__CROSS())
             readinput();
         PlaySnd_old(69);
     }
-    if ((positionx2 == 3 && ValidButPressed()) || StartButPressed())
+    if ((positionx2 == 3 && but0pressed__CROSS()) || but1pressed__START())
     {
         action = 3;
         while ((s16) but0pressed(0) || (s16) but1pressed(0) || (s16) but2pressed(0) || (s16) but3pressed(0))
@@ -767,7 +767,7 @@ void SAISIE_NOM(void)
     }
     if (affiche_bon_ecran)
         fin_saisie_nom = true;
-    if (ValidButPressed())
+    if (but0pressed__CROSS())
     {
         cur_save_1 = save_ray[positiony];
         cur_char_1 = &cur_save_1[positionx];
@@ -790,7 +790,7 @@ void SAISIE_NOM(void)
             PlaySnd_old(69);
             affiche_bon_ecran = true;
         }
-        while (ValidButPressed())
+        while (but0pressed__CROSS())
             readinput();
     }
     if (upjoy(0) && !rightjoy(0) && !leftjoy(0))
@@ -849,7 +849,7 @@ void SAISIE_NOM(void)
         button_released = 0;
         D_801F5448 = 0;
     }
-    if (SelectButPressed() && button_released != 0)
+    if (but2pressed__SELECT() && button_released != 0)
         MENU_RETURN = true;
 }
 

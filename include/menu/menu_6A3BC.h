@@ -25,7 +25,7 @@ extern Obj bigray;
 
 void INIT_NEW_GAME(void);
 void POINTEUR_BOUTONS_OPTIONS_BIS(void);
-void PS1_DisplayPadButton(s16 button, s16 x, s16 y, u8 font_size, u8 param_5);
+void DISPLAY_SYMBOLE(s16 button, s16 x, s16 y, u8 font_size, u8 param_5);
 void INIT_CONTINUE(void);
 void CHEAT_MODE_CONTINUE(void);
 void MAIN_CONTINUE_PRG(void);

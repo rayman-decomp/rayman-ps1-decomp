@@ -30,14 +30,14 @@ extern void *D_801F8190;
 extern u16 D_801F5440;
 extern u16 D_801F55D8;
 
-void FUN_801392d8(s32 param_1, s16 *param_2, s16 *param_3);
-void FUN_80139330(u32 param_1, s16 *param_2, s16 *param_3);
-void FUN_801393c8(s32 param_1);
-void PS1_LoadAllFixTextures(s32 length);
-void FUN_8013948c(s32 param_1);
-void FUN_80139514(s32 param_1);
-void FUN_801395a8(s32 param_1);
-void FUN_80139624(s32 param_1);
+void Calcul_vram(s32 param_1, s16 *param_2, s16 *param_3);
+void Calcul_vram256(u32 param_1, s16 *param_2, s16 *param_3);
+void load_vram_ini(s32 param_1);
+void load_vram_ray(s32 length);
+void load_vram_wld(s32 param_1);
+void load_vram_lvl(s32 param_1);
+void load_vram_lvl256(s32 param_1);
+void load_vram_let2(s32 param_1);
 void FUN_80139688(s32 tile_set_size);
 
 #endif

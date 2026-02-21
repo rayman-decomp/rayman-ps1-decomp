@@ -17,7 +17,7 @@ void allocateBlacktoonEyes(Obj *bt1_obj)
             cur_obj->speed_y = 0;
             cur_obj->speed_x = 0;
             set_main_and_sub_etat(cur_obj, cur_obj->init_main_etat, cur_obj->init_sub_etat);
-            calc_obj_pos(cur_obj);
+            calc_obj_pos_map(cur_obj);
             calc_obj_dir(cur_obj);
             cur_obj->cmd_offset = -1;
             cur_obj->nb_cmd = 0;

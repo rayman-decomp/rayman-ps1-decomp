@@ -358,7 +358,7 @@ void allocatePoingBoum(void)
                 cur_obj->x_pos += poing_w;
             cur_obj->y_pos =
                 poing_y + (poing_h >> 1) - ((cur_obj->offset_by + cur_obj->offset_hy) >> 1);
-            calc_obj_pos(cur_obj);
+            calc_obj_pos_map(cur_obj);
             cur_obj->flags |= (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE));
             break;
         }

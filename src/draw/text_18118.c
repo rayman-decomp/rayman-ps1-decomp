@@ -46,7 +46,7 @@ u8 PS1_deter_num_let_old(s32 param_1)
 }
 
 /* 181A4 8013C9A4 -O2 -msoft-float */
-s16 PS1_calc_let_Width(s16 sprite, u8 font)
+s16 SizeLettre(s16 sprite, u8 font)
 {
     switch (font)
     {
@@ -62,18 +62,18 @@ s16 PS1_calc_let_Width(s16 sprite, u8 font)
 /* 18214 8013CA14 -O2 -msoft-float */
 s32 calc_let_Width(u8 font, s16 sprite)
 {
-    return PS1_calc_let_Width(sprite, font);
+    return SizeLettre(sprite, font);
 }
 
 /* 18244 8013CA44 -O2 -msoft-float */
-s16 PS1_CalcTextWidth(u8 *str, u8 font)
+s16 SizeLigne(u8 *str, u8 font)
 {
     s16 res = 0;
     u8 i = 0;
 
     while (str[i] != 0)
     {
-        res += PS1_calc_let_Width(deter_num_let(str[i]), font);
+        res += SizeLettre(deter_num_let(str[i]), font);
         i++;
     }
     return res;
@@ -85,7 +85,7 @@ void PS1_DisplayMenuText(u8 *str, u8 param_2, u8 color)
     GetClut(color * 16 + 64, 509);
     display_text(
         str,
-        (SCREEN_WIDTH - PS1_CalcTextWidth(str, 0)) >> 1,
+        (SCREEN_WIDTH - SizeLigne(str, 0)) >> 1,
         param_2 * 36 + 4,
         0,
         color
@@ -109,7 +109,7 @@ void PS1_DisplayMenuTexts(u8 index, MenuText *in_menus)
     if (sel_row < SCREEN_HEIGHT)
     {
         unk_1 = sel_row + 6;
-        PS1_DrawSprite(&alpha.sprites[40], 39, (unk_1 - *count) * 36 + 4, 0);
+        draw_sprite(&alpha.sprites[40], 39, (unk_1 - *count) * 36 + 4, 0);
     }
     PS1_DisplayMenuText(menu->header, 1, menu->color);
 
@@ -122,10 +122,10 @@ void PS1_DisplayMenuTexts(u8 index, MenuText *in_menus)
 
 /* 1845C 8013CC5C -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/draw/text_18118", DrawFondBoxNormal);
+INCLUDE_ASM("asm/nonmatchings/draw/text_18118", display_blackboxborder);
 #else
 /* clean up */
-void DrawFondBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness)
+void display_blackboxborder(s16 x, s16 y, s16 w, s16 h, u8 brightness)
 {
     u8 i;
     u16 test_2 = 0xFFFD; /* not signed? */
@@ -196,25 +196,25 @@ void DrawFondBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness)
 
 /* 1875C 8013CF5C -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/draw/text_18118", DrawBlackBoxNormal);
+INCLUDE_ASM("asm/nonmatchings/draw/text_18118", display_blackbox);
 #else
 /* some way to reduce duplication? */
-static inline DRENVAndTile *DrawBlackBoxNormal_1()
+static inline DRENVAndTile *display_blackbox_1()
 {
     return &PS1_CurrentDisplay->field_0x60bc_0x660b[D_801F81B0 + 7];
 }
 
-static inline TILE *DrawBlackBoxNormal_2()
+static inline TILE *display_blackbox_2()
 {
     return &PS1_CurrentDisplay->field_0x60bc_0x660b[D_801F81B0 + 7].tile;
 }
 
-#define DrawBlackBoxNormal_3 (PS1_CurrentDisplay->field_0x60bc_0x660b + D_801F81B0 + 7)
+#define display_blackbox_3 (PS1_CurrentDisplay->field_0x60bc_0x660b + D_801F81B0 + 7)
 /* these two would still be matching? but can't be what they did, surely? */
-#define DrawBlackBoxNormal_4 (PS1_CurrentDisplay->field_0x60bc_0x660b + D_801F81B0 + 7)->tile
-#define DrawBlackBoxNormal_5 PS1_CurrentDisplay->field_0x60bc_0x660b[D_801F81B0 + 7].drawing_environment
+#define display_blackbox_4 (PS1_CurrentDisplay->field_0x60bc_0x660b + D_801F81B0 + 7)->tile
+#define display_blackbox_5 PS1_CurrentDisplay->field_0x60bc_0x660b[D_801F81B0 + 7].drawing_environment
 
-void DrawBlackBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness)
+void display_blackbox(s16 x, s16 y, s16 w, s16 h, u8 brightness)
 {
     D_801F81B0++;
     SetTile(&(PS1_CurrentDisplay->field_0x60bc_0x660b + D_801F81B0 + 7)->tile);
@@ -261,9 +261,9 @@ void DrawBlackBoxNormal(s16 x, s16 y, s16 w, s16 h, u8 brightness)
 void DISPLAY_BLACKBOX(u16 x, u16 y, u16 w, u16 h, u8 param_5, u8 is_fond)
 {
     if (is_fond)
-        DrawFondBoxNormal(x, y, w, h, 255 - param_5);
+        display_blackboxborder(x, y, w, h, 255 - param_5);
     else
-        DrawBlackBoxNormal(x, y, w, h, 255 - param_5);
+        display_blackbox(x, y, w, h, 255 - param_5);
 }
 
 /* 18A88 8013D288 -O2 -msoft-float */
@@ -351,13 +351,13 @@ void display_text_sin(u8 *text, s16 in_x, s16 in_y, s16 temps, u8 font_size, u8 
                     sprite = &alpha2.sprites[sprite_ind];
                     sprite->clut = GetClut(clut_x * 16 + 768, 492);
                     unk_y_3 = costab[(temps + (i << 5)) % ((s16) LEN(costab) - 1)];
-                    PS1_DrawSprite(sprite, unk_x, (unk_y_2 - sprite->height) + ashr16(__builtin_abs(unk_y_3), 5), 0);
+                    draw_sprite(sprite, unk_x, (unk_y_2 - sprite->height) + ashr16(__builtin_abs(unk_y_3), 5), 0);
                     break;
                 case 2:
                     sprite = &alpha.sprites[sprite_ind];
                     sprite->clut = GetClut(clut_x * 16 + 768, 492);
                     unk_y_3 = costab[(temps + (i << 5)) % ((s16) LEN(costab) - 1)];
-                    PS1_DrawSprite(sprite, unk_x, (unk_y_2 - sprite->height) + ashr16(__builtin_abs(unk_y_3), 5), 0);
+                    draw_sprite(sprite, unk_x, (unk_y_2 - sprite->height) + ashr16(__builtin_abs(unk_y_3), 5), 0);
                     break;
                 }
 
@@ -373,7 +373,7 @@ void display_text_sin(u8 *text, s16 in_x, s16 in_y, s16 temps, u8 font_size, u8 
                     (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->b0 = 20;
 
                     PS1_CurrentDisplay->polygons[PS1_PolygonsCount].clut = sprite->clut;
-                    FUN_8017b260((s16) sprite->tpage); /* TODO: sprite tpage s16 maybe? */
+                    getparam((s16) sprite->tpage); /* TODO: sprite tpage s16 maybe? */
                     PS1_CurrentDisplay->polygons[PS1_PolygonsCount].tpage = GetTPage(0, 0, PS1_TPage_x, PS1_TPage_y);
 
                     (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->u0 = sprite->page_x;
@@ -552,12 +552,12 @@ void display_text(u8 *text, s16 in_x, s16 in_y, u8 font_size, u8 param_5)
                 case 1:
                     sprite = &alpha2.sprites[sprite_ind];
                     sprite->clut = GetClut((clut_x * 0x10) + 0x300, 0x000001EC);
-                    PS1_DrawSprite(sprite, (s16) unk_x, unk_y_2 - sprite->height, 0U);
+                    draw_sprite(sprite, (s16) unk_x, unk_y_2 - sprite->height, 0U);
                     break;
                 case 2:
                     sprite = &alpha.sprites[sprite_ind];
                     sprite->clut = GetClut((clut_x * 0x10) + 0x300, 0x000001EC);
-                    PS1_DrawSprite(sprite, (s16) unk_x, unk_y_2 - sprite->height, 0U);
+                    draw_sprite(sprite, (s16) unk_x, unk_y_2 - sprite->height, 0U);
                     break;
                 }
 
@@ -573,7 +573,7 @@ void display_text(u8 *text, s16 in_x, s16 in_y, u8 font_size, u8 param_5)
                     (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->b0 = 0x14;
 
                     PS1_CurrentDisplay->polygons[PS1_PolygonsCount].clut = sprite->clut;
-                    FUN_8017b260((s16) sprite->tpage); /* TODO: sprite tpage s16 maybe? */
+                    getparam((s16) sprite->tpage); /* TODO: sprite tpage s16 maybe? */
                     PS1_CurrentDisplay->polygons[PS1_PolygonsCount].tpage = GetTPage(0, 0, PS1_TPage_x, PS1_TPage_y);
 
                     (PS1_CurrentDisplay->polygons + PS1_PolygonsCount)->u0 = sprite->page_x;

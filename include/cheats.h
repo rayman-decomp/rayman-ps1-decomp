@@ -19,6 +19,6 @@ extern u8 PS1_15fps;
 /**/
 extern u8 PS1_DebugMode;
 
-void PS1_CheckPauseAndCheatInputs(void);
+void handle_pad(void);
 
 #endif

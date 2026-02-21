@@ -45,7 +45,7 @@ void allocateRayLandingSmoke(void)
         if (obj)
         {
             set_main_and_sub_etat(obj, 0, 1);
-            calc_obj_pos(obj);
+            calc_obj_pos_map(obj);
         }
     }
 }
@@ -87,11 +87,11 @@ void calc_bhand_typ(Obj *obj)
     if (RayEvts.demi)
         unk_1 = 80 - ((80 - unk_1) >> 1);
     y = unk_1 + obj->y_pos;
-    hand_btyp = PS1_BTYPAbsPos(x, y);
+    hand_btyp = BTYP(x, y);
     if (hand_btyp != BTYP_LIANE)
     {
-        hand_btypg = PS1_BTYPAbsPos(x - 8, y);
-        hand_btypd = PS1_BTYPAbsPos(x + 8, y);
+        hand_btypg = BTYP(x - 8, y);
+        hand_btypd = BTYP(x + 8, y);
     }
     else
     {
@@ -2728,7 +2728,7 @@ void DO_MORT_DE_RAY(void)
     ray.iframes_timer = -1;
     v_scroll_speed = 0;
     h_scroll_speed = 0;
-    calc_obj_pos(&ray);
+    calc_obj_pos_map(&ray);
     calc_btyp(&ray);
     RAY_IN_THE_AIR();
     RAY_SWIP();

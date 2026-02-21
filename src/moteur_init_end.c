@@ -107,7 +107,7 @@ void INIT_MOTEUR(u8 new_lvl)
         INIT_LUCIOLE();
 
     DO_OBJECTS();
-    PS1_PhotographerCollision();
+    DO_PHOTOGRAPHE_CMD();
 }
 
 /* 34BC8 801593C8 -O2 -msoft-float */

@@ -14,7 +14,7 @@ s16 D_801E4DF8;
 #endif
 
 /* 14FF4 801397F4 -O2 -msoft-float */
-void PS1_DrawColoredSprite(Sprite *sprite, s16 in_x, s16 in_y, u8 disp_mode)
+void draw_sprite_gen(Sprite *sprite, s16 in_x, s16 in_y, u8 disp_mode)
 {
     POLY_FT4 *poly;
     s32 offs;
@@ -226,13 +226,13 @@ void PS1_DrawColoredSprite(Sprite *sprite, s16 in_x, s16 in_y, u8 disp_mode)
 }
 
 /* 15340 80139B40 -O2 -msoft-float */
-void PS1_DrawSprite(Sprite *sprite, s16 x, s16 y, u8 param_4)
+void draw_sprite(Sprite *sprite, s16 x, s16 y, u8 param_4)
 {
-    PS1_DrawColoredSprite(sprite, x, y, param_4);
+    draw_sprite_gen(sprite, x, y, param_4);
 }
 
 /* 15370 80139B70 -O2 -msoft-float */
-void PS1_DrawScaledSprite(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 param_5)
+void draw_sprite_prof(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 param_5)
 {
     s16 page_x; s16 page_y;
     s16 width; s16 height;
@@ -330,7 +330,7 @@ void FUN_80139d5c(s16 *p_poly_x, s16 *p_poly_y, s16 param_3, s16 param_4, s16 an
 }
 
 /* 15704 80139F04 -O2 -msoft-float */
-void PS1_DrawRay(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 angle_ind)
+void draw_sprite_ray(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 angle_ind)
 {
     s16 unk_x_2;
     s16 unk_y_2;
@@ -471,11 +471,11 @@ void PS1_DrawRay(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 angle_ind)
 /* 15C54 8013A454 -O2 -msoft-float */
 void display_sprite(Obj *param_1, u8 sprite, s16 x, s16 y, u8 param_5)
 {
-    PS1_DrawSprite(&param_1->sprites[sprite], x, y, param_5);
+    draw_sprite(&param_1->sprites[sprite], x, y, param_5);
 }
 
 /* 15C9C 8013A49C -O2 -msoft-float */
-void display2(Obj *obj)
+void display(Obj *obj)
 {
     u8 flip_x;
     s16 i;
@@ -508,7 +508,7 @@ void display2(Obj *obj)
                 }
                 y_pos = layer[i].y_pos + obj->screen_y_pos;
                 if (obj == &ray)
-                    PS1_DrawRay(
+                    draw_sprite_ray(
                         sprite,
                         (s16) get_proj_x(ray.scale, x_pos), (s16) get_proj_y(ray.scale, y_pos),
                         flip_x ^ layer[i].flip_x,
@@ -517,13 +517,13 @@ void display2(Obj *obj)
                 else
                 {
                     if (scale == 0)
-                        PS1_DrawSprite(
+                        draw_sprite(
                             sprite,
                             x_pos, y_pos,
                             flip_x ^ layer[i].flip_x
                         );
                     else
-                        PS1_DrawScaledSprite(
+                        draw_sprite_prof(
                             sprite,
                             (s16) get_proj_x(scale, x_pos), (s16) get_proj_y(scale, y_pos),
                             flip_x ^ layer[i].flip_x,
@@ -540,7 +540,7 @@ void display2(Obj *obj)
 void DISPLAY_POING(void)
 {
     if (poing.is_active)
-        display2(&level.objects[poing_obj_id]);
+        display(&level.objects[poing_obj_id]);
 }
 
 /* 15FB8 8013A7B8 -O2 -msoft-float */
@@ -555,7 +555,7 @@ void DISPLAY_CLING(void)
         c_1up->screen_x_pos = 53 - c_1up->offset_bx;
         c_1up->screen_y_pos = 10 - c_1up->offset_hy;
         if (c_1up->timer == 0)
-            display2(c_1up);
+            display(c_1up);
     }
     if (id_Cling_Pow != -1)
     {
@@ -563,7 +563,7 @@ void DISPLAY_CLING(void)
         c_pow->screen_x_pos = 58 - c_pow->offset_bx;
         c_pow->screen_y_pos = 19 - c_pow->offset_hy;
         if (c_pow->timer == 0)
-            display2(c_pow);
+            display(c_pow);
     }
 }
 
@@ -711,7 +711,7 @@ void DrawWldPointPlan2Normal(s16 x0, s16 y0)
 }
 
 /* 16714 8013AF14 -O2 -msoft-float */
-void PS1_DisplayPtsPrim(void)
+void put_env_point_way(void)
 {
     AddPrim(&PS1_CurrentDisplay->ordering_table[5], &PS1_CurrentDisplay->map_drawing_environment_primitives[6]);
 }
@@ -745,7 +745,7 @@ void DISPLAY_PTS_TO_PLAN2(s32 x1, s32 y1, s32 x2, s32 y2, s16 percentage)
 /* 16820 8013B020 -O2 -msoft-float */
 void DISPLAY_PLATEAU(Obj *obj)
 {
-    display2(obj);
+    display(obj);
 }
 
 /* 16840 8013B040 -O2 -msoft-float */
@@ -1192,7 +1192,7 @@ void DISPLAY_CYMBALE(Obj *obj, u8 param_2)
         if (sprite->id != 0)
         {
             x = layer[i].x_pos + obj->screen_x_pos;
-            PS1_DrawSprite(sprite, x, y, 0);
+            draw_sprite(sprite, x, y, 0);
         }
     }
 }
@@ -1240,14 +1240,14 @@ void DISPLAY_ALL_OBJECTS(void)
                 if (num_world == 5 && num_level == 4 && obj->type == TYPE_MEDAILLON_TOON)
                 {
                     PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[10];
-                    display2(obj);
+                    display(obj);
                     PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[6];
                 }
                 else if (obj->type == TYPE_EAU && num_world == 5 && num_level == 8)
                 {
                     PS1_DrawSpriteSemiTrans = true;
                     if (obj->x_pos >= 300)
-                        display2(obj);
+                        display(obj);
                     PS1_DrawSpriteSemiTrans = false;
                 }
                 else
@@ -1307,12 +1307,12 @@ void DISPLAY_ALL_OBJECTS(void)
                                 D_801CEF7A = D_801E4DF8;
                             }
                             PS1_DrawSpriteSemiTrans = false;
-                            display2(obj);
+                            display(obj);
                         }
                         else
                         {
                             PS1_DrawSpriteSemiTrans = false;
-                            display2(obj);
+                            display(obj);
                             PS1_DrawSpriteSemiTrans = false;
                         }
                     }
@@ -1327,7 +1327,7 @@ void DISPLAY_ALL_OBJECTS(void)
             if (ray.iframes_timer % 2 || ray.iframes_timer > 90)
             {
                 if (((ray.flags & (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE))) == (FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE))))
-                    display2(&ray);
+                    display(&ray);
             }
             DISPLAY_POING();
         }
@@ -1356,7 +1356,7 @@ void DISPLAY_ALL_OBJECTS(void)
                 new_var3 = actobj.objects;
                 if ((obj->display_prio == 0) && (obj->type == TYPE_DUNE))
                 {
-                    display2(obj);
+                    display(obj);
                     PS1_DrawSpriteSemiTrans = false;
                     return;
                 }

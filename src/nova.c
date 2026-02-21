@@ -67,7 +67,7 @@ void DO_NOVA(Obj *in_obj)
         temp_v0->field23_0x3c = 0;
         temp_v0->x_pos += ((test_2 + (test_1 >> 0x1)) - (test_4 + (test_3 >> 0x1)));
         temp_v0->y_pos += ((test_6 + (test_5 >> 0x1)) - (test_8 + (test_7 >> 0x1)));
-        calc_obj_pos(temp_v0);
+        calc_obj_pos_map(temp_v0);
     }
 }
 
@@ -115,7 +115,7 @@ void DO_NOVA2(Obj *in_obj)
             nova_obj->field23_0x3c = i * 5;
             nova_obj->x_pos += new_x;
             nova_obj->y_pos += new_y;
-            calc_obj_pos(nova_obj);
+            calc_obj_pos_map(nova_obj);
         }
     }
 }

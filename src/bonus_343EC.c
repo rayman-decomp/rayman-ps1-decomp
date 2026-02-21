@@ -13,7 +13,7 @@ s16 do_perfect_bonus(void)
     s16 i;
     s16 done;
 
-    PS1_PerfectBonusDrawBg();
+    volet_perfect_bonus();
     horloges();
     if (loop_time == 0)
     {
@@ -63,9 +63,9 @@ s16 do_perfect_bonus(void)
                 DO_ANIM(PS1_BonusOneUps[i]);
                 switchOff(PS1_BonusNovas[i]);
                 if (PS1_BonusOneUps[i]->flags & FLG(OBJ_ACTIVE))
-                    display2(PS1_BonusOneUps[i]);
+                    display(PS1_BonusOneUps[i]);
                 if (PS1_BonusNovas[i]->flags & FLG(OBJ_ACTIVE))
-                    display2(PS1_BonusNovas[i]);
+                    display(PS1_BonusNovas[i]);
             }
         }
     }

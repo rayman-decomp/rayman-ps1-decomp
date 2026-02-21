@@ -162,7 +162,7 @@ void POINTEUR_BOUTONS_OPTIONS_BIS(void)
 /* 6A890 8018F090 -O2 -msoft-float */
 /*? display_text(? *, s16, s16, s32);*/
 
-void PS1_DisplayPadButton(s16 button, s16 x, s16 y, u8 font_size, u8 param_5)
+void DISPLAY_SYMBOLE(s16 button, s16 x, s16 y, u8 font_size, u8 param_5)
 {
     switch (button)
     {
@@ -302,8 +302,8 @@ void MAIN_CONTINUE_PRG(void)
     u8 flag_set;
 
     horloges();
-    FUN_80168f48();
-    if (ValidButPressed() || StartButPressed() || SelectButPressed())
+    manage_snd();
+    if (but0pressed__CROSS() || but1pressed__START() || but2pressed__SELECT())
     {
         if (ray.sub_etat == 25 || ray.sub_etat == 26 || ray.sub_etat == 27)
         {
@@ -381,11 +381,11 @@ void MAIN_CONTINUE_PRG(void)
     if (horloge[2] == 0)
     {
         ray.x_pos = ray.x_pos + ray.speed_x;
-        calc_obj_pos(&ray);
+        calc_obj_pos_map(&ray);
         DO_ANIM(&ray);
     }
 
-    calc_obj_pos(&clock_obj);
+    calc_obj_pos_map(&clock_obj);
     DO_ANIM(&clock_obj);
     if (mapobj->flags & FLG(OBJ_ALIVE))
     {
@@ -428,7 +428,7 @@ void FIN_CONTINUE_PRG(void)
 /* 6B568 8018FD68 -O2 -msoft-float */
 void MAIN_NO_MORE_CONTINUE_PRG(void)
 {
-    PROC_EXIT = SelectButPressed() != false;
+    PROC_EXIT = but2pressed__SELECT() != false;
     if (EOA(&ray))
         PROC_EXIT = true;
 

@@ -54,7 +54,7 @@ void DO_MOTEUR2(void)
 
     DO_WIZ_AFTER_BONUS_MAP();
     DO_PERFECT_BONUS_MAP();
-    PS1_PhotographerCollision();
+    DO_PHOTOGRAPHE_CMD();
     DO_OBJECTS_ANIMS();
     if (ray.flags & FLG(OBJ_ALIVE))
     {
@@ -87,11 +87,11 @@ void DO_MOTEUR2(void)
             scroll_y = -1;
         }
         MOVE_OBJECTS();
-        calc_obj_pos(&ray);
+        calc_obj_pos_map(&ray);
         if (scroll_y != -1 && v_scroll_speed == 0x00FF)
             v_scroll_speed = 0;
         if (gele == 0 && ray_mode > MODE_NONE)
-            RecaleRayPosInJumelle();
+            recale_ray_pos();
         if (ray_mode == MODE_RAY_ON_MS)
         {
             if (scroll_x != -1)
@@ -138,7 +138,7 @@ void DO_MOTEUR2(void)
             level.objects[poing_obj_id].x_pos += h_scroll_speed;
             level.objects[poing_obj_id].y_pos += v_scroll_speed;
         }
-        DO_SCROLL(&h_scroll_speed, &v_scroll_speed);
+        DO_SCROLL_MAP(&h_scroll_speed, &v_scroll_speed);
         build_active_table();
         RECALE_ALL_OBJECTS();
         if (ray.field20_0x36 != -1)
@@ -169,7 +169,7 @@ void DO_MOTEUR2(void)
         else
             set_proj_center(ray.screen_x_pos + ray.offset_bx, ray.screen_y_pos + ray.offset_by);
     }
-    FUN_8014e27c();
+    AVOID_SOME_BUGS();
 }
 
 /* 35A58 8015A258 -O2 -msoft-float */

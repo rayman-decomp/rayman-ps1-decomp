@@ -16,7 +16,7 @@ Obj *allocateExplosion(Obj *unk_obj)
             cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
             cur_obj->x_pos = unk_obj->x_pos + unk_obj->offset_bx - cur_obj->offset_bx;
             cur_obj->y_pos = unk_obj->y_pos + unk_obj->offset_by - cur_obj->offset_by + 10;
-            calc_obj_pos(cur_obj);
+            calc_obj_pos_map(cur_obj);
             cur_obj->anim_index = cur_obj->eta[cur_obj->main_etat][cur_obj->sub_etat].anim_index;
             cur_obj->anim_frame = 0;
             cur_obj->change_anim_mode = ANIMMODE_RESET;

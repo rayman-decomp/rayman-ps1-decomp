@@ -5,6 +5,6 @@
 #include "common/display.h"
 #include "LIBGPU.H"
 
-void PS1_ClearScreen(void);
+void clearbothdrawenv(void);
 
 #endif

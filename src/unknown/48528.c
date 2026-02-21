@@ -1,7 +1,7 @@
 #include "unknown/48528.h"
 
 /* 48528 8016CD28 -O2 -msoft-float */
-void PS1_DisplayVRAM(void)
+void debugw(void)
 {
     s32 l1_pressed;
     DISPENV prev_disp_env;
@@ -11,16 +11,16 @@ void PS1_DisplayVRAM(void)
     prev_disp_env = PS1_Displays[0].field0_0x0;
     while (l1_pressed == 0)
     {
-        if (FUN_80133714(0))
+        if (leftmenu(0))
             PS1_VRAMDisplayXPos -= 32;
-        if (FUN_80133764(0))
+        if (rightmenu(0))
             PS1_VRAMDisplayXPos += 32;
-        if (FUN_801336c4(0))
+        if (upmenu(0))
             PS1_VRAMDisplayYPos -= 32;
-        if (FUN_801337b4(0))
+        if (downmenu(0))
             PS1_VRAMDisplayYPos += 32;
 
-        if (FUN_80134080(0))
+        if (butdbw(0))
             l1_pressed = 0xFF;
 
         if (PS1_VRAMDisplayYPos > 304)

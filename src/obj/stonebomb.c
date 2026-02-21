@@ -39,7 +39,7 @@ void setStoneChipPos(Obj *param_1, Obj *param_2, u8 *param_3)
             param_2->y_pos += param_2->offset_by / 3 - param_2->offset_by;
             break;
         }
-        calc_obj_pos(param_2);
+        calc_obj_pos_map(param_2);
         param_2->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
         param_2->flags &= ~FLG(OBJ_FLAG_9);
         *param_3 = true;
@@ -183,7 +183,7 @@ void DO_TIR(Obj *param_1)
                         var_s2->y_pos = param_1->y_pos;
                         var_s2->init_x_pos = var_s2->x_pos;
                         var_s2->init_y_pos = var_s2->y_pos;
-                        calc_obj_pos(var_s2);
+                        calc_obj_pos_map(var_s2);
                         PlaySnd(0x0018, var_s2->id);
                         if (var_s2->flags & 0x4000)
                         {
@@ -225,7 +225,7 @@ void DO_TIR(Obj *param_1)
                             var_s2->type = 0x0DU;
                             var_s2->speed_y = 0;
                         }
-                        calc_obj_pos(var_s2);
+                        calc_obj_pos_map(var_s2);
                         break;
                     }
                     var_s2 += 1;
@@ -294,7 +294,7 @@ void allocateStonemanStone(Obj *stmn_obj, s16 param_2, u8 param_3)
                     cur_obj->init_y_pos = cur_obj->y_pos;
                     set_main_and_sub_etat(cur_obj, 2, 2);
                     SET_X_SPEED(cur_obj);
-                    calc_obj_pos(cur_obj);
+                    calc_obj_pos_map(cur_obj);
                     cur_obj->gravity_value_1 = 0;
                     cur_obj->gravity_value_2 = 7;
                     cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
@@ -337,7 +337,7 @@ void allocateStonemanStone(Obj *stmn_obj, s16 param_2, u8 param_3)
                 cur_obj->init_x_pos = cur_obj->x_pos;
                 cur_obj->init_y_pos = cur_obj->y_pos;
                 skipToLabel(cur_obj, cur_obj->flags >> OBJ_FLIP_X & 1, true);
-                calc_obj_pos(cur_obj);
+                calc_obj_pos_map(cur_obj);
                 cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);
                 break;
             }
@@ -497,7 +497,7 @@ void allocateStonewomanStone(Obj *stwmn_obj, s16 param_2)
 
                 cur_obj->speed_x = spd_x;
                 cur_obj->speed_y = spd_y;
-                calc_obj_pos(cur_obj);
+                calc_obj_pos_map(cur_obj);
                 cur_obj->gravity_value_1 = 0;
                 cur_obj->gravity_value_2 = 7;
                 cur_obj->flags |= FLG(OBJ_ALIVE) | FLG(OBJ_ACTIVE);

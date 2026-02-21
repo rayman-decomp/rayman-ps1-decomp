@@ -1241,7 +1241,7 @@ void DO_POING_COLLISION(void)
     /* TODO: already being weird in multiple ways */
     GET_SPRITE_POS(poing_obj, 0, &pspr_x, &pspr_y, &pspr_w, &pspr_h);
     if ((temp_v0_1 = poing_obj->speed_x) > 0 || poing_obj->speed_x < 0)
-        btyp = PS1_BTYPAbsPos(
+        btyp = BTYP(
             poing_obj->x_pos + poing_obj->offset_bx,
             poing_obj->y_pos + (poing_obj->offset_by + poing_obj->offset_hy >> 1)
         );
@@ -2061,7 +2061,7 @@ void RAY_HIT(u8 hurt, Obj *obj)
         ray_x_pos = ray.x_pos;
         ray_offset_bx = ray.offset_bx;
     /* not sure how to change into cast... */
-        while ((s16) PS1_BTYPAbsPos((ray_offset_bx + ray_x_pos) << 0x10 >> 0x10, ray.y_pos + ray.offset_by) == BTYP_WATER)
+        while ((s16) BTYP((ray_offset_bx + ray_x_pos) << 0x10 >> 0x10, ray.y_pos + ray.offset_by) == BTYP_WATER)
             ray.y_pos--;
         ray.btypes[0] = BTYP_NONE;
     }

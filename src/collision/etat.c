@@ -49,9 +49,9 @@ void add_actobj(s16 obj_id)
 }
 
 /* 22C24 80147424 -O2 -msoft-float */
-s16 PS1_BTYPAbsPos(s32 x, s32 y)
+s16 BTYP(s32 x, s32 y)
 {
-    return (u8) BTYP((s16) x >> 4, (s16) y >> 4);
+    return (u8) FUN_801484ac((s16) x >> 4, (s16) y >> 4);
 }
 
 /* 22C50 80147450 -O2 -msoft-float */

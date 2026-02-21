@@ -36,7 +36,7 @@ s16 display_credits_prg(void)
     prev_exit = PROC_EXIT;
     PROC_EXIT = false;
 
-    if (ValidButPressed() || SelectButPressed())
+    if (but0pressed__CROSS() || but2pressed__SELECT())
     {
         PROC_EXIT = true;
         display_Vignet = 5;
@@ -58,7 +58,7 @@ void DISPLAY_CREDITS(void)
     {
         LOAD_CREDITS_VIGNET();
         if (display_Vignet == 0)
-            start_cd_credits();
+            start_cd_victory();
         INIT_FADE_IN();
         SYNCHRO_LOOP(display_credits_prg);
         PROC_EXIT = false;
@@ -102,7 +102,7 @@ void DO_VICTOIRE(void)
 
         if (num_level_choice == 1)
             DISPLAY_PROTOON_BACK();
-        PS1_LoadFont();
+        charge_let2();
         DISPLAY_CREDITS();
     }
     PROC_EXIT = false;

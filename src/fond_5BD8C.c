@@ -1,7 +1,7 @@
 #include "fond_5BD8C.h"
 
 /* 5BD8C 8018058C -O2 -msoft-float */
-void FUN_8018058c(u32 *image, s32 param_2, s32 param_3, s16 x, s16 y, s16 h, s16 w)
+void DISPLAY_ANYSIZE_PICTURE(u32 *image, s32 param_2, s32 param_3, s16 x, s16 y, s16 h, s16 w)
 {
     RECT sp10 = {x, y, w, h};
     RECT sp18;
@@ -64,11 +64,11 @@ void DISPLAY_FOND3(void)
 
     if (D_801E4B58 == true)
         y = 0;
-    FUN_8018058c((u32 *) D_801F4380, 0, 0, x, y, plan2_height, plan2_width);
+    DISPLAY_ANYSIZE_PICTURE((u32 *) D_801F4380, 0, 0, x, y, plan2_height, plan2_width);
 }
 
 /* 5C004 80180804 -O2 -msoft-float */
-void FUN_80180804(u32 *param_1, s32 param_2, s32 param_3, s16 x, s16 y, s16 h, s16 w)
+void DISPLAY_ANYSIZE_PICTURE640(u32 *param_1, s32 param_2, s32 param_3, s16 x, s16 y, s16 h, s16 w)
 {
     RECT sp10 = {x, y, w, h};
     
@@ -120,14 +120,14 @@ void FUN_80180804(u32 *param_1, s32 param_2, s32 param_3, s16 x, s16 y, s16 h, s
 }
 
 /* 5C1FC 801809FC -O2 -msoft-float */
-void FUN_801809fc(void)
+void DISPLAY_FOND640(void)
 {
     s16 y = (SCREEN_HEIGHT * 2 - plan2_height) >> 1;
     s16 x = (SCREEN_WIDTH * 2 - plan2_width) >> 1;
 
     if (D_801E4B58 == true)
         y = 0;
-    FUN_80180804((u32 *) D_801F4380, 0, 0, x, y, plan2_height, plan2_width);
+    DISPLAY_ANYSIZE_PICTURE640((u32 *) D_801F4380, 0, 0, x, y, plan2_height, plan2_width);
 }
 
 /* 5C27C 80180A7C -O2 -msoft-float */

@@ -57,24 +57,24 @@ extern s16 *PS1_LevelMapBlock; /* type? */
 extern u8 *PS1_LevelObjBlock; /* type? */
 extern u8 D_801E4B58; /* here, or fond_5BD8C.h? */
 extern void *D_801F4410;
-extern void *D_801F5160; /* type? very prominent in everything up to LOAD_FND */
+extern void *D_801F5160; /* type? very prominent in everything up to charge_fnd */
 extern s32 *D_801E5260;
 extern s32 *D_801F59E0; /* see loading_DA64 */
 
 void PS1_Init_ImgLdrVdoTrk_Files(void);
 void FUN_8019dd74(void);
-void FUN_8019deac(void);
-void FUN_8019df1c(s16 param_1);
-void LOAD_BIG_RAYMAN(void);
-void LOAD_ALL_FIX(void);
-void load_world(s16 world);
-s16 load_level(void);
-void LOAD_FND(void);
-void PS1_LoadImgWorld(void);
+void charge_une_vignette(void);
+void charge_wld_vignette(s16 param_1);
+void charge_ini(void);
+void charge_fix(void);
+void charge_wld(s16 world);
+s16 charge_lvl(void);
+void charge_fnd(void);
+void charge_wm(void);
 void PS1_LoadVideoTables(void);
-void PS1_LoadFont(void);
-void LOAD_SCREEN(void); /* labelled correctly? */
-void FUN_8019e914(void);
+void charge_let2(void);
+void charge_vig_loader1(void); /* labelled correctly? */
+void charge_vig_loader2(void);
 void LOAD_CONTINUE_SCREEN(void);
 void PS1_LoadImgSplash(void);
 void LOAD_SAVE_SCREEN(void);

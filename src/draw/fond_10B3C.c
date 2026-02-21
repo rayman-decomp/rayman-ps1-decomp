@@ -33,7 +33,7 @@ u8 PS1_CurrentVitrailClignotement[5];
 #endif
 
 /* 10B3C 8013533C -O2 -msoft-float */
-void PS1_LoadFondSprites(void)
+void init_bgm(void)
 {
     DR_ENV *dr_env_0; DR_ENV *dr_env_1;
     SPRT *cur_sprt_0; SPRT *cur_sprt_1;
@@ -79,7 +79,7 @@ void PS1_LoadFondSprites(void)
             __builtin_memcpy(&cur_sprt_1[0x10], &cur_sprt_1[0], sizeof(SPRT));
             __builtin_memcpy(&cur_sprt_1[0x20], &cur_sprt_1[0x10], sizeof(SPRT));
 
-            FUN_8017b260((s16) cur_sprite_bg->tpage);
+            getparam((s16) cur_sprite_bg->tpage);
             PS1_Displays[0].drawing_environment.tpage =
                 GetTPage(1, PS1_FondSpritesABR[bg_id - 1], PS1_TPage_x, PS1_TPage_y);
             SetDrawEnv(dr_env_0, &PS1_Displays[0].drawing_environment);
@@ -99,13 +99,13 @@ void PS1_LoadFondSprites(void)
 
 /* 10EE0 801356E0 -O2 -msoft-float */
 #ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_LoadFondDataAndPalettes);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", init_bgi);
 #else
 /*
 score of 215
 https://github.com/BinarySerializer/BinarySerializer.Ray1/blob/7da0e97301dd6502d027ff3c92ec2b5a00ef6e6e/src/BinarySerializer.Ray1/DataTypes/PS1/Vignette/FondSpriteData.cs
 */
-void PS1_LoadFondDataAndPalettes(void)
+void init_bgi(void)
 {
     s32 temp_a0;
     s32 temp_v0_2;
@@ -180,7 +180,7 @@ void PS1_LoadFondDataAndPalettes(void)
 
 /* 11130 80135930 -O2 -msoft-float */
 #ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_LoadFond);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", InitBG);
 #else
 /* score of ??? */
 typedef struct Fond
@@ -193,7 +193,7 @@ typedef struct Fond
     u8 type;
 } Fond;
 
-void PS1_LoadFond(void)
+void InitBG(void)
 {
     s32 value1;
     int i;
@@ -249,8 +249,8 @@ void PS1_LoadFond(void)
     if ((((PS1_FondType == 6 || PS1_FondType == 7) || (PS1_FondType == 8)) || (PS1_FondType == 0xb)) ||
         ((PS1_FondType == 9 || PS1_FondType == 10 || (PS1_FondType == 0xc))))
     {
-        PS1_LoadFondSprites();
-        PS1_LoadFondDataAndPalettes();
+        init_bgm();
+        init_bgi();
     }
     else
     {
@@ -260,7 +260,7 @@ void PS1_LoadFond(void)
 #endif
 
 /* 112B0 80135AB0 -O2 -msoft-float */
-void FUN_80135ab0(s16 param_1, s16 *param_2)
+void DrawBG_spr_v(s16 param_1, s16 *param_2)
 {
     u8 i;
     DVECTOR *cur_pos;
@@ -319,10 +319,10 @@ void FUN_80135ab0(s16 param_1, s16 *param_2)
 
 /* 1155C 80135D5C -O2 -msoft-float */
 #ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80135d5c);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", DrawBG_spr_h);
 #else
 /* score of 2810 */
-void FUN_80135d5c(s32 param_1, u16 *param_2, s32 param_3, s16 param_4)
+void DrawBG_spr_h(s32 param_1, u16 *param_2, s32 param_3, s16 param_4)
 {
     s16 sVar1_1;
     Display *pDVar2;
@@ -439,9 +439,9 @@ void FUN_80135d5c(s32 param_1, u16 *param_2, s32 param_3, s16 param_4)
 
 /* 1193C 8013613C -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_8013613c);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", DrawBG_bande_h);
 #else
-void FUN_8013613c(u8 param_1, u32 param_2, u8 param_3, u32 param_4)
+void DrawBG_bande_h(u8 param_1, u32 param_2, u8 param_3, u32 param_4)
 {
     u8 bVar1;
     int iVar2;
@@ -516,11 +516,11 @@ void FUN_8013613c(u8 param_1, u32 param_2, u8 param_3, u32 param_4)
 
 /* 11B40 80136340 -O2 -msoft-float */
 #ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80136340);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", DrawBG_bande_v);
 #else
 /* thanks! https://decomp.me/scratch/sMPT6 */
 /* still couldn't get fp38 */
-void FUN_80136340(u16 *param_1, u32 param_2)
+void DrawBG_bande_v(u16 *param_1, u32 param_2)
 {
     short sVar1;
     u16 bVar5;
@@ -568,7 +568,7 @@ void FUN_80136340(u16 *param_1, u32 param_2)
         }
 
         /* inline??????????
-        looks like FUN_8013613c */
+        looks like DrawBG_bande_h */
         new_var_2 = 6;
 
         for (bVar5 = test_1 + 1; bVar5 != 0; bVar5--)
@@ -625,10 +625,10 @@ void FUN_80136340(u16 *param_1, u32 param_2)
 
 /* 11EAC 801366AC -O2 -msoft-float */
 #ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_801366ac);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", DrawBG_new);
 #else
 /* score of 1905 */
-void FUN_801366ac(void)
+void DrawBG_new(void)
 {
     RECT local_88;
     u16 sp30;
@@ -764,7 +764,7 @@ void FUN_801366ac(void)
                 (PS1_FondWidth * D_801E63F8[var_s0_1].unk_1));
             var_s0_1 += 1;
         }
-        FUN_80138b84(var_s3, local_80, (var_s3 - ymapmax) + ymap, PS1_FondWidth);
+        draw_spr_brume(var_s3, local_80, (var_s3 - ymapmax) + ymap, PS1_FondWidth);
         PS1_FondWidth = temp_s1_1;
         break;
     case 9:
@@ -775,7 +775,7 @@ void FUN_801366ac(void)
         var_s5 = 0;
         if ((num_world != 2) || ((num_level != 4)))
         {
-            FUN_80138718(PS1_FondType);
+            draw_spr_fix(PS1_FondType);
         }
         break;
     case 11:
@@ -785,7 +785,7 @@ void FUN_801366ac(void)
         var_s2 = 0;
         var_s5 = 0;
         var_s3 = (u16) PS1_FondHeight - 0xF0;
-        FUN_80138360(PS1_CurrentVitrailClignotement);
+        do_allume_vitraux(PS1_CurrentVitrailClignotement);
         break;
     default:
         var_s6 = 0;
@@ -924,13 +924,13 @@ void FUN_801366ac(void)
 
 /* 12B3C 8013733C -O2 -msoft-float */
 #ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_DisplayFondSprites);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", DrawBG_gen);
 #else
 /*
 score of 405
-FUN_8013613c param_4???
+DrawBG_bande_h param_4???
 */
-void PS1_DisplayFondSprites(void)
+void DrawBG_gen(void)
 {
     s16 sp10[12];
     s16 sp28[12];
@@ -981,7 +981,7 @@ void PS1_DisplayFondSprites(void)
         temp_s2_1 = var_s3_1->unk_0;
         var_s3_1++;
 
-        FUN_8013613c(temp_s2_1 - var_s5, var_s5, var_s6, *var_s0_1);
+        DrawBG_bande_h(temp_s2_1 - var_s5, var_s5, var_s6, *var_s0_1);
         var_s6 += temp_s2_1;
         var_s0_1++;
         var_s1_1 = 1;
@@ -1000,7 +1000,7 @@ void PS1_DisplayFondSprites(void)
             }
             temp_s2_1 = var_s3_1->unk_0;
             var_s3_1 += 1;
-            FUN_8013613c(temp_s2_1, var_s6, var_s6 - var_s5, *var_s0_1);
+            DrawBG_bande_h(temp_s2_1, var_s6, var_s6 - var_s5, *var_s0_1);
             var_s6 += temp_s2_1;
             var_s0_1 += 1;
             var_s1_1 += 1;
@@ -1008,7 +1008,7 @@ void PS1_DisplayFondSprites(void)
 
         *var_s0_1 = (xmap + D_801F55B8[var_s1_1]) * D_801E63F8[0].unk_1;
         D_801F55B8[var_s1_1] = ((D_801F55B8[var_s1_1] + D_801F5788[var_s1_1]) % PS1_FondWidth);
-        FUN_80135d5c(var_s5, sp28, (var_s5 - ymapmax) + ymap, *new_var_2);
+        DrawBG_spr_h(var_s5, sp28, (var_s5 - ymapmax) + ymap, *new_var_2);
     }
     else if ((PS1_FondType == 7) || (PS1_FondType == 0x0C))
     {
@@ -1035,7 +1035,7 @@ void PS1_DisplayFondSprites(void)
         }
         if (PS1_FondType == 7)
         {
-            FUN_80136340(&var_s7[0], ((xmap) >> 3));
+            DrawBG_bande_v(&var_s7[0], ((xmap) >> 3));
         }
         else
         {
@@ -1049,20 +1049,20 @@ void PS1_DisplayFondSprites(void)
 
         if (PS1_FondType == 7)
         {
-            FUN_80135ab0(xmap >> 3, sp10);
+            DrawBG_spr_v(xmap >> 3, sp10);
         }
         else
         {
-            FUN_80137cc8(xmap >> 3, sp10);
+            draw_spr_v1(xmap >> 3, sp10);
         }
     }
     else if ((PS1_FondType == 8) || (PS1_FondType == 0x0B) || (PS1_FondType == 9 || PS1_FondType == 10))
     {
         D_801E4BC8 = 0;
-        FUN_801366ac();
+        DrawBG_new();
     }
     else
-        FUN_801366ac();
+        DrawBG_new();
 }
 #endif
 
@@ -1093,7 +1093,7 @@ u8 PS1_GetTileU(s32 param_1)
 }
 
 /* 13258 80137A58 -O2 -msoft-float */
-void DRAW_MAP(void)
+void AddBlks(void)
 {
   u32 uVar1;
   u32 uVar2;
@@ -1182,10 +1182,10 @@ const u8 D_801277A4[] __attribute__((aligned(2))) =
 
 /* 134C8 80137CC8 -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", FUN_80137cc8);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", draw_spr_v1);
 #else
 /* unknowns? */
-void FUN_80137cc8(s16 param_1, s16 *param_2)
+void draw_spr_v1(s16 param_1, s16 *param_2)
 {
     u8 sp10[LEN(D_80127734)];
     u8 sp48[LEN(D_8012776C)];
@@ -1298,7 +1298,7 @@ void allume_vitraux(u8 (*param_1)[5])
 }
 
 /* 13B60 80138360 -O2 -msoft-float */
-void FUN_80138360(u8 *vit_clig)
+void do_allume_vitraux(u8 *vit_clig)
 {
     u8 i;
     DVECTOR *cur_bg_pos;
@@ -1324,7 +1324,7 @@ void FUN_80138360(u8 *vit_clig)
             (PS1_CurrentDisplay->sprites + D_801E4BC8)->clut = cur_bg_sprite->clut;
             (PS1_CurrentDisplay->sprites + D_801E4BC8)->x0 = cur_bg_pos->vx;
             (PS1_CurrentDisplay->sprites + D_801E4BC8)->y0 = cur_bg_pos->vy;
-            FUN_8017b260((s16) cur_bg_sprite->tpage);
+            getparam((s16) cur_bg_sprite->tpage);
             AddPrim(PS1_CurrentDisplay->ordering_table, (PS1_CurrentDisplay->sprites + D_801E4BC8));
             D_801E4BC8++;
             PS1_CurrentDisplay->drawing_environment.tpage = GetTPage(1, 1, PS1_TPage_x, PS1_TPage_y);
@@ -1348,7 +1348,7 @@ void FUN_80138360(u8 *vit_clig)
 }
 
 /* 13F18 80138718 -O2 -msoft-float */
-void FUN_80138718(u8 param_1) /* param_1 = PS1_FondType */
+void draw_spr_fix(u8 param_1) /* param_1 = PS1_FondType */
 {
     DVECTOR *temp_s1;
     DR_ENV *var_s4;
@@ -1426,7 +1426,7 @@ void FUN_80138718(u8 param_1) /* param_1 = PS1_FondType */
                 D_801E4BC8 += 1;
             }
             var_s3 += 1;
-            FUN_8017b260((s16) temp_s2->tpage);
+            getparam((s16) temp_s2->tpage);
             PS1_CurrentDisplay->drawing_environment.tpage = GetTPage(1, 1, PS1_TPage_x, PS1_TPage_y);
             SetDrawEnv(var_s4, &PS1_CurrentDisplay->drawing_environment);
             AddPrim(PS1_CurrentDisplay->ordering_table, var_s4);
@@ -1436,7 +1436,7 @@ void FUN_80138718(u8 param_1) /* param_1 = PS1_FondType */
 }
 
 /* 14384 80138B84 -O2 -msoft-float */
-void FUN_80138b84(s16 in_h_1, s16 *param_2, s16 in_h_2, s16 in_w_1)
+void draw_spr_brume(s16 in_h_1, s16 *param_2, s16 in_h_2, s16 in_w_1)
 {
     u8 unk_1[8];
     u8 i;
@@ -1479,7 +1479,7 @@ void FUN_80138b84(s16 in_h_1, s16 *param_2, s16 in_h_2, s16 in_w_1)
 
             unk_1[bg_id] = 1;
         }
-        FUN_8017b260((s16) cur_bg_sprite->tpage);
+        getparam((s16) cur_bg_sprite->tpage);
         cur_bg_sprite->tpage = GetTPage(1, PS1_FondSpritesABR[bg_id], PS1_TPage_x, PS1_TPage_y);
         if (bg_id >= PS1_BandeBackCount)
         {
@@ -1529,20 +1529,20 @@ void FUN_80138b84(s16 in_h_1, s16 *param_2, s16 in_h_2, s16 in_w_1)
 
 /* 14814 80139014 -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", PS1_DisplayWorldMapBg2);
+INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", DISPLAY_ANYSIZE_FND);
 #else
 /* applying these would let us remove new_var_1, test_6? */
-static inline s32 PS1_DisplayWorldMapBg2_1(s32 param_1)
+static inline s32 DISPLAY_ANYSIZE_FND_1(s32 param_1)
 {
     return param_1 / 0x40;
 }
 
-static inline s32 PS1_DisplayWorldMapBg2_2(s16 param_1)
+static inline s32 DISPLAY_ANYSIZE_FND_2(s16 param_1)
 {
-    return param_1 - PS1_DisplayWorldMapBg2_1(param_1) * 0x40;
+    return param_1 - DISPLAY_ANYSIZE_FND_1(param_1) * 0x40;
 }
 
-void PS1_DisplayWorldMapBg2(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6)
+void DISPLAY_ANYSIZE_FND(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6)
 {
     s32 iVar7;
     s16 var_s3;
