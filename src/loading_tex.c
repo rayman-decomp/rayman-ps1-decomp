@@ -145,7 +145,7 @@ void load_vram_let2(s32 param_1)
 }
 
 /* 14E88 80139688 -O2 -msoft-float */
-void FUN_80139688(s32 tile_set_size)
+void PS1_LoadTileSet(s32 tile_set_size)
 {
     s32 unk_1 = 15;
 

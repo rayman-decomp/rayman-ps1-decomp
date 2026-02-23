@@ -44,7 +44,7 @@ s16 linkListHoldsAGendoor(Obj *obj)
 }
 
 /* 31E6C 8015666C -O2 -msoft-float */
-s16 FUN_8015666c(Obj *obj)
+s16 PS1_ObjectCanOnlyBeLinkedToAGendoor(Obj *obj)
 {
     ObjType type = obj->type;
 
@@ -62,7 +62,7 @@ s16 FUN_8015666c(Obj *obj)
 }
 
 /* 31F10 80156710 -O2 -msoft-float */
-s16 FUN_80156710(Obj *obj)
+s16 PS1_ObjectCanNotBeLinked(Obj *obj)
 {
     s16 type = obj->type;
 
@@ -185,7 +185,7 @@ void correct_link(void)
     {
         if (link_init[i] != i)
         {
-            if (FUN_80156710(cur_obj) || (FUN_8015666c(cur_obj) && !linkListHoldsAGendoor(cur_obj)))
+            if (PS1_ObjectCanNotBeLinked(cur_obj) || (PS1_ObjectCanOnlyBeLinkedToAGendoor(cur_obj) && !linkListHoldsAGendoor(cur_obj)))
                 suppressFromLinkList(cur_obj);
             else
                 cur_obj->flags |= FLG(OBJ_LINKED);

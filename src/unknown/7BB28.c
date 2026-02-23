@@ -17,7 +17,7 @@ void PS1_StopLevelMusic(void)
     stop_cd();
     PS1_StopPlayingAllSnd();
     stop_all_snd();
-    FUN_80168f40();
+    PS1_EmptyFunction12();
 }
 
 /* 7BBC4 801A03C4 -O2 -msoft-float */
@@ -117,7 +117,7 @@ void InitDB(Display *display)
 /* 7BF50 801A0750 -O2 -msoft-float */
 void FUN_801a0750(void)
 {
-    if (FUN_80133b44(0))
+    if (PS1_SelectPressed(0))
         PROC_EXIT = true;
 }
 

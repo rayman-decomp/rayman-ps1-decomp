@@ -161,7 +161,7 @@ void FUN_8019fdd0(void)
 void GAME_INIT2(void)
 {
     PS1_DebugMode = false;
-    FUN_80166018();
+    PS1_InitSounds();
     PS1_InitMusic();
     InitGeom();
     D_801F3EA0 = false;

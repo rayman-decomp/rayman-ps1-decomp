@@ -43,7 +43,7 @@ void debugw(void)
         TOUCHE(INPUT_READ);
     }
 
-    while (FUN_80133fe0(0) == 0)
+    while (PS1_NoButtonPressed(0) == 0)
         TOUCHE(INPUT_READ);
 
     PS1_Displays[0].field0_0x0 = prev_disp_env;

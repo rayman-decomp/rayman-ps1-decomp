@@ -74,13 +74,13 @@ void DEPART_LEVEL(void)
 }
 
 /* 7BA7C 801A027C -O2 -msoft-float */
-/*? FUN_80168f38(s16);
+/*? PS1_EmptyFunction11(s16);
 ? start_cd(s16, s16);*/
 
 void DEPART_LIFE(void)
 {
     start_cd(num_world, num_level);
-    FUN_80168f38(num_world);
+    PS1_EmptyFunction11(num_world);
 }
 
 /* 7BABC 801A02BC -O2 -msoft-float */

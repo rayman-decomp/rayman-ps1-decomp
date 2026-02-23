@@ -2267,8 +2267,8 @@ void DO_OBJECTS(void)
     while (i < actobj.num_active_objects)
     {
         ot = cur_obj->type;
-        setvol(actobj.objects[i], FUN_801473dc(cur_obj));
-        setpan(actobj.objects[i], FUN_801473d4(cur_obj));
+        setvol(actobj.objects[i], PS1_GetObjVolume(cur_obj));
+        setpan(actobj.objects[i], PS1_GetObjPan(cur_obj));
         i++;
         cur_obj = &level.objects[actobj.objects[i]];
     }

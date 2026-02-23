@@ -28,13 +28,13 @@ void GET_ANIM_POS(Obj *obj, s16 *x, s16 *y, s16 *w, s16 *h)
 }
 
 /* 22BD4 801473D4 -O2 -msoft-float */
-u8 FUN_801473d4(Obj *obj)
+u8 PS1_GetObjPan(Obj *obj)
 {
     return 0;
 }
 
 /* 22BDC 801473DC -O2 -msoft-float */
-u8 FUN_801473dc(Obj *obj)
+u8 PS1_GetObjVolume(Obj *obj)
 {
     return 0;
 }
@@ -51,7 +51,7 @@ void add_actobj(s16 obj_id)
 /* 22C24 80147424 -O2 -msoft-float */
 s16 BTYP(s32 x, s32 y)
 {
-    return (u8) FUN_801484ac((s16) x >> 4, (s16) y >> 4);
+    return (u8) PS1_GetBTYPFromTilePos((s16) x >> 4, (s16) y >> 4);
 }
 
 /* 22C50 80147450 -O2 -msoft-float */

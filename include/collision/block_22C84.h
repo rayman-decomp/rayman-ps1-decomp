@@ -30,7 +30,7 @@ void calc_obj_dir(Obj *obj);
 s16 OBJ_IN_ZONE(Obj *obj);
 void calc_obj_pos_map(Obj *obj);
 void makeUturn(Obj *obj);
-u16 FUN_801484ac(s16 x, s16 y);
+u16 PS1_GetBTYPFromTilePos(s16 x, s16 y);
 void calc_btyp_square(Obj *obj);
 void DO_OBJ_REBOND_EN_X(Obj *obj);
 u32 calc_btyp(Obj *obj);

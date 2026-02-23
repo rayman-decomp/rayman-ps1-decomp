@@ -665,7 +665,7 @@ void start_cd_gagne(void)
 /* D518 80131D18 -O2 -msoft-float */
 void start_cd_perdu(void)
 {
-    FUN_8016617c();
+    stop_ray_snd();
     PS1_StopPlayingAllSnd();
     start_cd(0, 1);
 }

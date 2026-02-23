@@ -35,6 +35,6 @@ void DO_MOTEUR2(void);
 void RAY_REVERSE_COMMANDS(void);
 void RAY_DEMIRAY(void);
 void DO_MOTEUR_GELE(void);
-void FUN_8015a764(void);
+void PS1_ToggleGele3(void);
 
 #endif

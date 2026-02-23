@@ -38,6 +38,6 @@ void load_vram_wld(s32 param_1);
 void load_vram_lvl(s32 param_1);
 void load_vram_lvl256(s32 param_1);
 void load_vram_let2(s32 param_1);
-void FUN_80139688(s32 tile_set_size);
+void PS1_LoadTileSet(s32 tile_set_size);
 
 #endif

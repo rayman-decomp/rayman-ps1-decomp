@@ -3,9 +3,9 @@
 void (*D_801C7D68[])(RGBAArray *, s16) =
 {
     fadenuitbleu,
-    FUN_80169ac8,
-    FUN_80169b54,
-    FUN_80169b5c
+    PS1_UnknownFadeEffect,
+    PS1_EmptyFadeEffect1,
+    PS1_EmptyFadeEffect2
 };
 
 RGBAArray *D_801C7D78[] =

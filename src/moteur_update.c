@@ -274,7 +274,7 @@ void DO_MOTEUR_GELE(void)
 }
 
 /* 35F64 8015A764 -O2 -msoft-float */
-void FUN_8015a764(void)
+void PS1_ToggleGele3(void)
 {
     if (gele != 3)
     {
