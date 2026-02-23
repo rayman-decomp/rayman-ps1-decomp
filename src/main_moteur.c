@@ -134,7 +134,7 @@ void DO_MAIN_LOOP_SNY(void)
     }
     manage_snd();
     CdSync(1, null);
-    FUN_8013045c();
+    PS1_ManageCdMusic();
     if (scrollLocked && !PS1_ScrollLockedAudio)
         change_audio_track_puit();
     if (Vignet_To_Display != 0)

@@ -74,8 +74,8 @@ void curtainroll(u8 param_1)
     DrawSync(0);
     if (param_1)
     {
-        FUN_8012d2b0(0);
-        SYNCHRO_LOOP(PS1_RollUpRToL);
+        PS1_InitCurtainRoll(0);
+        SYNCHRO_LOOP(PS1_DoCurtainRollRToL);
     }
     LoadImage(&fb_rect, D_801C438C[num_world - 1]);
     DrawSync(0);
@@ -95,8 +95,8 @@ void START_WORLD_VIGNET(void)
     StoreImage(&fb_rect_1, D_801C438C[num_world - 1]);
     MoveImage(&PS1_CurrentDisplay->field0_0x0.disp, fb_rect_1.x, fb_rect_1.y);
     DrawSync(0);
-    FUN_8012d2b0(0);
-    SYNCHRO_LOOP(PS1_RollUpRToL);
+    PS1_InitCurtainRoll(0);
+    SYNCHRO_LOOP(PS1_DoCurtainRollRToL);
     ClearImage(&fb_rect_1, 0, 0, 0);
     fb_rect_2.x = (SCREEN_WIDTH - plan2_width) / 2 + 704;
     fb_rect_2.y = (SCREEN_HEIGHT - plan2_height) / 2;
@@ -104,8 +104,8 @@ void START_WORLD_VIGNET(void)
     fb_rect_2.h = plan2_height;
     LoadImage(&fb_rect_2, (u32 *) D_801F4380);
     DrawSync(0);
-    FUN_8012d2b0(100);
-    SYNCHRO_LOOP(PS1_RollUpLToR);
+    PS1_InitCurtainRoll(100);
+    SYNCHRO_LOOP(PS1_DoCurtainRollLToR);
     LoadImage(&fb_rect_1, D_801C438C[num_world - 1]);
     DrawSync(0);
     D_801F4380 = unk_1;

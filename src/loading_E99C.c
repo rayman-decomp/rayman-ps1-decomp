@@ -12,7 +12,7 @@ void start_data(void)
 }
 
 /* E848 80133048 -O2 -msoft-float */
-void FUN_80133048(s32 param_1, FileInfo *files, u8 count)
+void PS1_PrintFileInfoTable(s32 param_1, FileInfo *files, u8 count)
 {
     u8 i;
 
@@ -40,7 +40,7 @@ void FUN_80133048(s32 param_1, FileInfo *files, u8 count)
 s32 PS1_InitFiles(FileInfo *files, s32 count, u8 *name) { return 0; }
 
 /* E9A4 801331A4 -O2 -msoft-float */
-s32 FUN_801331a4(FileInfo *files, s32 count, s32 param_3)
+s32 PS1_GenerateFileInfoTable(FileInfo *files, s32 count, s32 param_3)
 {
     s16 i;
     s16 j;
@@ -62,7 +62,7 @@ s32 FUN_801331a4(FileInfo *files, s32 count, s32 param_3)
             num_not_found++;
     }
 
-    FUN_80133048(param_3, files, count);
+    PS1_PrintFileInfoTable(param_3, files, count);
     return num_not_found;
 }
 

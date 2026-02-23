@@ -13,7 +13,7 @@ s32 D_801F6390;
 #endif
 
 /* 8830 8012D030 -O2 -msoft-float */
-void FUN_8012d030(DVECTOR tpage_pos, DVECTOR param_2, s16 step_width, s16 step_height, s16 poly_count)
+void PS1_InitCurtainRollPolygons(DVECTOR tpage_pos, DVECTOR param_2, s16 step_width, s16 step_height, s16 poly_count)
 {
     s16 cnt_x; s16 pos_x;
     s16 unk_1;
@@ -81,7 +81,7 @@ void FUN_8012d030(DVECTOR tpage_pos, DVECTOR param_2, s16 step_width, s16 step_h
 }
 
 /* 8A7C 8012D27C -O2 -msoft-float */
-void FUN_8012d27c(void)
+void PS1_InitCurtainRollGeometry(void)
 {
     InitGeom();
     SetGeomOffset(160, 120);
@@ -89,17 +89,17 @@ void FUN_8012d27c(void)
 }
 
 /* 8AB0 8012D2B0 -O2 -msoft-float */
-void FUN_8012d2b0(s16 start_pos)
+void PS1_InitCurtainRoll(s16 start_pos)
 {
     SVECTOR *cur_vec;
     s16 cnt_x; s16 pos_x;
     s16 cnt_y; s16 pos_y;
 
     PS1_PolygonsCount = 0;
-    FUN_8012d27c();
+    PS1_InitCurtainRollGeometry();
     D_801F9930 = 8;
     D_801F9938 = SCREEN_HEIGHT;
-    FUN_8012d030(D_801CEDE4, D_801CEDE8, D_801F9930, D_801F9938 - 1, PS1_PolygonsCount + 2);
+    PS1_InitCurtainRollPolygons(D_801CEDE4, D_801CEDE8, D_801F9930, D_801F9938 - 1, PS1_PolygonsCount + 2);
     D_801F84D8 = SCREEN_WIDTH / D_801F9930;
     D_801F98F8 = SCREEN_HEIGHT / D_801F9938;
 
@@ -130,7 +130,7 @@ void FUN_8012d2b0(s16 start_pos)
 }
 
 /* 8CC0 8012D4C0 -O2 -msoft-float */
-void PS1_RollUpTransition(s16 rollup_pos, s16 left_to_right)
+void PS1_DoCurtainRoll(s16 rollup_pos, s16 left_to_right)
 {
     MATRIX unk_1;
     s32 unk_2;
@@ -231,12 +231,12 @@ void PS1_RollUpTransition(s16 rollup_pos, s16 left_to_right)
 }
 
 /* 916C 8012D96C -O2 -msoft-float */
-s16 PS1_RollUpRToL(void)
+s16 PS1_DoCurtainRollRToL(void)
 {
     CLRSCR();
     if (PS1_RollUpPosition != 100)
     {
-        PS1_RollUpTransition(PS1_RollUpPosition, false);
+        PS1_DoCurtainRoll(PS1_RollUpPosition, false);
         PS1_RollUpPosition++;
         return false;
     }
@@ -244,12 +244,12 @@ s16 PS1_RollUpRToL(void)
 }
 
 /* 91C0 8012D9C0 -O2 -msoft-float */
-s16 PS1_RollUpLToR(void)
+s16 PS1_DoCurtainRollLToR(void)
 {
     CLRSCR();
     if (PS1_RollUpPosition != 0)
     {
-        PS1_RollUpTransition(PS1_RollUpPosition, true);
+        PS1_DoCurtainRoll(PS1_RollUpPosition, true);
         PS1_RollUpPosition--;
         return false;
     }
@@ -257,12 +257,12 @@ s16 PS1_RollUpLToR(void)
 }
 
 /* 9214 8012DA14 -O2 -msoft-float */
-void FUN_8012da14(void)
+void PS1_UnusedInitCurtainRoll(void)
 {
     DVECTOR tpage_pos[2];
 
     __builtin_memcpy(&tpage_pos, D_801CEDEC, sizeof(D_801CEDEC));
-    FUN_8012d27c();
+    PS1_InitCurtainRollGeometry();
     PS1_Displays[0].polygons[0].u0 = 0;
     PS1_Displays[0].polygons[0].v0 = 0;
     PS1_Displays[0].polygons[0].u1 = 128;

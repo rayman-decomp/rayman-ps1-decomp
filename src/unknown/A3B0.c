@@ -61,9 +61,9 @@ void show_paused(void)
 
 /* A5A4 8012EDA4 -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/unknown/A3B0", FUN_8012eda4);
+INCLUDE_ASM("asm/nonmatchings/unknown/A3B0", PS1_GetVramAddress);
 #else
-s32 FUN_8012eda4(s16 param_1, s16 param_2)
+s32 PS1_GetVramAddress(s16 param_1, s16 param_2)
 {
     s32 temp_v0;
     s32 var_v0;

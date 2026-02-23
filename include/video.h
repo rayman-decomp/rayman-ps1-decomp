@@ -53,7 +53,7 @@ void PS1_PlayVideoFile(Video video);
 void videosetup(VideoState *param_1);
 void PS1_LoadVideoFile(CdlLOC *lba, u32 param_2);
 void PS1_ReadVideoFile(u32 *param_1, Video video); /* param_1 name sugg. DecDCTvlc() runlevel? (LIBOVR section 7-8) */
-void FUN_80132f8c(void);
-void FUN_80133010(void);
+void PS1_VideoVsyncCallback(void);
+void PS1_EmptyFunction7(void);
 
 #endif

@@ -1,6 +1,6 @@
 #include "unknown/AACC.h"
 
-void FUN_8012f2cc(void) {}
+void PS1_EmptyFunction1(void) {}
 
 /* AAD4 8012F2D4 -O2 -msoft-float */
 void PouvoirsParMap(void)
@@ -53,7 +53,7 @@ void PS1_ResetSaveZone(void)
 }
 
 /* AD70 8012F570 -O2 -msoft-float */
-void FUN_8012f570(void)
+void PS1_IncrementUnusedValue(void)
 {
     D_801CEEA0++;
 }

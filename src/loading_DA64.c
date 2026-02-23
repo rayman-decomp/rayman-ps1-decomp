@@ -31,7 +31,7 @@ void load_unimap(MapData *data)
 }
 
 /* DB04 80132304 -O2 -msoft-float */
-void FUN_80132304(u32 *data, u8 height)
+void PS1_LoadTilePalettes(u32 *data, u8 height)
 {
     RECT rect;
 
@@ -41,7 +41,7 @@ void FUN_80132304(u32 *data, u8 height)
 }
 
 /* DB4C 8013234C -O2 -msoft-float */
-void FUN_8013234c(u8 *param_1)
+void PS1_LoadTilePaletteMappingTable(u8 *param_1)
 {
     /*
     according to ghidra:

@@ -372,7 +372,7 @@ void DO_RAYMAN(void)
                 {
                     level.objects[eau_obj_id].iframes_timer = 1;
                     if (!D_801E64B0)
-                        FUN_8013202c();
+                        PS1_PlayWaterRisingMusic();
                 }
             }
             else if (ray.sub_etat == 20 || ray.sub_etat == 21)
