@@ -61,7 +61,7 @@ void PS1_Init_ImgLdrVdoTrk_Files(void)
 }
 
 /* 79574 8019DD74 -O2 -msoft-float */
-void FUN_8019dd74(void)
+void PS1_Init_Data_Files(void)
 {
     PS1_InitFiles(PS1_PreFiles, 5, s_pre_file_8012c260);
     PS1_InitFiles(PS1_CrdFiles, 6, s_crd_file_8012c26c);
@@ -377,7 +377,7 @@ void LOAD_SAVE_SCREEN(void)
 }
 
 /* 7A330 8019EB30 -O2 -msoft-float */
-void FUN_8019eb30(void)
+void LOAD_OPTIONS_SCREEN(void)
 {
     if (!D_801CF0CD)
     {
@@ -394,10 +394,10 @@ void FUN_8019eb30(void)
 
 /* 7A3C0 8019EBC0 -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/loading_794DC", FUN_8019ebc0);
+INCLUDE_ASM("asm/nonmatchings/loading_794DC", PS1_LoadUnusedIntroScreens);
 #else
 /* s16 without return (see c89 3.6.6.4 The return statement) */
-s16 FUN_8019ebc0(void)
+s16 PS1_LoadUnusedIntroScreens(void)
 {
     if (PS1_ShouldClearPassword)
     {

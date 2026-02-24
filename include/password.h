@@ -34,7 +34,7 @@ extern u8 s_ok_801cf108[5];
 extern u8 s_s_801cf110[5];
 
 /**/
-extern u8 PS1_ShouldClearPassword; /* don't understand its use in FUN_8019ebc0 */
+extern u8 PS1_ShouldClearPassword; /* don't understand its use in PS1_LoadUnusedIntroScreens */
 extern PasswordChar PS1_CurrentPassword[10];
 extern u8 PS1_CurrentTypingPassword[10];
 extern s16 D_801E4E40;
@@ -44,7 +44,7 @@ extern u8 PS1_ValidPassword;
 
 void PS1_EncryptPassword(void);
 s32 PS1_VerifyDecryptPassword(void);
-void FUN_801a17c8(u8 param_1);
+void PS1_GeneratePassword_Level(u8 param_1);
 u8 PS1_GetLevelFromPassword(void);
 void PS1_GeneratePassword_LivesCount(u8 lives_count);
 u8 PS1_GetLivesFromPassword(void);
@@ -56,11 +56,11 @@ void PS1_LoadSaveFromPassword(void);
 u8 PS1_AttemptLoadSaveFromPassword(void);
 void PS1_UnusedGenerateAndPrintPassword(s16 param_1, s16 param_2, u8 param_3, u8 param_4);
 void PS1_ClearPassword(void);
-void FUN_801a2c78(void);
-void FUN_801a2d40(void);
-void FUN_801a3064(void);
-s16 PS1_MenuPassword(void);
-void FUN_801a3550(void);
+void PS1_InitMenuPassword(void);
+void PS1_DisplayMenuPasswordText(void);
+void PS1_DoMenuPassword(void);
+s16 PS1_MenuPasswordPrg(void);
+void PS1_MenuPassword(void);
 void PS1_GenerateAndDisplayPassword(void);
 void DEPART_INIT_LOOP(void);
 

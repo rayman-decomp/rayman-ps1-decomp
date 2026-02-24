@@ -5,7 +5,7 @@
 #include "LIBGPU.H"
 #include "main_moteur.h"
 
-void FUN_801802d8(void);
+void PS1_EmptyFunction13(void);
 void SYNCHRO_LOOP(s16 (*func)());
 
 #endif

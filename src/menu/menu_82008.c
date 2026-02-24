@@ -11,7 +11,7 @@ s16 delai_stereo;
 
 /* 82008 801A6808 -O2 -msoft-float */
 #ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/menu/menu_82008", FUN_801a6808);
+INCLUDE_ASM("asm/nonmatchings/menu/menu_82008", PS1_InitGameOptionsMenu);
 #else
 /*
 score of ???
@@ -26,7 +26,7 @@ still to see more
 
 PS1_display_y2 is vert spacing on options screen
 */
-void FUN_801a6808(void)
+void PS1_InitGameOptionsMenu(void)
 {
     s32 test_1;
     s32 temp_lo;
@@ -70,7 +70,7 @@ void FUN_801a6808(void)
 #endif
 
 /* 82184 801A6984 -O2 -msoft-float */
-void FUN_801a6984(void)
+void PS1_LoadOptions(void)
 {
     options_jeu.Jump = PS1_Settings[0];
     options_jeu.Fist = PS1_Settings[1];
@@ -82,7 +82,7 @@ void FUN_801a6984(void)
 }
 
 /* 82204 801A6A04 -O2 -msoft-float */
-void FUN_801a6a04(u8 param_1)
+void PS1_NewGame(u8 param_1)
 {
     fichier_existant = false;
     fichier_selectionne = 0;
@@ -91,7 +91,7 @@ void FUN_801a6a04(u8 param_1)
     nouvelle_partie = true;
     INIT_NEW_GAME();
     if (param_1)
-        FUN_801a3550();
+        PS1_MenuPassword();
 }
 
 /* 82268 801A6A68 -O2 -msoft-float */
@@ -306,7 +306,7 @@ void DO_COMMANDE_OPTIONS(void)
 }
 
 /* 82EE4 801A76E4 -O2 -msoft-float */
-void FUN_801a76e4(void)
+void PS1_DisplayGameOptions(void)
 {
     s16 i;
     u8 seven;

@@ -48,7 +48,7 @@ do /* TODO: ??? */
         case 6: /* TODO: ??? */
                 if (PS1_CardShouldCheckFirstBoot == true)
                 {
-                    FUN_801a1110();
+                    PS1_LoadMemoryCard();
                     PS1_CardShouldCheckFirstBoot = false;
                     D_801E5920 = NBRE_SAVE;
                     if (NBRE_SAVE != 0)
@@ -84,19 +84,19 @@ do /* TODO: ??? */
                 menuEtape = 5;
             else
             {
-                FUN_801a6a04(false);
+                PS1_NewGame(false);
                 menuEtape = 4;
             }
             break;
         case 3:
-            FUN_801a0c68();
+            PS1_NoCardIfMemoryCardChanged();
             if (PS1_NoCard || D_801E5920 == 0)
             {
-                FUN_801a1110();
+                PS1_LoadMemoryCard();
                 D_801E5920 = NBRE_SAVE;
                 if (NBRE_SAVE != 0)
                 {
-                    FUN_801a4790();
+                    PS1_MemoryCardSaveSelection();
                     menuEtape = 4;
                 }
                 else
@@ -105,12 +105,12 @@ do /* TODO: ??? */
             else
             {
                 NBRE_SAVE = D_801E5920;
-                FUN_801a4790();
+                PS1_MemoryCardSaveSelection();
                 menuEtape = 4;
             }
             break;
         case 5:
-            FUN_801a6a04(true);
+            PS1_NewGame(true);
             if (PS1_SaveMode == 1)
                 menuEtape = 4;
             else

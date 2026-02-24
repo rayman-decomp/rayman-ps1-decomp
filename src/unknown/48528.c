@@ -162,7 +162,7 @@ void DO_ONE_PINK_CMD(Obj *obj)
 }
 
 /* 48C18 8016D418 -O2 -msoft-float */
-void FUN_8016d418(Obj *obj)
+void PS1_UnusedPoiCommand(Obj *obj)
 {
     switch (obj->cmd)
     {

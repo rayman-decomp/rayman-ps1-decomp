@@ -2,7 +2,7 @@
 
 /* TODO: macro */
 /* 4BFCC 801707CC -O2 -msoft-float */
-u8 FUN_801707cc(Obj *obj, s16 param_2)
+u8 YaUnBloc(Obj *obj, s16 param_2)
 {
     s16 unk_y;
     s16 i;

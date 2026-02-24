@@ -39,7 +39,7 @@ extern u8 WaitForAnim;
 
 void setBossReachingSpeeds(Obj *obj, u8 param_2, u8 param_3, u8 param_4); /* TODO: should this always be called with param_2 etc: bossReachingTimer, bossReachingAccuracyX, bossReachingAccuracyY??? */
 s16 testActionEnd(Obj *obj);
-void FUN_8018b78c(s16 *param_1, s16 *param_2, s16 *param_3, s16 *param_4, u8 param_5);
+void PS1_CalcCenteredValue(s16 *param_1, s16 *param_2, s16 *param_3, s16 *param_4, u8 param_5);
 s16 firstFloorBelow(Obj *obj);
 
 #endif

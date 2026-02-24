@@ -20,7 +20,7 @@ u8 PS1_SaveFilenames[3][32];
 warning: passing arg 2 of `strncmp' discards `const' from pointer target type
 in functions:
 PS1_InitSaveRayAndFilenames
-FUN_8016b2e8
+PS1_UnusedFindSaveFile
 
 change "s_BISLUS00005_8012aca8, 12" in strncmps to use sizeof instead?
 */
@@ -577,7 +577,7 @@ s32 SaveGameOnCard(u8 chan_par, u8 slot_par)
 #endif
 
 /* 46AE8 8016B2E8 -O2 -msoft-float */
-u8 *FUN_8016b2e8(u8 param_1, u8 param_2, u8 *param_3)
+u8 *PS1_UnusedFindSaveFile(u8 param_1, u8 param_2, u8 *param_3)
 {
     struct DIRENTRY files[15];
     struct DIRENTRY *cur_file;
@@ -751,7 +751,7 @@ s32 LoadInfoGame(u8 slot)
 }
 
 /* 473E4 8016BBE4 -O2 -msoft-float */
-void FUN_8016bbe4(void)
+void REMOVE_FICHIER(void)
 {
     u8 *filename;
 
@@ -838,7 +838,7 @@ s32 InitMemCard_IN(void)
 }
 
 /* 476C0 8016BEC0 -O2 -msoft-float */
-void FUN_8016bec0(void)
+void PS1_FormatMemoryCard(void)
 {
     PS1_FormatFs(0);
     PS1_Checksum = card_checksum(0);

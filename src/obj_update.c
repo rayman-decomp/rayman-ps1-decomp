@@ -45,7 +45,7 @@ void DO_ONE_STONECHIP_COMMAND(Obj *obj);
 void DO_PAC_COMMAND(Obj *obj);
 void DO_PAR_BOMB_COMMAND(Obj *obj);
 void DO_PETIT_COUTEAU_COMMAND(Obj *obj);
-void FUN_80172704(Obj *obj);
+void PS1_PhotographerCommand(Obj *obj);
 void DO_PIRATE_POELLE(Obj *obj);
 void DO_POELLE_COMMAND(Obj *obj);
 void DO_POING(Obj *obj);
@@ -2031,7 +2031,7 @@ void fptr_init(void)
             break;
         case TYPE_PHOTOGRAPHE:
             obj_fonction = &ObjectsFonctions[obj_type];
-            sel_fonction = FUN_80172704;
+            sel_fonction = PS1_PhotographerCommand;
             break;
         case TYPE_BATTEUR_FOU:
             obj_fonction = &ObjectsFonctions[obj_type];

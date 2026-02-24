@@ -92,7 +92,7 @@ s32 PS1_VerifyDecryptPassword(void)
 
 /* thanks! https://decomp.me/scratch/LRbGF */
 /* 7CFC8 801A17C8 -O2 -msoft-float */
-void FUN_801a17c8(u8 param_1)
+void PS1_GeneratePassword_Level(u8 param_1)
 {
     PS1_CurrentPassword[4].bit_2 = param_1 >> 0 & 1;
     PS1_CurrentPassword[2].bit_2 = param_1 >> 1 & 1;
@@ -336,7 +336,7 @@ u8 PS1_GeneratePassword(void)
             i -= 2;
     } while (!(t_world_info[i].is_unlocked == true || t_world_info[i].is_unlocking == true));
 
-    FUN_801a17c8(i);
+    PS1_GeneratePassword_Level(i);
     PS1_CurrentPassword[9].bit_3 = finBosslevel.moskito;
     PS1_CurrentPassword[6].bit_3 = finBosslevel.mr_skops;
     PS1_CurrentPassword[8].bit_4 = finBosslevel.helped_musician;
@@ -462,7 +462,7 @@ void PS1_ClearPassword(void)
 }
 
 /* 7E478 801A2C78 -O2 -msoft-float */
-void FUN_801a2c78(void)
+void PS1_InitMenuPassword(void)
 {
     basex = 75;
     debut_titre = 35;
@@ -483,7 +483,7 @@ void FUN_801a2c78(void)
 }
 
 /* 7E540 801A2D40 -O2 -msoft-float */
-void FUN_801a2d40(void)
+void PS1_DisplayMenuPasswordText(void)
 {
     s32 char_ind;
     u8 character[2];
@@ -555,10 +555,10 @@ void FUN_801a2d40(void)
 
 /* 7E864 801A3064 -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/password", FUN_801a3064);
+INCLUDE_ASM("asm/nonmatchings/password", PS1_DoMenuPassword);
 #else
 /* casts */
-void FUN_801a3064(void)
+void PS1_DoMenuPassword(void)
 {
     s32 char_ind;
     u8 valid_prs = but0pressed__CROSS();
@@ -670,7 +670,7 @@ void FUN_801a3064(void)
 #endif
 
 /* 7EC58 801A3458 -O2 -msoft-float */
-s16 PS1_MenuPassword(void)
+s16 PS1_MenuPasswordPrg(void)
 {
     s16 x_pos;
     u8 should_ret = false;
@@ -683,8 +683,8 @@ s16 PS1_MenuPassword(void)
     x_pos = 160;
     display_text(s_enter_password_8012c424, x_pos, debut_titre, 1, 1);
     display_text(s_select__return_8012c438, x_pos, D_801E4E48 + 15, 2, 10);
-    FUN_801a3064();
-    FUN_801a2d40();
+    PS1_DoMenuPassword();
+    PS1_DisplayMenuPasswordText();
 
     if (but2pressed__SELECT() != 0)
     {
@@ -699,12 +699,12 @@ s16 PS1_MenuPassword(void)
 }
 
 /* 7ED50 801A3550 -O2 -msoft-float */
-void FUN_801a3550(void)
+void PS1_MenuPassword(void)
 {
     LOAD_SAVE_SCREEN();
     INIT_FADE_IN();
-    FUN_801a2c78();
-    SYNCHRO_LOOP(PS1_MenuPassword);
+    PS1_InitMenuPassword();
+    SYNCHRO_LOOP(PS1_MenuPasswordPrg);
     DO_FADE_OUT();
     if (PS1_ValidPassword || MENU_RETURN)
     {

@@ -24,11 +24,11 @@ void loader(void);
 u8 PS1_OldLoadingScreen(void);
 void curtainroll(u8 param_1);
 void START_WORLD_VIGNET(void);
-void FUN_8019fd40(void);
-u8 FUN_8019fda0(void);
-void FUN_8019fdd0(void);
+void PS1_InitSystem(void);
+u8 PS1_UnusedDisplayFond(void);
+void PS1_InitDisplay(void);
 void GAME_INIT2(void);
-void PS1_SetLevelto_4_1(void);
+void PS1_SetLevelTo_4_1(void);
 void FIRST_INIT(void);
 
 #endif

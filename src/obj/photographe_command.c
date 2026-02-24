@@ -1,7 +1,7 @@
 #include "obj/photographe_command.h"
 
 /* 4DF04 80172704 -O2 -msoft-float */
-void FUN_80172704(Obj *obj)
+void PS1_PhotographerCommand(Obj *obj)
 {
     u8 anim_spd;
 

@@ -22,7 +22,7 @@ extern s16 D_801E5558;
 extern s16 D_801E59B8;
 /* used as FileInfo::dest
 in blocks of 0x15800 (LOAD_CREDITS_VIGNET)?
-in blocks of 0x19000 ((unused) FUN_8019ebc0)? */
+in blocks of 0x19000 ((unused) PS1_LoadUnusedIntroScreens)? */
 /* 801f4380 is passed at 801807ec as LoadImage param_2, also used as some FileInfo.dest's see 8019df64, frequently points to &DAT_8005866c*/
 extern u8 *D_801F4380;
 extern void *D_801F8190;

@@ -65,19 +65,19 @@ void PS1_InitializeCard(u8 chan);
 u8 PS1_FormatFs(u8 param_1);
 void PS1_InitSaveRayAndFilenames(u8 param_1);
 s32 SaveGameOnCard(u8 chan_par, u8 slot_par);
-u8 *FUN_8016b2e8(u8 param_1, u8 param_2, u8 *param_3);
+u8 *PS1_UnusedFindSaveFile(u8 param_1, u8 param_2, u8 *param_3);
 s32 SaveGameOnDisk(u8 slot);
 s32 SaveFileRead(s32 file_desc, void *buf, s16 n_bytes);
 void LoadGameOnCard(s32 param_1, u8 *filename);
 void LoadGameOnDisk(u8 slot);
 s32 LoadInfoGame(u8 slot);
-void FUN_8016bbe4(void);
+void REMOVE_FICHIER(void);
 u8 PS1_GetNbreSave3(u8 param_1);
 s32 has_MemCard_Changed(void);
 s32 PS1_TestCardZero(void);
 s16 PS1_CardUnformatted(void);
 u8 PS1_GetNbreSave2(void);
 s32 InitMemCard_IN(void);
-void FUN_8016bec0(void);
+void PS1_FormatMemoryCard(void);
 
 #endif

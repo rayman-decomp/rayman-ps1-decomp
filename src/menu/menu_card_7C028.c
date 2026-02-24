@@ -122,7 +122,7 @@ void PS1_CheckCardChanged(void)
 }
 
 /* 7C468 801A0C68 -O2 -msoft-float */
-void FUN_801a0c68(void)
+void PS1_NoCardIfMemoryCardChanged(void)
 {
     if (has_MemCard_Changed())
         PS1_NoCard = true;
@@ -149,7 +149,7 @@ void PS1_DoYouHaveCard(void)
         PS1_compteur_mc = 10;
         PS1_positiony_mc = 2;
         SYNCHRO_LOOP(PS1_PromptCardYesNo);
-        FUN_801a0c68();
+        PS1_NoCardIfMemoryCardChanged();
         PS1_compteur_mc = 10;
         if (!PS1_NoCard)
         {
@@ -161,14 +161,14 @@ void PS1_DoYouHaveCard(void)
                 PS1_NoCard = true;
                 for (i = 0; i < 30; i++)
                     VSync(0);
-                FUN_801a0c68();
+                PS1_NoCardIfMemoryCardChanged();
             }
             else
             {
                 PS1_CardStringDisplayed = 2;
                 PS1_DisplayCardContinueText = true;
                 SYNCHRO_LOOP(display_Card_TestBut);
-                FUN_801a0c68();
+                PS1_NoCardIfMemoryCardChanged();
                 NBRE_SAVE = 0;
             }
         }
@@ -185,7 +185,7 @@ void PS1_PromptCardFormat(void)
         PS1_compteur_mc = 10;
         PS1_positiony_mc = 2;
         SYNCHRO_LOOP(PS1_PromptCardYesNo);
-        FUN_801a0c68();
+        PS1_NoCardIfMemoryCardChanged();
         PS1_compteur_mc = 10;
         if (!PS1_NoCard)
         {
@@ -194,12 +194,12 @@ void PS1_PromptCardFormat(void)
                 PS1_CardStringDisplayed = 4;
                 PS1_DisplayCardContinueText = true;
                 SYNCHRO_LOOP(display_Card_TestBut);
-                FUN_801a0c68();
+                PS1_NoCardIfMemoryCardChanged();
                 NBRE_SAVE = 0;
             }
             else
             {
-                FUN_8016bec0();
+                PS1_FormatMemoryCard();
                 PS1_NoCard = true;
             }
         }
@@ -218,7 +218,7 @@ void PS1_GetNbreSave1(void)
         PS1_CardStringDisplayed = 6;
         PS1_DisplayCardContinueText = true; /* TODO: maybe do this with the goto instead to reduce duplication? */
         SYNCHRO_LOOP(display_Card_TestBut);
-        FUN_801a0c68();
+        PS1_NoCardIfMemoryCardChanged();
     }
     else if (NBRE_SAVE < 3)
     {
@@ -236,11 +236,11 @@ void PS1_GetNbreSave1(void)
         }
         PS1_DisplayCardContinueText = true;
         SYNCHRO_LOOP(display_Card_TestBut);
-        FUN_801a0c68();
+        PS1_NoCardIfMemoryCardChanged();
     }
 }
 
-void FUN_801a10a4(void) {}
+void PS1_EmptyFunction14(void) {}
 
 /* 7C8AC 801A10AC -O2 -msoft-float */
 s16 PS1_ReadingMemoryCard(void)
@@ -252,7 +252,7 @@ s16 PS1_ReadingMemoryCard(void)
 }
 
 /* 7C910 801A1110 -O2 -msoft-float */
-void FUN_801a1110(void)
+void PS1_LoadMemoryCard(void)
 {
     u8 unk_1 = true;
 
@@ -281,7 +281,7 @@ void FUN_801a1110(void)
                         PS1_PromptCardFormat();
 
                     if (!PS1_NoCard && NBRE_SAVE != 0)
-                        FUN_801a0c68();
+                        PS1_NoCardIfMemoryCardChanged();
                 }
                 D_801E5238 = PS1_NoCard;
             } while (PS1_NoCard);
@@ -291,7 +291,7 @@ void FUN_801a1110(void)
         } while (PS1_NoCard);
 
         if (NBRE_SAVE != 0)
-            FUN_801a0c68();
+            PS1_NoCardIfMemoryCardChanged();
     } while (PS1_NoCard);
 
     DO_FADE_OUT();
