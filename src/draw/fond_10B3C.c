@@ -1067,7 +1067,7 @@ void DrawBG_gen(void)
 #endif
 
 /* 13198 80137998 -O2 -msoft-float */
-u8 FUN_80137998(u8 param_1, u8 param_2, s32 param_3)
+u8 PS1_GetTileOrderingTableIndex(u8 param_1, u8 param_2, s32 param_3)
 {
     s16 unk_1 = ((param_1 - 8) << 8) + param_2 + (param_3 & ~0xF);
 
@@ -1127,7 +1127,7 @@ void AddBlks(void)
             pSVar7->y0 = y_pos;
             uVar1 = PS1_GetTileU(puVar5);
             uVar2 = PS1_GetTileV(D_801F5440,D_801F55D8,puVar5);
-            test_1 = FUN_80137998(D_801F5440,D_801F55D8,puVar5);
+            test_1 = PS1_GetTileOrderingTableIndex(D_801F5440,D_801F55D8,puVar5);
             pSVar7->u0 = uVar1;
             pSVar7->v0 = uVar2;
             /*new_var = PS1_CurrentDisplay->ordering_table;*/
@@ -1598,6 +1598,6 @@ void DISPLAY_ANYSIZE_FND(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16
 }
 #endif
 
-void FUN_801392c8(void) {}
+void PS1_EmptyFunction9(void) {}
 
-void FUN_801392d0(void) {}
+void PS1_EmptyFunction10(void) {}

@@ -4,9 +4,9 @@
 #include "common.h"
 #include "save.h"
 
-void FUN_8012f2cc(void);
+void PS1_EmptyFunction1(void);
 void PouvoirsParMap(void);
 void PS1_ResetSaveZone(void);
-void FUN_8012f570(void);
+void PS1_IncrementUnusedValue(void);
 
 #endif

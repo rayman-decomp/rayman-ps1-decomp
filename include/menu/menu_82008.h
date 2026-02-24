@@ -13,10 +13,10 @@ extern s16 PS1_Soundfx_Max;
 extern s16 delai_barre;
 extern s16 delai_stereo;
 
-void FUN_801a6808(void);
-void FUN_801a6984(void);
-void FUN_801a6a04(u8 param_1);
+void PS1_InitGameOptionsMenu(void);
+void PS1_LoadOptions(void);
+void PS1_NewGame(u8 param_1);
 void DO_COMMANDE_OPTIONS(void);
-void FUN_801a76e4(void);
+void PS1_DisplayGameOptions(void);
 
 #endif

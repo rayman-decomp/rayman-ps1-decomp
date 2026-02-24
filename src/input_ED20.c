@@ -194,7 +194,7 @@ s32 but3pressed(s32 param_1)
 }
 
 /* F184 80133984 -O2 -msoft-float */
-s32 FUN_80133984(s32 param_1)
+s32 PS1_LPressed(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return TOUCHE(INPUT_L1) || TOUCHE(INPUT_L2);
@@ -203,7 +203,7 @@ s32 FUN_80133984(s32 param_1)
 }
 
 /* F1F4 801339F4 -O2 -msoft-float */
-s32 FUN_801339f4(s32 param_1)
+s32 PS1_RPressed(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return TOUCHE(INPUT_R1) || TOUCHE(INPUT_R2);
@@ -222,7 +222,7 @@ s32 PS1_IsInputtingCheatCode(s32 param_1)
 
 /* could also write this with ternary op instead */
 /* F2CC 80133ACC -O2 -msoft-float */
-s32 FUN_80133acc(s32 param_1)
+s32 PS1_L1Pressed(s32 param_1)
 {
     if (PS1_DisableInputs)
         return false;
@@ -231,7 +231,7 @@ s32 FUN_80133acc(s32 param_1)
 }
 
 /* F308 80133B08 -O2 -msoft-float */
-s32 FUN_80133b08(s32 param_1)
+s32 PS1_R1Pressed(s32 param_1)
 {
     if (PS1_DisableInputs)
         return false;
@@ -240,7 +240,7 @@ s32 FUN_80133b08(s32 param_1)
 }
 
 /* F344 80133B44 -O2 -msoft-float */
-s32 FUN_80133b44(s32 param_1)
+s32 PS1_SelectPressed(s32 param_1)
 {
     if (PS1_DisableInputs)
         return false;
@@ -249,7 +249,7 @@ s32 FUN_80133b44(s32 param_1)
 }
 
 /* F380 80133B80 -O2 -msoft-float */
-s32 FUN_80133b80(s32 param_1)
+s32 PS1_L1Pressed2(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_L1);
@@ -258,7 +258,7 @@ s32 FUN_80133b80(s32 param_1)
 }
 
 /* F3D0 80133BD0 -O2 -msoft-float */
-s32 FUN_80133bd0(s32 param_1)
+s32 PS1_L2Pressed2(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_L2);
@@ -267,7 +267,7 @@ s32 FUN_80133bd0(s32 param_1)
 }
 
 /* F420 80133C20 -O2 -msoft-float */
-s32 FUN_80133c20(s32 param_1)
+s32 PS1_R1Pressed2(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_R1);
@@ -276,7 +276,7 @@ s32 FUN_80133c20(s32 param_1)
 }
 
 /* F470 80133C70 -O2 -msoft-float */
-s32 FUN_80133c70(s32 param_1)
+s32 PS1_R2Pressed2(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_R2);
@@ -375,7 +375,7 @@ s32 butSelectPressed(s32 param_1)
 }
 
 /* F7E0 80133FE0 -O2 -msoft-float */
-s32 FUN_80133fe0(s32 param_1)
+s32 PS1_NoButtonPressed(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_NONE);
@@ -501,7 +501,7 @@ s32 cheat7_start(s32 param_1)
 }
 
 /* FC40 80134440 -O2 -msoft-float */
-s32 FUN_80134440(s32 param_1)
+s32 PS1_UnusedCheat8Start(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_UNUSED_19);
@@ -510,7 +510,7 @@ s32 FUN_80134440(s32 param_1)
 }
 
 /* FC90 80134490 -O2 -msoft-float */
-s32 FUN_80134490(s32 param_1)
+s32 PS1_UnusedCheat9Start(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_UNUSED_1A);
@@ -528,7 +528,7 @@ s32 cheat_stop(s32 param_1)
 }
 
 /* FD30 80134530 -O2 -msoft-float */
-s32 FUN_80134530(s32 param_1)
+s32 PS1_StartSelectPressed(s32 param_1)
 {
     if (!PS1_DisableInputs && !record.is_playing)
         return (s16) TOUCHE(INPUT_START_SELECT);
@@ -561,7 +561,7 @@ s32 but2pressed__SELECT(void)
 }
 
 /* FE10 80134610 -O2 -msoft-float */
-void FUN_80134610(u8 param_1)
+void PS1_GetRecordedInputs(u8 param_1)
 {
     D_801F8448 = false;
     D_801F8430 = false;
@@ -666,7 +666,7 @@ void FUN_80134610(u8 param_1)
 }
 
 /* 1011C 8013491C -O2 -msoft-float */
-u8 FUN_8013491c(void)
+u8 PS1_SetRecordedInputs(void)
 {
     s32 unk_1 = 0;
     s32 res = unk_1;
@@ -699,7 +699,7 @@ void record_input(Record *record)
 
     if (record->is_recording)
     {
-        unk_1 = FUN_8013491c();
+        unk_1 = PS1_SetRecordedInputs();
         if (cur_offs == 0)
         {
             record->repeat_index = 0;
@@ -736,7 +736,7 @@ void record_input(Record *record)
         if (cur_offs == 0)
         {
             record->repeat_index = 0;
-            FUN_80134610(record->data[cur_offs]);
+            PS1_GetRecordedInputs(record->data[cur_offs]);
             cur_offs++;
             record->repeat_length = record->data[cur_offs];
             record->current_offset = cur_offs;
@@ -764,13 +764,13 @@ void record_input(Record *record)
                 }
             }
             cur_offs--;
-            FUN_80134610(record->data[cur_offs]);
+            PS1_GetRecordedInputs(record->data[cur_offs]);
         }
     }
 }
 
 /* 103E0 80134BE0 -O2 -msoft-float */
-void FUN_80134be0(void)
+void PS1_EmptyFunction8(void)
 {
     vu8 unk_1;
     vu8 unk_2;

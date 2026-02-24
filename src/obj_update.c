@@ -45,7 +45,7 @@ void DO_ONE_STONECHIP_COMMAND(Obj *obj);
 void DO_PAC_COMMAND(Obj *obj);
 void DO_PAR_BOMB_COMMAND(Obj *obj);
 void DO_PETIT_COUTEAU_COMMAND(Obj *obj);
-void FUN_80172704(Obj *obj);
+void PS1_PhotographerCommand(Obj *obj);
 void DO_PIRATE_POELLE(Obj *obj);
 void DO_POELLE_COMMAND(Obj *obj);
 void DO_POING(Obj *obj);
@@ -2031,7 +2031,7 @@ void fptr_init(void)
             break;
         case TYPE_PHOTOGRAPHE:
             obj_fonction = &ObjectsFonctions[obj_type];
-            sel_fonction = FUN_80172704;
+            sel_fonction = PS1_PhotographerCommand;
             break;
         case TYPE_BATTEUR_FOU:
             obj_fonction = &ObjectsFonctions[obj_type];
@@ -2267,8 +2267,8 @@ void DO_OBJECTS(void)
     while (i < actobj.num_active_objects)
     {
         ot = cur_obj->type;
-        setvol(actobj.objects[i], FUN_801473dc(cur_obj));
-        setpan(actobj.objects[i], FUN_801473d4(cur_obj));
+        setvol(actobj.objects[i], PS1_GetObjVolume(cur_obj));
+        setpan(actobj.objects[i], PS1_GetObjPan(cur_obj));
         i++;
         cur_obj = &level.objects[actobj.objects[i]];
     }

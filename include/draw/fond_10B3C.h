@@ -83,7 +83,7 @@ void DrawBG_bande_h(u8 param_1, u32 param_2, u8 param_3, u32 param_4);
 void DrawBG_bande_v(u16 *param_1, u32 param_2); /* param_1 is pointer? see DrawBG_gen */
 void DrawBG_new(void);
 void DrawBG_gen(void);
-u8 FUN_80137998(u8 param_1, u8 param_2, s32 param_3);
+u8 PS1_GetTileOrderingTableIndex(u8 param_1, u8 param_2, s32 param_3);
 u8 PS1_GetTileV(u8 param_1, u8 param_2, s32 tile);
 u8 PS1_GetTileU(s32 param_1);
 void AddBlks(void);
@@ -93,7 +93,7 @@ void do_allume_vitraux(u8 *vit_clig);
 void draw_spr_fix(u8 param_1);
 void draw_spr_brume(s16 in_h_1, s16 *param_2, s16 in_h_2, s16 in_w_1);
 void DISPLAY_ANYSIZE_FND(s16 param_1, s16 param_2, s16 param_3, s16 param_4, s16 param_5, s16 param_6);
-void FUN_801392c8(void);
-void FUN_801392d0(void);
+void PS1_EmptyFunction9(void);
+void PS1_EmptyFunction10(void);
 
 #endif

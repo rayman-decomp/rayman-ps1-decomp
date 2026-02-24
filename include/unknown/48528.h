@@ -13,6 +13,6 @@ void debugw(void);
 s16 test_allowed(Obj *obj, s16 unk_x, s16 unk_y);
 void obj_jump(Obj *obj);
 void DO_ONE_PINK_CMD(Obj *obj);
-void FUN_8016d418(Obj *obj);
+void PS1_UnusedPoiCommand(Obj *obj);
 
 #endif

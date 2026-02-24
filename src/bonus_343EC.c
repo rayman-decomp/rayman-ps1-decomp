@@ -80,7 +80,7 @@ s16 do_perfect_bonus(void)
     if (fade != 0)
         DO_FADE();
     loop_time++;
-    FUN_8013045c();
+    PS1_ManageCdMusic();
 
     return done;
 }

@@ -54,7 +54,7 @@ void PS1_StopPlayingAllSnd(void)
 }
 
 /* 410E0 801658E0 -O2 -msoft-float */
-void FUN_801658e0(void)
+void PS1_UnusedStopAllSounds(void)
 {
     s16 acc_num; s16 seq_num;
 
@@ -185,7 +185,7 @@ s32 PS1_SongIsPlaying(s16 sep_ind)
 }
 
 /* 41818 80166018 -O2 -msoft-float */
-void FUN_80166018(void)
+void PS1_InitSounds(void)
 {
     SsSetTableSize(D_801F6850, 2, 10);
     SsSetTickMode(SS_TICK120);
@@ -238,7 +238,7 @@ void stop_all_snd(void)
 }
 
 /* 4197C 8016617C -O2 -msoft-float */
-void FUN_8016617c(void)
+void stop_ray_snd(void)
 {
     s16 i;
     s16 unk_1;
@@ -349,7 +349,7 @@ void InitSnd(void)
 }
 
 /* 41D78 80166578 -O2 -msoft-float */
-void FUN_80166578(void)
+void PS1_UnInitSounds(void)
 {
     SsUtReverbOff();
     SsVabClose(0);
@@ -409,7 +409,7 @@ s16 get_pile_obj(s16 id)
 }
 
 /* 41F24 80166724 -O2 -msoft-float */
-s16 FUN_80166724(s16 id)
+s16 get_voice_obj(s16 id)
 {
     s16 i = 0;
     VoiceTableEntry *cur = &voice_table[i];
@@ -426,9 +426,9 @@ s16 FUN_80166724(s16 id)
 
 /* 41F90 80166790 -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166790);
+INCLUDE_ASM("asm/nonmatchings/sound", get_voice_snd);
 #else
-s32 FUN_80166790(s16 id)
+s32 get_voice_snd(s16 id)
 {
     s16 i = 0;
     s16 *cur = &voice_table[i].field3_0x6;
@@ -547,10 +547,10 @@ void erase_voice_table(s16 id)
 
 /* 42588 80166D88 -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/sound", FUN_80166d88);
+INCLUDE_ASM("asm/nonmatchings/sound", snd_in_pile_snd);
 #else
-/* same issues as FUN_80166790, get_voice_obj_snd */
-s16 FUN_80166d88(s16 index)
+/* same issues as get_voice_snd, get_voice_obj_snd */
+s16 snd_in_pile_snd(s16 index)
 {
     s16 i;
     s16 *psVar1;
@@ -1075,7 +1075,7 @@ void setvol(s16 param_1, u8 param_2)
         }
     }
 
-    voice_ind = FUN_80166724(param_1);
+    voice_ind = get_voice_obj(param_1);
     if (voice_ind != -1)
     {
         if (
@@ -1119,7 +1119,7 @@ void setpan(s16 obj_id, u8 param_2)
 
     if (ray.scale != 0 && obj_id == reduced_rayman_id)
         obj_id = -1;
-    voice_ind = FUN_80166724(obj_id);
+    voice_ind = get_voice_obj(obj_id);
     if (voice_ind != -1)
     {
         if (obj_id == -1)
@@ -1140,9 +1140,9 @@ void setpan(s16 obj_id, u8 param_2)
     }
 }
 
-void FUN_80168f38(s16 param_1) {}
+void PS1_EmptyFunction11(s16 param_1) {}
 
-void FUN_80168f40(void) {}
+void PS1_EmptyFunction12(void) {}
 
 /* 44748 80168F48 -O2 -msoft-float */
 #ifndef MATCHES_BUT

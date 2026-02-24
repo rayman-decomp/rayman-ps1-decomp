@@ -17,7 +17,7 @@ void PS1_StopLevelMusic(void)
     stop_cd();
     PS1_StopPlayingAllSnd();
     stop_all_snd();
-    FUN_80168f40();
+    PS1_EmptyFunction12();
 }
 
 /* 7BBC4 801A03C4 -O2 -msoft-float */
@@ -115,9 +115,9 @@ void InitDB(Display *display)
 }
 
 /* 7BF50 801A0750 -O2 -msoft-float */
-void FUN_801a0750(void)
+void PS1_SelectToExit(void)
 {
-    if (FUN_80133b44(0))
+    if (PS1_SelectPressed(0))
         PROC_EXIT = true;
 }
 
@@ -128,7 +128,7 @@ void PS1_itoa(s16 param_1, u8 *param_2, u8 param_3)
 }
 
 /* 7BFB0 801A07B0 -O2 -msoft-float */
-void FUN_801a07b0(void)
+void PS1_PlayIntro(void)
 {
     if (ModeDemo == 0)
     {

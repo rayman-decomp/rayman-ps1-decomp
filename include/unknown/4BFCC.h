@@ -5,6 +5,6 @@
 #include "common/obj.h"
 #include "common/mapdata.h"
 
-u8 FUN_801707cc(Obj *obj, s16 param_2);
+u8 YaUnBloc(Obj *obj, s16 param_2);
 
 #endif

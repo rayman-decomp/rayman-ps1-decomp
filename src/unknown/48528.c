@@ -43,7 +43,7 @@ void debugw(void)
         TOUCHE(INPUT_READ);
     }
 
-    while (FUN_80133fe0(0) == 0)
+    while (PS1_NoButtonPressed(0) == 0)
         TOUCHE(INPUT_READ);
 
     PS1_Displays[0].field0_0x0 = prev_disp_env;
@@ -162,7 +162,7 @@ void DO_ONE_PINK_CMD(Obj *obj)
 }
 
 /* 48C18 8016D418 -O2 -msoft-float */
-void FUN_8016d418(Obj *obj)
+void PS1_UnusedPoiCommand(Obj *obj)
 {
     switch (obj->cmd)
     {

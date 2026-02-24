@@ -75,7 +75,7 @@ s16 D_801FA570;
 #endif
 
 /* B848 80130048 -O2 -msoft-float */
-void FUN_80130048(void)
+void PS1_StopAll(void)
 {
     PadStop();
     StopPAD();
@@ -106,7 +106,7 @@ void PS1_CdReadyCallback(s32 status, u8 *result)
         if (PS1_Music_fadeout && D_801F7CA8 > D_801F42A8[PS1_CurTrack])
         {
             PS1_Music_fadeout = false;
-            FUN_80131e40();
+            PS1_InitMusicFadeOut();
         }
         if (PS1_Music_will_anticip && D_801F7CA8 > D_801E57C0[PS1_CurTrack])
         {
@@ -116,7 +116,7 @@ void PS1_CdReadyCallback(s32 status, u8 *result)
         if (D_801F7ED0 && D_801F7CA8 > D_801E5240)
         {
             D_801F7ED0 = false;
-            FUN_80131e40();
+            PS1_InitMusicFadeOut();
         }
         if (D_801CEFD8)
             CdControl(CdlPause, null, null);
@@ -161,7 +161,7 @@ void PS1_CdSyncCallback(s32 status, u8 *result)
 }
 
 /* BC28 80130428 -O2 -msoft-float */
-void PS1_Mark_Callback(s16 access_num, s16 seq_num, s16 data)
+void PS1_MarkCallback(s16 access_num, s16 seq_num, s16 data)
 {
     PS1_Mark_access_num = access_num;
     PS1_Mark_seq_num = seq_num;
@@ -170,7 +170,7 @@ void PS1_Mark_Callback(s16 access_num, s16 seq_num, s16 data)
 }
 
 /* BC5C 8013045C -O2 -msoft-float */
-void FUN_8013045c(void)
+void PS1_ManageCdMusic(void)
 {
     if (D_801CEEA6 && !SsIsEos(PS1_Music_access_num, 0))
     {
@@ -184,7 +184,7 @@ void FUN_8013045c(void)
         CdControl(PS1_Music_pcom, (u8 *) &D_801F4E68, null);
     }
     if (PS1_Music_Fade != 0 && !D_801CEFD8)
-        PS1_Music_Apply_Fade();
+        PS1_DoMusicFade();
 }
 
 /* BD14 80130514 -O2 -msoft-float */
@@ -194,35 +194,35 @@ void PS1_SsSetSerialVolA(s16 vol)
 }
 
 /* BD40 80130540 -O2 -msoft-float */
-void FUN_80130540(void)
+void PS1_ResetCallback(void)
 {
     ResetCallback();
 }
 
 /* BD60 80130560 -O2 -msoft-float */
-void PS1_Cd_Callbacks_Disable(void)
+void PS1_RemoveCdCallbacks(void)
 {
     CdSyncCallback(null);
     CdReadyCallback(null);
 }
 
 /* BD88 80130588 -O2 -msoft-float */
-void PS1_Mark_Callback_Disable(void)
+void PS1_RemoveMarkCallback(void)
 {
     SsSetMarkCallback(PS1_Music_access_num, 0, null);
 }
 
 /* BDB4 801305B4 -O2 -msoft-float */
-void PS1_Cd_Callbacks_Enable(void)
+void PS1_SetCdCallbacks(void)
 {
     CdSyncCallback(PS1_CdSyncCallback);
     CdReadyCallback(PS1_CdReadyCallback);
 }
 
 /* BDEC 801305EC -O2 -msoft-float */
-void PS1_Mark_Callback_Enable(void)
+void PS1_SetMarkCallback(void)
 {
-    SsSetMarkCallback(PS1_Music_access_num, 0, PS1_Mark_Callback);
+    SsSetMarkCallback(PS1_Music_access_num, 0, PS1_MarkCallback);
 }
 
 /* BE1C 8013061C -O2 -msoft-float */
@@ -238,14 +238,14 @@ void PS1_InitMusic(void)
 }
 
 /* BE6C 8013066C -O2 -msoft-float */
-void FUN_8013066c(void)
+void PS1_ResetSpecialMusicFlags(void)
 {
     D_801E64B0 = false;
     PS1_ScrollLockedAudio = false;
 }
 
 /* BE84 80130684 -O2 -msoft-float */
-void FUN_80130684(void)
+void PS1_CdPlayerTest(void)
 {
     u8 *occupe_str;
     u8 *anticip_str;
@@ -293,10 +293,10 @@ void FUN_80130684(void)
     FntPrint(s_will_anticips_fadeouts_80125d38, anticip_str, fadeout_str);
 }
 
-void FUN_801309b0(void) {}
+void PS1_EmptyFunction2(void) {}
 
 /* C1B8 801309B8 -O2 -msoft-float */
-u8 FUN_801309b8(u8 param_1, u8 param_2, u8 *param_3, u8 param_4)
+u8 PS1_AddBCD(u8 param_1, u8 param_2, u8 *param_3, u8 param_4)
 {
     u8 unk_1 = btoi(param_1) + btoi(param_2) + btoi(*param_3);
 
@@ -315,16 +315,16 @@ u8 FUN_801309b8(u8 param_1, u8 param_2, u8 *param_3, u8 param_4)
 }
 
 /* C298 80130A98 -O2 -msoft-float */
-void FUN_80130a98(CdlLOC *param_1, CdlLOC *param_2, CdlLOC *param_3)
+void PS1_AddCdLOC(CdlLOC *param_1, CdlLOC *param_2, CdlLOC *param_3)
 {
     param_3->sector = 0;
-    param_3->second = FUN_801309b8(param_1->sector, param_2->sector, &param_3->sector, PS1_SECTORS_P_SEC - 1);
-    param_3->minute = FUN_801309b8(param_1->second, param_2->second, &param_3->second, PS1_SEC_P_MIN - 1);
-    FUN_801309b8(param_1->minute, param_2->minute, &param_3->minute, PS1_SEC_P_MIN - 1); /* TODO: should this be min/hour instead? */
+    param_3->second = PS1_AddBCD(param_1->sector, param_2->sector, &param_3->sector, PS1_SECTORS_P_SEC - 1);
+    param_3->minute = PS1_AddBCD(param_1->second, param_2->second, &param_3->second, PS1_SEC_P_MIN - 1);
+    PS1_AddBCD(param_1->minute, param_2->minute, &param_3->minute, PS1_SEC_P_MIN - 1); /* TODO: should this be min/hour instead? */
 }
 
 /* C318 80130B18 -O2 -msoft-float */
-void FUN_80130b18(u32 param_1, CdlLOC *param_2)
+void PS1_LBAToCdLOC(u32 param_1, CdlLOC *param_2)
 {
     param_2->sector = itob(param_1 % PS1_SECTORS_P_SEC);
     param_2->second = itob(param_1 / PS1_SECTORS_P_SEC % PS1_SEC_P_MIN);
@@ -332,13 +332,13 @@ void FUN_80130b18(u32 param_1, CdlLOC *param_2)
 }
 
 /* C3C4 80130BC4 -O2 -msoft-float */
-s32 FUN_80130bc4(CdlLOC loc)
+s32 PS1_CdLOCToMSF(CdlLOC loc)
 {
     return btoi(loc.sector) + (btoi(loc.second) << 8) + (btoi(loc.minute) << 16);
 }
 
 /* C458 80130C58 -O2 -msoft-float */
-s32 FUN_80130c58(s32 param_1)
+s32 PS1_LBAToMSF(s32 param_1)
 {
     return (param_1 % PS1_SECTORS_P_SEC) +
            (((param_1 / PS1_SECTORS_P_SEC) % PS1_SEC_P_MIN) << 8) +
@@ -346,7 +346,7 @@ s32 FUN_80130c58(s32 param_1)
 }
 
 /* C500 80130D00 -O2 -msoft-float */
-s32 FUN_80130d00(s32 param_1, s32 param_2)
+s32 PS1_AddMSF(s32 param_1, s32 param_2)
 {
     /* add zeroth, first and second 8-bit parts of param_1/param_2? */
     s32 unk_0 = (param_1 & 0xFF) + (param_2 & 0xFF);
@@ -372,10 +372,10 @@ c89 3.6.6.4 The return statement: behavior is undefined
 /* nope */
 static inline s32 PS1_InitTracks_1(CdlLOC param_1, s32 param_2)
 {
-    return FUN_80130d00(FUN_80130bc4(param_1), param_2);
+    return PS1_AddMSF(PS1_CdLOCToMSF(param_1), param_2);
 }
 
-#define PS1_InitTracks_2(param_1, param_2) FUN_80130d00(FUN_80130bc4(param_1), param_2)
+#define PS1_InitTracks_2(param_1, param_2) PS1_AddMSF(PS1_CdLOCToMSF(param_1), param_2)
 
 u8 PS1_InitTracks(void)
 {
@@ -416,59 +416,59 @@ u8 PS1_InitTracks(void)
         {
             D_801F41D0[i] = PS1_TrkFiles[i].file.pos;
             PS1_TrackSizes[i] = (PS1_TrkFiles[i].file.size >> 11) - 40;
-            FUN_80130b18(PS1_TrackSizes[i], &unk_2);
-            unk_3[i] = FUN_80130bc4(unk_2);
+            PS1_LBAToCdLOC(PS1_TrackSizes[i], &unk_2);
+            unk_3[i] = PS1_CdLOCToMSF(unk_2);
         }
     }
 
-    unk_4 = FUN_80130c58(1500);
+    unk_4 = PS1_LBAToMSF(1500);
     for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
     {
         if (PS1_TracksExist[i])
         {
             unk_5 = &D_801F41D0[i];
-            PS1_Music_Fin[i] = FUN_80130d00(FUN_80130bc4(*unk_5), unk_3[i]);
+            PS1_Music_Fin[i] = PS1_AddMSF(PS1_CdLOCToMSF(*unk_5), unk_3[i]);
             if (PS1_TrackSizes[i] < 1500)
-                D_801F7D88[i] = FUN_80130d00(FUN_80130bc4(*unk_5), unk_3[i]);
+                D_801F7D88[i] = PS1_AddMSF(PS1_CdLOCToMSF(*unk_5), unk_3[i]);
             else
-                D_801F7D88[i] = FUN_80130d00(FUN_80130bc4(*unk_5), unk_4);
+                D_801F7D88[i] = PS1_AddMSF(PS1_CdLOCToMSF(*unk_5), unk_4);
         }
     }
 
-    unk_6 = FUN_80130c58(1388);
+    unk_6 = PS1_LBAToMSF(1388);
     for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
     {
         if (PS1_TracksExist[i])
         {
-            unk_3[i] = FUN_80130c58(PS1_TrackSizes[i] - 112);
+            unk_3[i] = PS1_LBAToMSF(PS1_TrackSizes[i] - 112);
             unk_7 = &D_801F41D0[i];
-            D_801F42A8[i] = FUN_80130d00(FUN_80130bc4(*unk_7), unk_3[i]);
+            D_801F42A8[i] = PS1_AddMSF(PS1_CdLOCToMSF(*unk_7), unk_3[i]);
             if (PS1_TrackSizes[i] < 1500)
-                D_801F7AA8[i] = FUN_80130d00(FUN_80130bc4(*unk_7), unk_3[i]);
+                D_801F7AA8[i] = PS1_AddMSF(PS1_CdLOCToMSF(*unk_7), unk_3[i]);
             else
-                D_801F7AA8[i] = FUN_80130d00(FUN_80130bc4(*unk_7), unk_6);
+                D_801F7AA8[i] = PS1_AddMSF(PS1_CdLOCToMSF(*unk_7), unk_6);
         }
     }
 
-    unk_8 = FUN_80130c58(1404);
+    unk_8 = PS1_LBAToMSF(1404);
     for (i = 0; i < (s16) LEN(PS1_TrkFiles); i++)
     {
         if (PS1_TracksExist[i])
         {
-            unk_3[i] = FUN_80130c58(PS1_TrackSizes[i] - 96);
+            unk_3[i] = PS1_LBAToMSF(PS1_TrackSizes[i] - 96);
             unk_7 = &D_801F41D0[i];
-            D_801E57C0[i] = FUN_80130d00(FUN_80130bc4(*unk_7), unk_3[i]);
+            D_801E57C0[i] = PS1_AddMSF(PS1_CdLOCToMSF(*unk_7), unk_3[i]);
             if (PS1_TrackSizes[i] < 1500)
-                D_801F54B0[i] = FUN_80130d00(FUN_80130bc4(*unk_7), unk_3[i]);
+                D_801F54B0[i] = PS1_AddMSF(PS1_CdLOCToMSF(*unk_7), unk_3[i]);
             else
-                D_801F54B0[i] = FUN_80130d00(FUN_80130bc4(*unk_7), unk_8);
+                D_801F54B0[i] = PS1_AddMSF(PS1_CdLOCToMSF(*unk_7), unk_8);
         }
     }
 }
 #endif
 
 /* CC74 80131474 -O2 -msoft-float */
-s16 FUN_80131474(s16 *param_1, s16 param_2, s16 param_3)
+s16 PS1_HasCommandIndex(s16 *param_1, s16 param_2, s16 param_3)
 {
     do
     {
@@ -482,7 +482,7 @@ s16 FUN_80131474(s16 *param_1, s16 param_2, s16 param_3)
 
 /* kinda unreadable still due to unknowns, the shift in table_ind calc */
 /* CCC4 801314C4 -O2 -msoft-float */
-void FUN_801314c4(void)
+void PS1_ProcessMusicCommand2(void)
 {
     D_801CEEA8 = false;
     D_801E4B78 = PS1_LevelMusic_CmdInd + 1;
@@ -504,7 +504,7 @@ void FUN_801314c4(void)
     } while (
         !D_801CEEA8 &&
         (D_801CEEB8 < (s16) LEN(D_801F7A90)) &&
-        !FUN_80131474(D_801F7A90, D_801CEEB8, D_801E4B78)
+        !PS1_HasCommandIndex(D_801F7A90, D_801CEEB8, D_801E4B78)
     );
 }
 
@@ -547,13 +547,13 @@ void PS1_PlayMusic(void)
                 unk_2 = &unk_1;
                 if (D_801F7ED0)
                 {
-                    FUN_80130b18(D_801C4B28[D_801CEEA4++], unk_2);
-                    FUN_80130a98(&D_801F41D0[PS1_CurTrack], unk_2, &D_801E4EF8);
+                    PS1_LBAToCdLOC(D_801C4B28[D_801CEEA4++], unk_2);
+                    PS1_AddCdLOC(&D_801F41D0[PS1_CurTrack], unk_2, &D_801E4EF8);
                     if (D_801CEEA4 == (s16) LEN(D_801C4B28))
                         D_801CEEA4 = 0;
-                    FUN_80130b18(1410, &unk_3);
-                    FUN_80130a98(&D_801E4EF8, &unk_3, &unk_4);
-                    D_801E5240 = FUN_80130bc4(unk_4);
+                    PS1_LBAToCdLOC(1410, &unk_3);
+                    PS1_AddCdLOC(&D_801E4EF8, &unk_3, &unk_4);
+                    D_801E5240 = PS1_CdLOCToMSF(unk_4);
                     PS1_Music_pcom = CdlSetloc;
                     CdControl(PS1_Music_pcom, (u8 *) &D_801E4EF8, null);
                 }
@@ -571,7 +571,7 @@ void PS1_PlayMusic(void)
                 }
 
                 if (PS1_LEVEL_MUSIC_CUR.cmd_and_flags & 0x40)
-                    FUN_80131e5c();
+                    PS1_InitMusicFadeIn();
                 else
                 {
                     PS1_Music_Fade = 0;
@@ -589,13 +589,13 @@ void PS1_PlayMusic(void)
             D_801F4FA0 = PS1_LEVEL_MUSIC_CUR.param;
             D_801CEEA6 = true;
             SsSeqPlay(PS1_Music_access_num, SSPLAY_PLAY, 1);
-            PS1_Mark_Callback_Enable();
+            PS1_SetMarkCallback();
             if (PS1_LEVEL_MUSIC_CUR.cmd_and_flags & 0x40)
             {
                 SsSeqSetVol(PS1_Music_access_num, 0, 0);
                 SsSeqSetCrescendo(PS1_Music_access_num, 127, 240);
             }
-            FUN_801314c4();
+            PS1_ProcessMusicCommand2();
             done = true;
             break;
         case 3:
@@ -613,11 +613,11 @@ void PS1_PlayMusic(void)
 void start_cd(s16 world, s16 lvl)
 {
     D_801CEEBC = false;
-    PS1_Cd_Callbacks_Disable();
-    FUN_8013066c();
+    PS1_RemoveCdCallbacks();
+    PS1_ResetSpecialMusicFlags();
     pause_cd();
     CdSync(0, null);
-    PS1_Cd_Callbacks_Enable();
+    PS1_SetCdCallbacks();
     PS1_LevelMusic_World = world;
     PS1_LevelMusic_Level = lvl;
     PS1_LevelMusic_CmdInd = -1;
@@ -653,7 +653,7 @@ void start_cd_victory(void)
 void start_cd_gagne(void)
 {
     D_801F5248 = true;
-    FUN_80131e40();
+    PS1_InitMusicFadeOut();
     if (PS1_SongIsPlaying(21) == 0)
     {
         PS1_StopPlayingAllSnd();
@@ -665,7 +665,7 @@ void start_cd_gagne(void)
 /* D518 80131D18 -O2 -msoft-float */
 void start_cd_perdu(void)
 {
-    FUN_8016617c();
+    stop_ray_snd();
     PS1_StopPlayingAllSnd();
     start_cd(0, 1);
 }
@@ -707,28 +707,28 @@ void stop_cd(void)
 }
 
 /* D618 80131E18 -O2 -msoft-float */
-void PS1_Volume_Zero(void)
+void PS1_SetVolumeTo0(void)
 {
     SsSetSerialVol(SS_SERIAL_A, 0, 0);
 }
 
 /* D640 80131E40 -O2 -msoft-float */
-void FUN_80131e40(void)
+void PS1_InitMusicFadeOut(void)
 {
     PS1_Music_Fade = 2;
     PS1_Music_ind_fade = 0;
 }
 
 /* D65C 80131E5C -O2 -msoft-float */
-void FUN_80131e5c(void)
+void PS1_InitMusicFadeIn(void)
 {
-    PS1_Volume_Zero();
+    PS1_SetVolumeTo0();
     PS1_Music_Fade = 1;
     PS1_Music_ind_fade = 89;
 }
 
 /* D694 80131E94 -O2 -msoft-float */
-void PS1_Music_Apply_Fade(void)
+void PS1_DoMusicFade(void)
 {
     s16 vol;
 
@@ -770,7 +770,7 @@ void PS1_Music_Apply_Fade(void)
 }
 
 /* D82C 8013202C -O2 -msoft-float */
-void FUN_8013202c(void)
+void PS1_PlayWaterRisingMusic(void)
 {
     D_801E64B0 = true;
     PS1_LevelMusic_CmdInd = 1;
@@ -812,17 +812,17 @@ void change_audio_track_puit(void)
 void start_cd_bbdead(void)
 {
     D_801F5248 = true;
-    FUN_80131e40();
+    PS1_InitMusicFadeOut();
     PS1_PlaySnd(21, 0);
 }
 
-void FUN_80132148(void) {}
+void PS1_EmptyFunction3(void) {}
 
-void FUN_80132150(void) {}
+void PS1_EmptyFunction4(void) {}
 
-void FUN_80132158(void) {}
+void PS1_EmptyFunction5(void) {}
 
-void FUN_80132160(void) {}
+void PS1_EmptyFunction6(void) {}
 
 /* D968 80132168 -O2 -msoft-float */
 void PS1_SetMusicVolume(s16 param_1)
@@ -832,13 +832,13 @@ void PS1_SetMusicVolume(s16 param_1)
 }
 
 /* D9FC 801321FC -O2 -msoft-float */
-void FUN_801321fc(void)
+void PS1_PrintMark(void)
 {
     FntPrint(s_2d_markddd_80125d58, PS1_Mark_counter, PS1_Mark_access_num, PS1_Mark_seq_num, PS1_Mark_data);
 }
 
 /* DA44 80132244 -O2 -msoft-float */
-void FUN_80132244(void)
+void PS1_Exit(void)
 {
     exit();
 }

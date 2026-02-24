@@ -101,7 +101,7 @@ s16 testActionEnd(Obj *obj)
 }
 
 /* 66F8C 8018B78C -O2 -msoft-float */
-void FUN_8018b78c(s16 *param_1, s16 *horloge_ind, s16 *param_3, s16 *param_4, u8 param_5)
+void PS1_CalcCenteredValue(s16 *param_1, s16 *horloge_ind, s16 *param_3, s16 *param_4, u8 param_5)
 {
     s16 sVar1;
     u16 unk_2;

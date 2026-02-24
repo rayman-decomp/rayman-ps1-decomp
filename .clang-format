@@ -9,8 +9,8 @@
 #explicitly disable ghidra-style func arguments (comma without space?)
 #InsertBraces: False #fond_5BD8C DISPLAY_ANYSIZE_PICTURE e.g... seems to leave the ones that are like this alone, though
 #pointer cast (s32*) vs (s32 *)
-#prevent breaking assignments like in FUN_80132304
-#BreakBeforeBinaryOperators: All #PS1_Music_Apply_Fade e.g.
+#prevent breaking assignments like in PS1_LoadTilePalettes
+#BreakBeforeBinaryOperators: All #PS1_DoMusicFade e.g.
 #FLG(OBJ_ALIVE)|FLG(OBJ_ACTIVE) adds spaces
 #https://discourse.llvm.org/t/clang-format-leading-whitespace/46841 ?
 #src/data {704} vs { 704 }

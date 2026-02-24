@@ -4,6 +4,6 @@
 #include "common.h"
 #include "sound.h"
 
-void FUN_80172704(Obj *obj);
+void PS1_PhotographerCommand(Obj *obj);
 
 #endif

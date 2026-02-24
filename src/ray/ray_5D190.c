@@ -1314,7 +1314,7 @@ void RAY_RESPOND_TO_DOWN(void)
     case 1:
         if (
             RayEvts.force_run == 0 &&
-            !FUN_80133984(0) && !FUN_801339f4(0)
+            !PS1_LPressed(0) && !PS1_RPressed(0)
         )
             RAY_STOP();
         break;
@@ -1364,7 +1364,7 @@ void RAY_RESPOND_TO_UP(void)
     case 1:
         if (
             RayEvts.force_run == 0 &&
-            !FUN_80133984(0) && !FUN_801339f4(0)
+            !PS1_LPressed(0) && !PS1_RPressed(0)
         )
             RAY_STOP();
         break;
@@ -1405,7 +1405,7 @@ void RAY_RESPOND_TO_DIR(s16 flip_x)
         joy_done++;
         if (
             ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40 &&
-            !FUN_80133984(0) && !FUN_801339f4(0)
+            !PS1_LPressed(0) && !PS1_RPressed(0)
         )
         {
             if (!(block_flags[(u8) calc_typ_trav(&ray, 2)] >> BLOCK_FLAG_4 & 1))
@@ -1540,7 +1540,7 @@ void RAY_RESPOND_TO_NOTHING(void)
     {
     case 1:
         if (
-            !(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40 && (FUN_80133984(0) || FUN_801339f4(0))) &&
+            !(ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40 && (PS1_LPressed(0) || PS1_RPressed(0))) &&
             !(ray.sub_etat == 4 || ray.sub_etat == 5) && RayEvts.force_run == 0
         )
         {
@@ -1551,7 +1551,7 @@ void RAY_RESPOND_TO_NOTHING(void)
                 set_sub_etat(&ray, 48);
             else if (ray.sub_etat == 3 || ray.sub_etat == 7)
                 set_sub_etat(&ray, 36);
-            else if (!(FUN_80133984(0) || FUN_801339f4(0)))
+            else if (!(PS1_LPressed(0) || PS1_RPressed(0)))
                 set_sub_etat(&ray, 0);
         }
         RAY_SWIP();
@@ -1565,7 +1565,7 @@ void RAY_RESPOND_TO_NOTHING(void)
             else
                 set_sub_etat(&ray, 3);
         }
-        if (ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40 && !(FUN_801339f4(0) || FUN_80133984(0)))
+        if (ray.eta[ray.main_etat][ray.sub_etat].flags & 0x40 && !(PS1_RPressed(0) || PS1_LPressed(0)))
         {
             if (!((block_flags[(u8) calc_typ_trav(&ray, 2)] >> BLOCK_FLAG_4) & 1))
             {

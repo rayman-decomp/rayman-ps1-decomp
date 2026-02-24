@@ -61,7 +61,7 @@ void PS1_Init_ImgLdrVdoTrk_Files(void)
 }
 
 /* 79574 8019DD74 -O2 -msoft-float */
-void FUN_8019dd74(void)
+void PS1_Init_Data_Files(void)
 {
     PS1_InitFiles(PS1_PreFiles, 5, s_pre_file_8012c260);
     PS1_InitFiles(PS1_CrdFiles, 6, s_crd_file_8012c26c);
@@ -190,11 +190,11 @@ void charge_wld(s16 world)
     load_vram_wld(*(s32 *) 0x8005867C - *(s32 *) 0x80058678);
     LoadClut(&D_801F4410[((s32 *) D_801F5160)[4]], 768, 490);
     LoadClut(&D_801F4410[((s32 *) D_801F5160)[5]], 768, 491);
-    FUN_80139688(((s32 *) D_801F5160)[7] - ((s32 *) D_801F5160)[6]);
+    PS1_LoadTileSet(((s32 *) D_801F5160)[7] - ((s32 *) D_801F5160)[6]);
     D_801CF0CC = 0;
     D_801CF0CD = false;
-    FUN_80132304(&D_801F4410[((s32 *) D_801F5160)[7]], (u8) ((u32) (*((s32 *) D_801F5160 + 8) - ((s32 *) D_801F5160)[7]) >> 9));
-    FUN_8013234c(&D_801F4410[((s32 *) D_801F5160)[8]]);
+    PS1_LoadTilePalettes(&D_801F4410[((s32 *) D_801F5160)[7]], (u8) ((u32) (*((s32 *) D_801F5160 + 8) - ((s32 *) D_801F5160)[7]) >> 9));
+    PS1_LoadTilePaletteMappingTable(&D_801F4410[((s32 *) D_801F5160)[8]]);
     D_801CEE9C = world;
     D_801CEE9A = 0;
     no_fnd = -1;
@@ -377,7 +377,7 @@ void LOAD_SAVE_SCREEN(void)
 }
 
 /* 7A330 8019EB30 -O2 -msoft-float */
-void FUN_8019eb30(void)
+void LOAD_OPTIONS_SCREEN(void)
 {
     if (!D_801CF0CD)
     {
@@ -394,10 +394,10 @@ void FUN_8019eb30(void)
 
 /* 7A3C0 8019EBC0 -O2 -msoft-float */
 #ifndef MATCHES_BUT
-INCLUDE_ASM("asm/nonmatchings/loading_794DC", FUN_8019ebc0);
+INCLUDE_ASM("asm/nonmatchings/loading_794DC", PS1_LoadUnusedIntroScreens);
 #else
 /* s16 without return (see c89 3.6.6.4 The return statement) */
-s16 FUN_8019ebc0(void)
+s16 PS1_LoadUnusedIntroScreens(void)
 {
     if (PS1_ShouldClearPassword)
     {

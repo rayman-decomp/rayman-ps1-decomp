@@ -313,7 +313,7 @@ void DO_RAYMAN(void)
 
     v_scroll_speed = 0;
     h_scroll_speed = 0;
-    setvol(-1, FUN_801473dc(&ray));
+    setvol(-1, PS1_GetObjVolume(&ray));
     if (RAY_DEAD())
     {
         ray.ray_dist =
@@ -372,7 +372,7 @@ void DO_RAYMAN(void)
                 {
                     level.objects[eau_obj_id].iframes_timer = 1;
                     if (!D_801E64B0)
-                        FUN_8013202c();
+                        PS1_PlayWaterRisingMusic();
                 }
             }
             else if (ray.sub_etat == 20 || ray.sub_etat == 21)
@@ -389,17 +389,17 @@ void DO_RAYMAN(void)
                 (ray.main_etat == 0 || ray.main_etat == 1)
             )
             {
-                if (FUN_801339f4(0) && !FUN_80133984(0))
+                if (PS1_RPressed(0) && !PS1_LPressed(0))
                 {
                     PS1_ShoulderR = 1;
                     PS1_ShoulderL = 0;
                 }
-                else if (!FUN_801339f4(0) && FUN_80133984(0))
+                else if (!PS1_RPressed(0) && PS1_LPressed(0))
                 {
                     PS1_ShoulderR = 0;
                     PS1_ShoulderL = 1;
                 }
-                else if (FUN_801339f4(0) && FUN_80133984(0))
+                else if (PS1_RPressed(0) && PS1_LPressed(0))
                 {
                     if (PS1_ShoulderL == 1)
                     {

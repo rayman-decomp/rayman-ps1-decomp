@@ -12,8 +12,8 @@ extern u8 *link_init; /* not sure if this should be here? since non-gendoor thin
 
 void deactivate_ship_links(void);
 s16 linkListHoldsAGendoor(Obj *obj);
-s16 FUN_8015666c(Obj *obj);
-s16 FUN_80156710(Obj *obj);
+s16 PS1_ObjectCanOnlyBeLinkedToAGendoor(Obj *obj);
+s16 PS1_ObjectCanNotBeLinked(Obj *obj);
 void correct_gendoor_link(void);
 void suppressFromLinkList(Obj *obj);
 void correct_link(void);

@@ -193,7 +193,7 @@ void fadenuitbleu(RGBAArray *param_1, s16 param_2)
 }
 
 /* 452C8 80169AC8 -O2 -msoft-float */
-void FUN_80169ac8(RGBAArray *param_1, s16 param_2)
+void PS1_UnknownFadeEffect(RGBAArray *param_1, s16 param_2)
 {
     PS1_CurrentDisplay->field_0x60bc_0x660b[3].tile.r0 = param_1->data[0];
     PS1_CurrentDisplay->field_0x60bc_0x660b[3].tile.g0 = param_1->data[1];
@@ -208,9 +208,9 @@ void FUN_80169ac8(RGBAArray *param_1, s16 param_2)
     );
 }
 
-void FUN_80169b54(RGBAArray *param_1, s16 param_2) {}
+void PS1_EmptyFadeEffect1(RGBAArray *param_1, s16 param_2) {}
 
-void FUN_80169b5c(RGBAArray *param_1, s16 param_2) {}
+void PS1_EmptyFadeEffect2(RGBAArray *param_1, s16 param_2) {}
 
 /* 45364 80169B64 -O2 -msoft-float */
 void INIT_FADE_OUT(void)

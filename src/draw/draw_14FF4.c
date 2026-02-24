@@ -308,7 +308,7 @@ void draw_sprite_prof(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 param_5)
 }
 
 /* 1555C 80139D5C -O2 -msoft-float */
-void FUN_80139d5c(s16 *p_poly_x, s16 *p_poly_y, s16 param_3, s16 param_4, s16 angle)
+void PS1_RotateSprite(s16 *p_poly_x, s16 *p_poly_y, s16 param_3, s16 param_4, s16 angle)
 {
     s16 old_poly_x = *p_poly_x;
     s16 old_poly_y = *p_poly_y;
@@ -407,10 +407,10 @@ void draw_sprite_ray(Sprite *sprite, s16 x, s16 y, u8 is_flipped, s16 angle_ind)
             poly->x3 = unk40[angle_ind];
             poly->y3 = unk60[angle_ind];
 
-            FUN_80139d5c(&poly->x0, &poly->y0, unkC0[angle_ind], unkE0[angle_ind], unk_3);
-            FUN_80139d5c(&poly->x1, &poly->y1, unkC0[angle_ind], unkE0[angle_ind], unk_3);
-            FUN_80139d5c(&poly->x2, &poly->y2, unkC0[angle_ind], unkE0[angle_ind], unk_3);
-            FUN_80139d5c(&poly->x3, &poly->y3, unkC0[angle_ind], unkE0[angle_ind], unk_3);
+            PS1_RotateSprite(&poly->x0, &poly->y0, unkC0[angle_ind], unkE0[angle_ind], unk_3);
+            PS1_RotateSprite(&poly->x1, &poly->y1, unkC0[angle_ind], unkE0[angle_ind], unk_3);
+            PS1_RotateSprite(&poly->x2, &poly->y2, unkC0[angle_ind], unkE0[angle_ind], unk_3);
+            PS1_RotateSprite(&poly->x3, &poly->y3, unkC0[angle_ind], unkE0[angle_ind], unk_3);
         }
 
         if (is_flipped)
@@ -686,7 +686,7 @@ void DISPLAY_FIXE(s16 left_time)
 }
 
 /* 16554 8013AD54 -O2 -msoft-float */
-void FUN_8013ad54(s16 param_1, s16 param_2, s16 param_3)
+void PS1_DisplayNumber(s16 param_1, s16 param_2, s16 param_3)
 {
     Obj *sbar_obj = &level.objects[sbar_obj_id];
     u8 spr_3 = (param_1 % 10);
@@ -804,7 +804,7 @@ void draw_flocon5_Normal(s16 x0, s16 y0)
 }
 
 /* 16A94 8013B294 -O2 -msoft-float */
-void FUN_8013b294(s16 x0, s16 y0)
+void PS1_AddSnowPrim1(s16 x0, s16 y0)
 {
     SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
 
@@ -815,7 +815,7 @@ void FUN_8013b294(s16 x0, s16 y0)
 }
 
 /* 16B04 8013B304 -O2 -msoft-float */
-void FUN_8013b304(s16 x0, s16 y0)
+void PS1_AddSnowPrim2(s16 x0, s16 y0)
 {
     SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
 
@@ -859,7 +859,7 @@ void draw_pluie6_Normal(s16 x0, s16 y0)
 }
 
 /* 16CD4 8013B4D4 -O2 -msoft-float */
-void FUN_8013b4d4(s16 x0, s16 y0)
+void PS1_AddSnowPrim3(s16 x0, s16 y0)
 {
     SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
 
@@ -1049,7 +1049,7 @@ void display_flocons_before(void)
             {
                 for (j = ind; j < max_ind; j++)
                 {
-                    FUN_8013b304(
+                    PS1_AddSnowPrim2(
                         (unk_mul * entry->field0_0x0 >> 8) + unk_x,
                         (unk_mul * entry->field1_0x2 >> 8) + unk_y
                     );
@@ -1060,7 +1060,7 @@ void display_flocons_before(void)
             {
                 for (j = ind; j < max_ind; j++)
                 {
-                    FUN_8013b294(
+                    PS1_AddSnowPrim1(
                         (unk_mul * entry->field0_0x0 >> 8) + unk_x,
                         (unk_mul * entry->field1_0x2 >> 8) + unk_y
                     );
@@ -1072,7 +1072,7 @@ void display_flocons_before(void)
         {
             for (j = ind; j < max_ind; j++)
             {
-                FUN_8013b4d4(
+                PS1_AddSnowPrim3(
                     (unk_mul * entry->field0_0x0 >> 8) + unk_x,
                     (unk_mul * entry->field1_0x2 >> 8) + unk_y
                 );

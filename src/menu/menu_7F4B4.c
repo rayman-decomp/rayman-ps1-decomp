@@ -316,7 +316,7 @@ s16 saisie_nom_prg(void)
 }
 
 /* 7FE30 801A4630 -O2 -msoft-float */
-s16 FUN_801a4630(void)
+s16 PS1_MemoryCardSaveSelectionPrg(void)
 {
     s32 done;
 
@@ -347,7 +347,7 @@ s16 FUN_801a4630(void)
 }
 
 /* 7FF90 801A4790 -O2 -msoft-float */
-void FUN_801a4790(void)
+void PS1_MemoryCardSaveSelection(void)
 {
     let_shadow = true;
     LOAD_SAVE_SCREEN();
@@ -357,7 +357,7 @@ void FUN_801a4790(void)
     INIT_SAVE_CHOICE();
     INIT_SAVE_CONTINUE();
     TempsDemo = 0;
-    SYNCHRO_LOOP(FUN_801a4630);
+    SYNCHRO_LOOP(PS1_MemoryCardSaveSelectionPrg);
     DO_FADE_OUT();
 }
 
@@ -495,12 +495,12 @@ s16 options_choice_prg(void)
 /* 80690 801A4E90 -O2 -msoft-float */
 void PS1_DoGameOptions(void)
 {
-    FUN_801a6808();
-    FUN_8019eb30();
+    PS1_InitGameOptionsMenu();
+    LOAD_OPTIONS_SCREEN();
     INIT_FADE_IN();
-    FUN_801a76e4();
+    PS1_DisplayGameOptions();
     SYNCHRO_LOOP(options_choice_prg);
-    FUN_801a6984();
+    PS1_LoadOptions();
     DO_FADE_OUT();
 }
 
@@ -889,7 +889,7 @@ void REALISATION_ACTION(void)
             if (PS1_positiony_mc == 1)
             {
                 fichier_selectionne = positiony;
-                FUN_8016bbe4();
+                REMOVE_FICHIER();
                 *save_ray[fichier_selectionne] = *s__801cf120;
             }
             realisation_effectuee = true;

@@ -172,7 +172,7 @@ void videosetup(VideoState *param_1)
     else
         param_1->frame_rect.y = 276;
     param_1->frame_rect.x = 0;
-    VSyncCallback(FUN_80132f8c);
+    VSyncCallback(PS1_VideoVsyncCallback);
 }
 
 /* E604 80132E04 -O2 -msoft-float */
@@ -211,7 +211,7 @@ void PS1_ReadVideoFile(u32 *param_1, Video video)
 }
 
 /* E78C 80132F8C -O2 -msoft-float */
-void FUN_80132f8c(void)
+void PS1_VideoVsyncCallback(void)
 {
     PS1_CurrentVideoState.vsync_counter = PS1_CurrentVideoState.vsync_counter + 1;
     /*__asm__("lbu     $v0,0($v1)\nnop");*/
@@ -223,4 +223,4 @@ void FUN_80132f8c(void)
     }
 }
 
-void FUN_80133010(void) {}
+void PS1_EmptyFunction7(void) {}

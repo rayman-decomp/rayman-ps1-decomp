@@ -9,6 +9,6 @@ void START_LOADER_ANIM(void);
 void END_LOADER_ANIM(void);
 void DO_GROS_RAYMAN(void);
 void show_paused(void);
-s32 FUN_8012eda4(s16 param_1, s16 param_2);
+s32 PS1_GetVramAddress(s16 param_1, s16 param_2);
 
 #endif

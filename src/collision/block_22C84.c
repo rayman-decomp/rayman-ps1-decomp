@@ -595,7 +595,7 @@ void makeUturn(Obj *obj)
 }
 
 /* 23CAC 801484AC -O2 -msoft-float */
-u16 FUN_801484ac(s16 x, s16 y)
+u16 PS1_GetBTYPFromTilePos(s16 x, s16 y)
 {
     if (x >= 0 && (x <= mp.width - 1) && y >= 0 && (y <= mp.height - 1))
         return mp.map[x + y * mp.width] >> 10;
@@ -639,23 +639,23 @@ void calc_btyp_square(Obj *obj)
     x_3 = ashr16(x_2, 4);
     x_4 = ashr16(x_2 - x_offs, 4);
     x_5 = ashr16(x_2 + x_offs, 4);
-    obj->btypes[3] = FUN_801484ac(x_3, y_2 + -1);
-    obj->btypes[1] = FUN_801484ac(x_4, y_2);
+    obj->btypes[3] = PS1_GetBTYPFromTilePos(x_3, y_2 + -1);
+    obj->btypes[1] = PS1_GetBTYPFromTilePos(x_4, y_2);
     if (obj->main_etat == 2)
     {
         /* fixed point math */
         obj->btypes[0] = bloc_floor(
-            (u8) FUN_801484ac(x_3, y_2),
+            (u8) PS1_GetBTYPFromTilePos(x_3, y_2),
             (s16) (x_2 - (x_2 / 16 * 16)),
             (s16) (y_1 - (y_1 / 16 * 16))
         );
     }
     else
     {
-        obj->btypes[0] = FUN_801484ac(x_3, y_2);
+        obj->btypes[0] = PS1_GetBTYPFromTilePos(x_3, y_2);
     }
-    obj->btypes[2] = FUN_801484ac(x_5, y_2);
-    obj->btypes[4] = FUN_801484ac(x_3, y_2 + 1);
+    obj->btypes[2] = PS1_GetBTYPFromTilePos(x_5, y_2);
+    obj->btypes[4] = PS1_GetBTYPFromTilePos(x_3, y_2 + 1);
 }
 #endif
 

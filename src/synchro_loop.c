@@ -1,6 +1,6 @@
 #include "synchro_loop.h"
 
-void FUN_801802d8(void) {}
+void PS1_EmptyFunction13(void) {}
 
 /* 5BAE0 801802E0 -O2 -msoft-float */
 void SYNCHRO_LOOP(s16 (*func)())

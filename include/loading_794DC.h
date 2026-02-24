@@ -62,7 +62,7 @@ extern s32 *D_801E5260;
 extern s32 *D_801F59E0; /* see loading_DA64 */
 
 void PS1_Init_ImgLdrVdoTrk_Files(void);
-void FUN_8019dd74(void);
+void PS1_Init_Data_Files(void);
 void charge_une_vignette(void);
 void charge_wld_vignette(s16 param_1);
 void charge_ini(void);
@@ -78,8 +78,8 @@ void charge_vig_loader2(void);
 void LOAD_CONTINUE_SCREEN(void);
 void PS1_LoadImgSplash(void);
 void LOAD_SAVE_SCREEN(void);
-void FUN_8019eb30(void);
-s16 FUN_8019ebc0(void);
+void LOAD_OPTIONS_SCREEN(void);
+s16 PS1_LoadUnusedIntroScreens(void);
 void LOAD_CREDITS_VIGNET(void);
 void LOAD_VIGNET_GAME(void);
 
