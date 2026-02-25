@@ -43,6 +43,16 @@ Any help with these is greatly appreciated! Feel free to create a PR or open an 
 | src/obj/spider_plafond.c    | DO_DARD_PLAFOND_ALWAYS           | 80178938    | https://decomp.me/scratch/SonmS | 92.47%     |
 | src/obj/ufo_idc.c           | DO_MOVING_WITH_INDICATOR_COMMAND | 80199230    | https://decomp.me/scratch/u9HGf | 93.81%     |
 
+## Project to-do/dreams
+Below is a list of potential goals for the decomp. Since there aren't many people working on this project we would greatly appreciate any help anyone is willing to provide!
+
+- Finish native PC port.
+- Merge with [Rayverse](https://github.com/Falcury/rayverse) for a unified codebase.
+- Name remaining unnamed global variables.
+- Clean up codebase with proper variable names in functions and comments to make it more readable.
+- Use bitfields instead of flags in the places where it's known to be done in the original game.
+- Add PAL support since it has more languages, among other updates. Maybe NTSC-J version too, although that has more differences.
+
 ## Credits
 - [fuerchter:](https://github.com/fuerchter) Original creator of the decomp, matching the majority of the functions.
 - Tools (among others): Authors of [splat](https://github.com/ethteck/splat), [m2ctx](https://github.com/ethteck/m2ctx), [m2c](https://github.com/matt-kempster/m2c), [maspsx](https://github.com/mkst/maspsx), [asm-differ](https://github.com/simonlindholm/asm-differ), [decomp-permuter](https://github.com/simonlindholm/decomp-permuter), [decomp.me](https://github.com/decompme/decomp.me), [pcsx-redux](https://github.com/grumpycoders/pcsx-redux).
