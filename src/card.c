@@ -1,7 +1,7 @@
 #include "card.h"
 
 #ifdef BSS_DEFS
-LoadInfoRay loadInfoRay[6];
+LoadInfoRay loadInfoRay[3];
 u8 D_801F7F08[34];
 s32 PS1_SwCARD_EvSpERROR;
 s32 PS1_SwCARD_EvSpIOE;

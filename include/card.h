@@ -40,7 +40,7 @@ extern u8 s_Maga_801cf050[5];
 extern u8 s_ss_801cf058[5];
 
 /**/
-extern LoadInfoRay loadInfoRay[6];
+extern LoadInfoRay loadInfoRay[3];
 extern u8 D_801F7F08[34];
 extern s32 PS1_SwCARD_EvSpERROR;
 extern s32 PS1_SwCARD_EvSpIOE;

@@ -8,7 +8,7 @@
 #include "gendoor.h"
 
 /**/
-extern s16 PS1_SplashAlwaysObjects[12];
+extern s16 PS1_SplashAlwaysObjects[10];
 extern u8 PS1_SplashAlwaysObjectsCount;
 
 void allocate_splash(Obj *base_obj);

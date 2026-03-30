@@ -1,7 +1,7 @@
 #include "obj/fish.h"
 
 #ifdef BSS_DEFS
-s16 PS1_SplashAlwaysObjects[12];
+s16 PS1_SplashAlwaysObjects[10];
 u8 PS1_SplashAlwaysObjectsCount;
 #endif
 
