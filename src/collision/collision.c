@@ -640,7 +640,7 @@ s32 BOX_HIT_SPECIAL_ZDC(s16 in_x, s16 in_y, s16 in_w, s16 in_h, Obj *obj)
     {
     case TYPE_BAG1:
         frame = obj->anim_frame;
-        d = bagD[frame];
+        d = bagDy[frame];
         if (d != -1)
         {
             if (inter_box(

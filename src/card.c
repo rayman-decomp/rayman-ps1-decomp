@@ -1,7 +1,7 @@
 #include "card.h"
 
 #ifdef BSS_DEFS
-LoadInfoRay loadInfoRay[3];
+LoadInfo LoadInfoRay[3];
 u8 D_801F7F08[34];
 s32 PS1_SwCARD_EvSpERROR;
 s32 PS1_SwCARD_EvSpIOE;
@@ -512,14 +512,14 @@ s32 SaveGameOnCard(u8 chan_par, u8 slot_par)
         if (fd != -1)
         {
             PS1_WriteWiSaveZone();
-            loadInfoRay[slot_par - 1].num_cages = 0;
+            LoadInfoRay[slot_par - 1].num_cages = 0;
             cnt = 0;
             do
             {
-                loadInfoRay[slot_par - 1].num_cages = loadInfoRay[slot_par - 1].num_cages + (wi_save_zone[cnt].nb_cages);
+                LoadInfoRay[slot_par - 1].num_cages = LoadInfoRay[slot_par - 1].num_cages + (wi_save_zone[cnt].nb_cages);
                 cnt = cnt + 1;
             } while (cnt < 24);
-            chan_local = loadInfoRay[slot_par - 1].num_cages * 100;
+            chan_local = LoadInfoRay[slot_par - 1].num_cages * 100;
             card_frame0.sc_magic[0] = 'S';
             card_frame0.sc_magic[1] = 'C';
             card_frame0.icon_display_flag = 0x13;
@@ -740,12 +740,12 @@ s32 LoadInfoGame(u8 slot)
         __builtin_memcpy(&status_bar, file_buffer, sizeof(status_bar));
         close(file);
 
-        loadInfoRay[slot - 1].num_continues = nb_continue;
-        loadInfoRay[slot - 1].num_cages = 0;
+        LoadInfoRay[slot - 1].num_continues = nb_continue;
+        LoadInfoRay[slot - 1].num_cages = 0;
         for (i = 0; i < 24; i++)
-            loadInfoRay[slot - 1].num_cages += wi_save_zone[i].nb_cages;
-        loadInfoRay[slot - 1].num_lives = status_bar.num_lives;
-        loadInfoRay[slot - 1].num_wiz = status_bar.num_wiz;
+            LoadInfoRay[slot - 1].num_cages += wi_save_zone[i].nb_cages;
+        LoadInfoRay[slot - 1].num_lives = status_bar.num_lives;
+        LoadInfoRay[slot - 1].num_wiz = status_bar.num_wiz;
         return 0;
     }
 }

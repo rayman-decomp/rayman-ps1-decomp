@@ -39,10 +39,10 @@ void INIT_NEW_GAME(void)
         t_world_info[i].nb_cages = 0;
     }
 
-    loadInfoRay[positiony - 1].num_lives = 3;
-    loadInfoRay[positiony - 1].num_wiz = 0;
-    loadInfoRay[positiony - 1].num_cages = 0;
-    loadInfoRay[positiony - 1].num_continues = 5;
+    LoadInfoRay[positiony - 1].num_lives = 3;
+    LoadInfoRay[positiony - 1].num_wiz = 0;
+    LoadInfoRay[positiony - 1].num_cages = 0;
+    LoadInfoRay[positiony - 1].num_continues = 5;
 
     for (i = 0; i < (s16) LEN(bonus_perfect) - 1; i++)
         bonus_perfect[i] = 0;

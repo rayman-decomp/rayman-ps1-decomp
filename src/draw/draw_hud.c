@@ -256,7 +256,7 @@ void DISPLAY_SAVE_SPRITES(s16 x, s16 y)
     s16 sprite_ind_3;
 
     loc_mapobj = mapobj;
-    num_lives = loadInfoRay[y].num_lives;
+    num_lives = LoadInfoRay[y].num_lives;
     sprite_ind_1 = ((s32) num_lives / 10) + 28;
     sprite_ind_2 = (num_lives % 10) + 28;
     display_sprite(&div_obj, 27, x, calc_y(y), 0);
@@ -266,12 +266,12 @@ void DISPLAY_SAVE_SPRITES(s16 x, s16 y)
     display_sprite(&div_obj, sprite_ind_2, x, calc_y(y), 0);
     x = x + div_obj.sprites[28].width + 10;
 
-    sprite_ind_1 = (loadInfoRay[y].num_continues % 10) + 28;
+    sprite_ind_1 = (LoadInfoRay[y].num_continues % 10) + 28;
     display_sprite(loc_mapobj, 57, x, calc_y(y), 0);
     x += loc_mapobj->sprites[57].width;
     display_sprite(&div_obj, sprite_ind_1, x, calc_y(y), 0);
 
-    pct = loadInfoRay[y].num_cages * 100 / 102;
+    pct = LoadInfoRay[y].num_cages * 100 / 102;
     sprite_ind_1 = ((s16) pct / 100) + 28;
     sprite_ind_2 = ((s16) pct / 10 % 10) + 28;
     sprite_ind_3 = ((s16) pct % 10) + 28;

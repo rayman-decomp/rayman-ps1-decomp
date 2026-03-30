@@ -19,13 +19,13 @@ typedef struct CardFrame0
     u8 icon_palette[32];
 } CardFrame0;
 
-typedef struct LoadInfoRay
+typedef struct LoadInfo
 {
     u8 num_lives;
     u8 num_wiz;
     u8 num_cages;
     u8 num_continues;
-} LoadInfoRay;
+} LoadInfo;
 
 /* .data */
 extern s32 D_801CF01C;
@@ -40,7 +40,7 @@ extern u8 s_Maga_801cf050[5];
 extern u8 s_ss_801cf058[5];
 
 /**/
-extern LoadInfoRay loadInfoRay[3];
+extern LoadInfo LoadInfoRay[3];
 extern u8 D_801F7F08[34];
 extern s32 PS1_SwCARD_EvSpERROR;
 extern s32 PS1_SwCARD_EvSpIOE;

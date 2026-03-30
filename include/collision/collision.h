@@ -32,7 +32,7 @@ extern ZDC zdc_tab[512];
 extern u16 type_zdc[256];
 
 /* .data */
-extern s16 bagD[20];
+extern s16 bagDy[20];
 extern s16 bagW[20];
 extern s16 bagH[20];
 

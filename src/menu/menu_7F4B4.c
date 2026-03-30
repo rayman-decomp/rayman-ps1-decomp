@@ -871,10 +871,10 @@ void REALISATION_ACTION(void)
                 strcpy(D_801F7F68, save_ray[positiony]);
                 strcpy(save_ray[fichier_selectionne], save_ray[fichier_a_copier]);
                 /* ??? */
-                loadInfoRay[fichier_selectionne - 1].num_lives = loadInfoRay[fichier_a_copier - 1].num_lives;
-                loadInfoRay[fichier_selectionne - 1].num_wiz = loadInfoRay[fichier_a_copier - 1].num_wiz;
-                loadInfoRay[fichier_selectionne - 1].num_cages = loadInfoRay[fichier_a_copier - 1].num_cages;
-                loadInfoRay[fichier_selectionne - 1].num_continues = loadInfoRay[fichier_a_copier - 1].num_continues;
+                LoadInfoRay[fichier_selectionne - 1].num_lives = LoadInfoRay[fichier_a_copier - 1].num_lives;
+                LoadInfoRay[fichier_selectionne - 1].num_wiz = LoadInfoRay[fichier_a_copier - 1].num_wiz;
+                LoadInfoRay[fichier_selectionne - 1].num_cages = LoadInfoRay[fichier_a_copier - 1].num_cages;
+                LoadInfoRay[fichier_selectionne - 1].num_continues = LoadInfoRay[fichier_a_copier - 1].num_continues;
                 LoadGameOnDisk(fichier_a_copier);
             }
             realisation_effectuee = true;
