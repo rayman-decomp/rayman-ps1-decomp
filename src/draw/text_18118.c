@@ -6,7 +6,7 @@ s16 D_801F81B0;
 #endif
 
 /* 18118 8013C918 -O2 -msoft-float */
-u8 PS1_deter_num_let_old(s32 param_1)
+u8 convert_lettre(s32 param_1)
 {
     s32 res;
 
@@ -80,7 +80,7 @@ s16 SizeLigne(u8 *str, u8 font)
 }
 
 /* 182D0 8013CAD0 -O2 -msoft-float */
-void PS1_DisplayMenuText(u8 *str, u8 param_2, u8 color)
+void DisplayLigne(u8 *str, u8 param_2, u8 color)
 {
     GetClut(color * 16 + 64, 509);
     display_text(
@@ -93,7 +93,7 @@ void PS1_DisplayMenuText(u8 *str, u8 param_2, u8 color)
 }
 
 /* 1835C 8013CB5C -O2 -msoft-float */
-void PS1_DisplayMenuTexts(u8 index, MenuText *in_menus)
+void display_menu(u8 index, MenuText *in_menus)
 {
     u8 sel_row;
     u8 *count;
@@ -111,12 +111,12 @@ void PS1_DisplayMenuTexts(u8 index, MenuText *in_menus)
         unk_1 = sel_row + 6;
         draw_sprite(&alpha.sprites[40], 39, (unk_1 - *count) * 36 + 4, 0);
     }
-    PS1_DisplayMenuText(menu->header, 1, menu->color);
+    DisplayLigne(menu->header, 1, menu->color);
 
     for (i = 0; i < *count; i++)
     {
         unk_2 = i + 7;
-        PS1_DisplayMenuText(menu->rows[i], unk_2 - *count, menu->color);
+        DisplayLigne(menu->rows[i], unk_2 - *count, menu->color);
     }
 }
 

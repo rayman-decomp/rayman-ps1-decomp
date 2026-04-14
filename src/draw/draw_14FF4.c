@@ -686,7 +686,7 @@ void DISPLAY_FIXE(s16 left_time)
 }
 
 /* 16554 8013AD54 -O2 -msoft-float */
-void PS1_DisplayNumber(s16 param_1, s16 param_2, s16 param_3)
+void display_valat(s16 param_1, s16 param_2, s16 param_3)
 {
     Obj *sbar_obj = &level.objects[sbar_obj_id];
     u8 spr_3 = (param_1 % 10);
@@ -701,7 +701,7 @@ void PS1_DisplayNumber(s16 param_1, s16 param_2, s16 param_3)
 }
 
 /* 166AC 8013AEAC -O2 -msoft-float */
-void DrawWldPointPlan2Normal(s16 x0, s16 y0)
+void draw_point_way(s16 x0, s16 y0)
 {
     SPRT_8 *p = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
 
@@ -720,11 +720,11 @@ void put_env_point_way(void)
 void DISPLAY_POINT(s32 x0, s32 y0)
 {
     if (((u16) (x0 - 43) <= 240) && ((u16) (y0 - 54) <= 134))
-        DrawWldPointPlan2Normal((s16) x0, (s16) y0 - 2);
+        draw_point_way((s16) x0, (s16) y0 - 2);
 }
 
 /* 16790 8013AF90 -O2 -msoft-float */
-void DISPLAY_PTS_TO_PLAN2(s32 x1, s32 y1, s32 x2, s32 y2, s16 percentage)
+void DISPLAY_PTS_TO(s32 x1, s32 y1, s32 x2, s32 y2, s16 percentage)
 {
     s16 x_offs = 52;
     s16 y_offs = 55;
@@ -749,7 +749,7 @@ void DISPLAY_PLATEAU(Obj *obj)
 }
 
 /* 16840 8013B040 -O2 -msoft-float */
-void draw_flocon1_Normal(s16 x0, s16 y0)
+void draw_flocon1l(s16 x0, s16 y0)
 {
     TILE_1 *tile = &PS1_CurrentDisplay->tile1s[PS1_Disp_Cur_Tile1++];
 
@@ -760,7 +760,7 @@ void draw_flocon1_Normal(s16 x0, s16 y0)
 }
 
 /* 168C0 8013B0C0 -O2 -msoft-float */
-void draw_flocon2_Normal(s16 x0, s16 y0)
+void draw_flocon2l(s16 x0, s16 y0)
 {
     TILE_1 *tile = &PS1_CurrentDisplay->tile1s[PS1_Disp_Cur_Tile1++];
 
@@ -771,7 +771,7 @@ void draw_flocon2_Normal(s16 x0, s16 y0)
 }
 
 /* 16944 8013B144 -O2 -msoft-float */
-void draw_flocon3_Normal(s16 x0, s16 y0)
+void draw_flocon3l(s16 x0, s16 y0)
 {
     SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
 
@@ -782,7 +782,7 @@ void draw_flocon3_Normal(s16 x0, s16 y0)
 }
 
 /* 169B4 8013B1B4 -O2 -msoft-float */
-void draw_flocon4_Normal(s16 x0, s16 y0)
+void draw_flocon4l(s16 x0, s16 y0)
 {
     SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
 
@@ -793,7 +793,7 @@ void draw_flocon4_Normal(s16 x0, s16 y0)
 }
 
 /* 16A24 8013B224 -O2 -msoft-float */
-void draw_flocon5_Normal(s16 x0, s16 y0)
+void draw_flocon5l(s16 x0, s16 y0)
 {
     SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
 
@@ -804,7 +804,7 @@ void draw_flocon5_Normal(s16 x0, s16 y0)
 }
 
 /* 16A94 8013B294 -O2 -msoft-float */
-void PS1_AddSnowPrim1(s16 x0, s16 y0)
+void draw_flocon6(s16 x0, s16 y0)
 {
     SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
 
@@ -815,7 +815,7 @@ void PS1_AddSnowPrim1(s16 x0, s16 y0)
 }
 
 /* 16B04 8013B304 -O2 -msoft-float */
-void PS1_AddSnowPrim2(s16 x0, s16 y0)
+void draw_flocon7(s16 x0, s16 y0)
 {
     SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
 
@@ -826,7 +826,7 @@ void PS1_AddSnowPrim2(s16 x0, s16 y0)
 }
 
 /* 16B74 8013B374 -O2 -msoft-float */
-void draw_pluie4_Normal(s16 x0, s16 y0)
+void draw_pluie4(s16 x0, s16 y0)
 {
     TILE_1 *tile = &PS1_CurrentDisplay->tile1s[PS1_Disp_Cur_Tile1++];
 
@@ -837,7 +837,7 @@ void draw_pluie4_Normal(s16 x0, s16 y0)
 }
 
 /* 16BF8 8013B3F8 -O2 -msoft-float */
-void draw_pluie5_Normal(s16 x0, s16 y0)
+void draw_pluie5(s16 x0, s16 y0)
 {
     SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
 
@@ -848,7 +848,7 @@ void draw_pluie5_Normal(s16 x0, s16 y0)
 }
 
 /* 16C64 8013B464 -O2 -msoft-float */
-void draw_pluie6_Normal(s16 x0, s16 y0)
+void draw_pluie6(s16 x0, s16 y0)
 {
     SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
 
@@ -859,7 +859,7 @@ void draw_pluie6_Normal(s16 x0, s16 y0)
 }
 
 /* 16CD4 8013B4D4 -O2 -msoft-float */
-void PS1_AddSnowPrim3(s16 x0, s16 y0)
+void draw_pluie7(s16 x0, s16 y0)
 {
     SPRT_8 *sprt = &PS1_CurrentDisplay->field_0x1e9c_0x321b[(u16) D_801F4A28++];
 
@@ -913,7 +913,7 @@ void display_flocons_behind(void)
                 for (j = ind; j < max_ind; j++)
                 {
                     /* TODO: could see us var-ing/macro-ing the params at least?*/
-                    draw_flocon5_Normal(
+                    draw_flocon5l(
                         (unk_mul * entry->field0_0x0 >> 8) + unk_x,
                         (unk_mul * entry->field1_0x2 >> 8) + unk_y
                     );
@@ -924,7 +924,7 @@ void display_flocons_behind(void)
             {
                 for (j = ind; j < max_ind; j++)
                 {
-                    draw_flocon4_Normal(
+                    draw_flocon4l(
                         (unk_mul * entry->field0_0x0 >> 8) + unk_x,
                         (unk_mul * entry->field1_0x2 >> 8) + unk_y
                     );
@@ -935,7 +935,7 @@ void display_flocons_behind(void)
             {
                 for (j = ind; j < max_ind; j++)
                 {
-                    draw_flocon3_Normal(
+                    draw_flocon3l(
                         (unk_mul * entry->field0_0x0 >> 8) + unk_x,
                         (unk_mul * entry->field1_0x2 >> 8) + unk_y
                     );
@@ -946,7 +946,7 @@ void display_flocons_behind(void)
             {
                 for (j = ind; j < max_ind; j++)
                 {
-                    draw_flocon2_Normal(
+                    draw_flocon2l(
                         (unk_mul * entry->field0_0x0 >> 8) + unk_x,
                         (unk_mul * entry->field1_0x2 >> 8) + unk_y
                     );
@@ -957,7 +957,7 @@ void display_flocons_behind(void)
             {
                 for (j = ind; j < max_ind; j++)
                 {
-                    draw_flocon1_Normal(
+                    draw_flocon1l(
                         (unk_mul * entry->field0_0x0 >> 8) + unk_x,
                         (unk_mul * entry->field1_0x2 >> 8) + unk_y
                     );
@@ -971,7 +971,7 @@ void display_flocons_behind(void)
             {
                 for (j = ind; j < max_ind; j++)
                 {
-                    draw_pluie6_Normal(
+                    draw_pluie6(
                         (unk_mul * entry->field0_0x0 >> 8) + unk_x,
                         (unk_mul * entry->field1_0x2 >> 8) + unk_y
                     );
@@ -982,7 +982,7 @@ void display_flocons_behind(void)
             {
                 for (j = ind; j < max_ind; j++)
                 {
-                    draw_pluie5_Normal(
+                    draw_pluie5(
                         (unk_mul * entry->field0_0x0 >> 8) + unk_x,
                         (unk_mul * entry->field1_0x2 >> 8) + unk_y
                     );
@@ -993,7 +993,7 @@ void display_flocons_behind(void)
             {
                 for (j = ind; j < max_ind; j++)
                 {
-                    draw_pluie4_Normal(
+                    draw_pluie4(
                         (unk_mul * entry->field0_0x0 >> 8) + unk_x,
                         (unk_mul * entry->field1_0x2 >> 8) + unk_y
                     );
@@ -1049,7 +1049,7 @@ void display_flocons_before(void)
             {
                 for (j = ind; j < max_ind; j++)
                 {
-                    PS1_AddSnowPrim2(
+                    draw_flocon7(
                         (unk_mul * entry->field0_0x0 >> 8) + unk_x,
                         (unk_mul * entry->field1_0x2 >> 8) + unk_y
                     );
@@ -1060,7 +1060,7 @@ void display_flocons_before(void)
             {
                 for (j = ind; j < max_ind; j++)
                 {
-                    PS1_AddSnowPrim1(
+                    draw_flocon6(
                         (unk_mul * entry->field0_0x0 >> 8) + unk_x,
                         (unk_mul * entry->field1_0x2 >> 8) + unk_y
                     );
@@ -1072,7 +1072,7 @@ void display_flocons_before(void)
         {
             for (j = ind; j < max_ind; j++)
             {
-                PS1_AddSnowPrim3(
+                draw_pluie7(
                     (unk_mul * entry->field0_0x0 >> 8) + unk_x,
                     (unk_mul * entry->field1_0x2 >> 8) + unk_y
                 );

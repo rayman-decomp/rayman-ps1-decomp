@@ -68,7 +68,7 @@ void TEST_DISPLAY_PTS_WAY(s16 from, s16 to, s16 from_x, s16 from_y)
         {
             if (t_world_info[to].is_unlocked)
             {
-                DISPLAY_PTS_TO_PLAN2(
+                DISPLAY_PTS_TO(
                     from_x,
                     from_y,
                     t_world_info[to].x_pos,
@@ -78,7 +78,7 @@ void TEST_DISPLAY_PTS_WAY(s16 from, s16 to, s16 from_x, s16 from_y)
             }
             else if (t_world_info[to].is_unlocking)
             {
-                DISPLAY_PTS_TO_PLAN2(
+                DISPLAY_PTS_TO(
                     from_x,
                     from_y,
                     t_world_info[to].x_pos,
