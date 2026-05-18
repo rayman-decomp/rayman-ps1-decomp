@@ -179,10 +179,6 @@ void init_bgi(void)
 #endif
 
 /* 11130 80135930 -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", InitBG);
-#else
-/* score of ??? */
 typedef struct Fond
 {
     u8 unk_0;
@@ -195,69 +191,63 @@ typedef struct Fond
 
 void InitBG(void)
 {
-    s32 value1;
-    int i;
-    s32 value2;
-    int fi_count;
-    void **cur_dest;
-    u8 *cur_src;
-    u8 uStack_18;
-    u8 uStack_17;
-    short width;
-    short height;
-    u8 uStack_12;
-    u8 bStack_11;
-    Fond test_1;
-    s32 inc;
-    u8 *new_var;
-    u8 *test_2;
+  s32 value1;
+  int i;
+  s32 value2;
+  int fi_count;
+  void **cur_dest;
+  u8 *cur_src;
+  u8 uStack_18;
+  u8 uStack_17;
+  short width;
+  short height;
+  u8 uStack_12;
+  u8 bStack_11;
+  Fond test_1;
+  s32 inc;
+  u8 *new_var;
+  u8 *test_2;
+  
+  memset(&D_801F55B8,0,10);
+  __builtin_memcpy(&test_1, &D_801F8180[0], sizeof(Fond));
+  D_801F84E0 = test_1.unk_0;
+  D_801F9900 = test_1.unk_1;
+  PS1_FondWidth = test_1.width;
+  PS1_FondHeight = test_1.height;
+  D_801F4F58 = test_1.unk_6;
+  PS1_FondType = test_1.type;
 
-    memset(&D_801F55B8, 0, 10);
-    __builtin_memcpy(&test_1, &D_801F8180[0], sizeof(Fond));
-    D_801F84E0 = test_1.unk_0;
-    D_801F9900 = test_1.unk_1;
-    PS1_FondWidth = test_1.width;
-    PS1_FondHeight = test_1.height;
-    D_801F4F58 = test_1.unk_6;
-    PS1_FondType = test_1.type;
+  if (PS1_FondType == 0xc) {
+    PS1_FondImagesCount = 2;
+  }
+  else {
+    PS1_FondImagesCount = PS1_FondWidth >> 6;
+  }
 
-    if (PS1_FondType == 0xc)
-    {
-        PS1_FondImagesCount = 2;
+  i = (int)D_801F8180;
+  cur_src = (u8 *)(i + sizeof(Fond));
+  i = 0;
+  if (i < PS1_FondImagesCount) {
+    fi_count = PS1_FondImagesCount;
+    cur_dest = &PS1_FondImages[i];
+    inc = PS1_FondHeight << 7;
+    while (i < fi_count) {
+      *cur_dest = cur_src;
+      cur_dest = cur_dest + 1;
+      i = i + 1;
+      cur_src = cur_src + inc;
     }
-    else
-    {
-        PS1_FondImagesCount = PS1_FondWidth >> 6;
-    }
-
-    cur_src = &D_801F8180[sizeof(Fond)];
-    i = 0;
-    if (i < PS1_FondImagesCount)
-    {
-        fi_count = PS1_FondImagesCount;
-        cur_dest = &PS1_FondImages[i];
-        inc = PS1_FondHeight << 7;
-        while (i < fi_count)
-        {
-            *cur_dest = cur_src;
-            cur_dest = cur_dest + 1;
-            i = i + 1;
-            cur_src = cur_src + inc;
-        }
-    }
-
-    if ((((PS1_FondType == 6 || PS1_FondType == 7) || (PS1_FondType == 8)) || (PS1_FondType == 0xb)) ||
-        ((PS1_FondType == 9 || PS1_FondType == 10 || (PS1_FondType == 0xc))))
-    {
-        init_bgm();
-        init_bgi();
-    }
-    else
-    {
-        NbSprite = 0;
-    }
+  }
+  
+  if ((((PS1_FondType == 6 || PS1_FondType == 7) || (PS1_FondType == 8)) || (PS1_FondType == 0xb)) ||
+     ((PS1_FondType == 9 || PS1_FondType == 10 || (PS1_FondType == 0xc)))) {
+    init_bgm();
+    init_bgi();
+  }
+  else {
+    NbSprite = 0;
+  }
 }
-#endif
 
 /* 112B0 80135AB0 -O2 -msoft-float */
 void DrawBG_spr_v(s16 param_1, s16 *param_2)
