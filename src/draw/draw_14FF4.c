@@ -1198,9 +1198,6 @@ void DISPLAY_CYMBALE(Obj *obj, u8 param_2)
 }
 
 /* 17ABC 8013C2BC -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/draw_14FF4", DISPLAY_ALL_OBJECTS);
-#else
 /* score of ??? */
 void DISPLAY_ALL_OBJECTS(void)
 {
@@ -1350,17 +1347,22 @@ void DISPLAY_ALL_OBJECTS(void)
             new_var2 = &actobj;
             new_var3 = actobj.objects;
             obj = &level.objects[new_var3[cnt_1]];
-            while (cnt_1 < new_var2->num_active_objects)
+            if (actobj.num_active_objects > 0)
             {
-                cnt_1 = cnt_1 + 1;
-                new_var3 = actobj.objects;
-                if ((obj->display_prio == 0) && (obj->type == TYPE_DUNE))
+                test_2 = new_var2;
+                do
                 {
-                    display(obj);
-                    PS1_DrawSpriteSemiTrans = false;
-                    return;
-                }
-                obj = &level.objects[new_var3[cnt_1]];
+                    test_1 = cnt_1 + 1;
+                    if ((obj->display_prio == 0) && (obj->type == TYPE_DUNE))
+                    {
+                        display(obj);
+                        PS1_DrawSpriteSemiTrans = false;
+                        return;
+                    }
+                    iVar10 = test_1;
+                    obj = &level.objects[test_2[iVar10]];
+                    cnt_1 = test_1;
+                } while (cnt_1 < ((ActiveObjects *) test_2)->num_active_objects);
             }
 
             PS1_DrawSpriteSemiTrans = false;

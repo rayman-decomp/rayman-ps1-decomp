@@ -24,7 +24,6 @@ Any help with these is greatly appreciated! Feel free to create a PR or open an 
 | src/save.c                  | restoreGameState                 | 80163C84    | https://decomp.me/scratch/F5Ked | 98.86%     |
 | src/sound.c                 | PlaySnd                          | 80166E94    | https://decomp.me/scratch/KzhV8 | 97.51%     |
 | src/collision/block_6E5E0.c | CALC_MOV_ON_BLOC                 | 80193A3C    | https://decomp.me/scratch/dYt2F | 94.69%     |
-| src/draw/draw_14FF4.c       | DISPLAY_ALL_OBJECTS              | 8013C2BC    | https://decomp.me/scratch/0fY1o | 99.58%     |
 | src/draw/draw_548CC.c       | Luciolle                         | 80179218    | https://decomp.me/scratch/4ai6p | 94.73%     |
 | src/draw/fond_10B3C.c       | init_bgi                         | 801356E0    | https://decomp.me/scratch/Qh0Tt | 98.41%     |
 | src/draw/fond_10B3C.c       | DrawBG_spr_h                     | 80135D5C    | https://decomp.me/scratch/gNtGz | 88.67%     |
