@@ -7,13 +7,12 @@
 #else
 #define INCLUDE_ASM(FOLDER, NAME) \
 __asm__( \
-    ".text\n" \
+    ".pushsection .text\n" \
     "\t.align\t2\n" \
-    "\t.set noreorder\n" \
-    "\t.set noat\n" \
     ".include \""FOLDER"/"#NAME".s\"\n" \
     "\t.set reorder\n" \
     "\t.set at\n" \
+    ".popsection" \
 )
 #define INCLUDE_RODATA(FOLDER, NAME) \
 __asm__( \

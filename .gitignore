@@ -6,5 +6,7 @@ expected/
 nonmatchings/
 SLUS-000.05
 slus-000.05.ld
-*_auto.txt
+SLES-000.49
+sles-000.49.ld
+*_auto*.txt
 tools/gcc-2.5.7/*
