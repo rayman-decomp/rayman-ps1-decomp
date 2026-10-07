@@ -1370,4 +1370,3 @@ void DISPLAY_ALL_OBJECTS(void)
         }
     }
 }
-#endif
