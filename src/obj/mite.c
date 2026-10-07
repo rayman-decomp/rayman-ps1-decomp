@@ -151,10 +151,6 @@ void fix_mit_Xspeed(Obj *obj, s16 param_2)
 }
 
 /* 4ACFC 8016F4FC -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/obj/mite", DO_MIT_ATTAK);
-#else
-/* score of ??? */
 void DO_MIT_ATTAK(Obj *obj)
 {
     s16 temp_a0_1;
@@ -262,40 +258,16 @@ void DO_MIT_ATTAK(Obj *obj)
                 else
                 {
                     temp_v1_2 = ((obj->offset_by + (u16) obj->y_pos) - ray.y_pos) - ray.offset_by;
-                    /*
-                    if
-                    (obj->speed_x <= 0 && obj->flags & 0x4000 && obj->speed_x >= 0)
-                    with obj->speed_x = -4: obj->speed_x <= 0 && !(obj->flags & 0x4000)
-                    (obj->speed_x > 0 && obj->flags & 0x4000)
-
-                    else
-                    (obj->speed_x <= 0 && obj->flags & 0x4000 && obj->speed_x < 0)
-                    (obj->speed_x > 0 && !(obj->flags & 0x4000)) ||
-
-                    similar with DO_CLOWN_TNT3_COMMAND?
-                    */
-                    if (obj->speed_x <= 0)
+                    /* similar with DO_CLOWN_TNT3_COMMAND? */
+                    if (
+                        (obj->speed_x <= 0 && !(obj->flags & 0x4000)) ||
+                        (obj->speed_x >= 0 && (obj->flags & 0x4000))
+                    )
                     {
-                        if (obj->flags & 0x4000)
-                        {
-                            if (obj->speed_x < 0)
-                            {
-                                goto block_47;
-                            }
-                            else
-                                goto block_37;
-                        }
-                        else
-                        {
+                        if (!(obj->flags & 0x4000))
                             obj->speed_x = -4;
-                            goto block_40;
-                        }
-                    }
-block_37:
-                    if (obj->flags & 0x4000)
-                    {
-                        obj->speed_x = 4;
-block_40:
+                        else
+                            obj->speed_x = 4;
                         if (temp_v1_2 >= 0xB)
                         {
                             obj->speed_y = -1;
@@ -315,7 +287,6 @@ block_40:
                     }
                     else
                     {
-block_47:
                         if (((temp_v1_2) >= -9) && (ray.main_etat == 0))
                         {
                             obj->speed_y = 0;
@@ -361,7 +332,6 @@ block_47:
         }
     }
 }
-#endif
 
 /* 4B154 8016F954 -O2 -msoft-float */
 u8 IS_MIT_PAF(Obj *obj)

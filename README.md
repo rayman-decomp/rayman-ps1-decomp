@@ -30,7 +30,6 @@ Any help with these is greatly appreciated! Feel free to create a PR or open an 
 | src/draw/fond_10B3C.c       | DrawBG_gen                       | 8013733C    | https://decomp.me/scratch/bRw9c | 99.05%     |
 | src/obj/bb1.c               | DO_BBMONT2_COMMAND               | 8017EAA4    | https://decomp.me/scratch/07j9E | 89.38%     |
 | src/obj/eyes_4BC40.c        | DO_ROLL_EYES                     | 80170440    | https://decomp.me/scratch/NR6Iv | 99.05%     |
-| src/obj/mite.c              | DO_MIT_ATTAK                     | 8016F4FC    | https://decomp.me/scratch/mitn7 | 98.67%     |
 | src/obj/spider_plafond.c    | DO_DARD_PLAFOND_ALWAYS           | 80178938    | https://decomp.me/scratch/SonmS | 92.47%     |
 | src/obj/ufo_idc.c           | DO_MOVING_WITH_INDICATOR_COMMAND | 80199230    | https://decomp.me/scratch/u9HGf | 93.81%     |
 
