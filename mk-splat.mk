@@ -33,6 +33,7 @@ CC                := $(TOOLS_DIR)/gcc-2.5.7/cc1
 CC_FLAGS          := -quiet -mgas -msoft-float -G0 -O2 -fno-builtin -gcoff -Wimplicit
 MASPSX            := $(PYTHON) $(TOOLS_DIR)/maspsx/maspsx.py
 MASPSX_FLAGS      := --macro-inc --expand-div --aspsx-version=2.08
+CC_FIXUP          := sed 's/[[:space:]]*\# sp not trusted here//'
 AS                := $(CROSS)as
 AS_FLAGS          := -EL -mips2 -msoft-float -no-pad-sections -Iinclude
 LD                := $(CROSS)ld
