@@ -567,4 +567,3 @@ void allocate_DARK2_SORT(s32 param_1, s16 param_2, s16 param_3, s16 param_4)
     cur_obj_1->field23_0x3c = 0;
     set_main_and_sub_etat(cur_obj_1, 0, param_3);
 }
-#endif
