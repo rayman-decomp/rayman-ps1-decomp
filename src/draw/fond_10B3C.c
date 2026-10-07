@@ -502,11 +502,7 @@ void DrawBG_bande_h(u8 param_1, u32 param_2, u8 param_3, u32 param_4)
 #endif
 
 /* 11B40 80136340 -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", DrawBG_bande_v);
-#else
 /* thanks! https://decomp.me/scratch/sMPT6 */
-/* still couldn't get fp38 */
 void DrawBG_bande_v(u16 *param_1, u32 param_2)
 {
     short sVar1;
@@ -516,7 +512,6 @@ void DrawBG_bande_v(u16 *param_1, u32 param_2)
     RECT fp10;
     u16 fp20;
     uint fp28;
-    int fp38;
     u16 var_a2;
     u32 test_1;
     int new_var_2;
@@ -560,7 +555,7 @@ void DrawBG_bande_v(u16 *param_1, u32 param_2)
 
         for (bVar5 = test_1 + 1; bVar5 != 0; bVar5--)
         {
-            fp38 = 0x40 - uVar10;
+            int fp38 = 0x40 - uVar10;
             if (bVar5 == new_var_2)
             {
                 var_a2 = 0;
@@ -608,7 +603,6 @@ void DrawBG_bande_v(u16 *param_1, u32 param_2)
         }
     }
 }
-#endif
 
 /* 11EAC 801366AC -O2 -msoft-float */
 #ifndef NONMATCHINGS
