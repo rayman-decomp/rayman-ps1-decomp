@@ -100,22 +100,14 @@ void init_bgm(void)
 }
 
 /* 10EE0 801356E0 -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", init_bgi);
-#else
 /*
-score of 215
 https://github.com/BinarySerializer/BinarySerializer.Ray1/blob/7da0e97301dd6502d027ff3c92ec2b5a00ef6e6e/src/BinarySerializer.Ray1/DataTypes/PS1/Vignette/FondSpriteData.cs
 */
 void init_bgi(void)
 {
-    s32 temp_a0;
-    s32 temp_v0_2;
     s32 temp_v0_3;
-    s32 temp_v1;
     u16 var_s1_1;
     u8 *temp_s0_12;
-    u32 *var_s0_2;
     s16 temp_t1; /* PalettesCount */
     u16 test_1; /* if i didn't use this, all the lhu's would be lbu's? */
 
@@ -130,8 +122,7 @@ void init_bgi(void)
     temp_s0_12 += 4;
     while ((var_s1_1) < PS1_BandeBackCount)
     {
-        test_1 = *(u16 *) temp_s0_12;
-        D_801F8008[var_s1_1].unk_0 = test_1;
+        D_801F8008[var_s1_1].unk_0 = *(u16 *) temp_s0_12;
         temp_s0_12 += 2;
         test_1 = *(u16 *) temp_s0_12;
         D_801F8008[var_s1_1].unk_1 = test_1;
@@ -150,9 +141,7 @@ void init_bgi(void)
     var_s1_1 = 0;
     while (var_s1_1 < PS1_BandeFrontCount)
     {
-        temp_v0_2 = var_s1_1 * 4;
-        test_1 = *(u16 *) temp_s0_12;
-        D_801E63F8[var_s1_1].unk_0 = test_1;
+        D_801E63F8[var_s1_1].unk_0 = *(u16 *) temp_s0_12;
         temp_s0_12 += 2;
         test_1 = *(u16 *) temp_s0_12;
         D_801E63F8[var_s1_1].unk_1 = test_1;
@@ -178,7 +167,6 @@ void init_bgi(void)
         temp_s0_12 += 0x200;
     }
 }
-#endif
 
 /* 11130 80135930 -O2 -msoft-float */
 typedef struct Fond
