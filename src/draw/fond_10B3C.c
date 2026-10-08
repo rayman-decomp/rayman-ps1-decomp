@@ -100,22 +100,14 @@ void init_bgm(void)
 }
 
 /* 10EE0 801356E0 -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", init_bgi);
-#else
 /*
-score of 215
 https://github.com/BinarySerializer/BinarySerializer.Ray1/blob/7da0e97301dd6502d027ff3c92ec2b5a00ef6e6e/src/BinarySerializer.Ray1/DataTypes/PS1/Vignette/FondSpriteData.cs
 */
 void init_bgi(void)
 {
-    s32 temp_a0;
-    s32 temp_v0_2;
     s32 temp_v0_3;
-    s32 temp_v1;
     u16 var_s1_1;
     u8 *temp_s0_12;
-    u32 *var_s0_2;
     s16 temp_t1; /* PalettesCount */
     u16 test_1; /* if i didn't use this, all the lhu's would be lbu's? */
 
@@ -130,8 +122,7 @@ void init_bgi(void)
     temp_s0_12 += 4;
     while ((var_s1_1) < PS1_BandeBackCount)
     {
-        test_1 = *(u16 *) temp_s0_12;
-        D_801F8008[var_s1_1].unk_0 = test_1;
+        D_801F8008[var_s1_1].unk_0 = *(u16 *) temp_s0_12;
         temp_s0_12 += 2;
         test_1 = *(u16 *) temp_s0_12;
         D_801F8008[var_s1_1].unk_1 = test_1;
@@ -150,9 +141,7 @@ void init_bgi(void)
     var_s1_1 = 0;
     while (var_s1_1 < PS1_BandeFrontCount)
     {
-        temp_v0_2 = var_s1_1 * 4;
-        test_1 = *(u16 *) temp_s0_12;
-        D_801E63F8[var_s1_1].unk_0 = test_1;
+        D_801E63F8[var_s1_1].unk_0 = *(u16 *) temp_s0_12;
         temp_s0_12 += 2;
         test_1 = *(u16 *) temp_s0_12;
         D_801E63F8[var_s1_1].unk_1 = test_1;
@@ -178,7 +167,6 @@ void init_bgi(void)
         temp_s0_12 += 0x200;
     }
 }
-#endif
 
 /* 11130 80135930 -O2 -msoft-float */
 typedef struct Fond
@@ -514,11 +502,7 @@ void DrawBG_bande_h(u8 param_1, u32 param_2, u8 param_3, u32 param_4)
 #endif
 
 /* 11B40 80136340 -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", DrawBG_bande_v);
-#else
 /* thanks! https://decomp.me/scratch/sMPT6 */
-/* still couldn't get fp38 */
 void DrawBG_bande_v(u16 *param_1, u32 param_2)
 {
     short sVar1;
@@ -528,7 +512,6 @@ void DrawBG_bande_v(u16 *param_1, u32 param_2)
     RECT fp10;
     u16 fp20;
     uint fp28;
-    int fp38;
     u16 var_a2;
     u32 test_1;
     int new_var_2;
@@ -572,7 +555,7 @@ void DrawBG_bande_v(u16 *param_1, u32 param_2)
 
         for (bVar5 = test_1 + 1; bVar5 != 0; bVar5--)
         {
-            fp38 = 0x40 - uVar10;
+            int fp38 = 0x40 - uVar10;
             if (bVar5 == new_var_2)
             {
                 var_a2 = 0;
@@ -620,7 +603,6 @@ void DrawBG_bande_v(u16 *param_1, u32 param_2)
         }
     }
 }
-#endif
 
 /* 11EAC 801366AC -O2 -msoft-float */
 #ifndef NONMATCHINGS
@@ -918,13 +900,6 @@ void DrawBG_new(void)
 #endif
 
 /* 12B3C 8013733C -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", DrawBG_gen);
-#else
-/*
-score of 405
-DrawBG_bande_h param_4???
-*/
 void DrawBG_gen(void)
 {
     s16 sp10[12];
@@ -963,7 +938,7 @@ void DrawBG_gen(void)
             var_s5 = PS1_FondHeight - 0xF0;
 
         var_s0_1 = &sp28[0];
-        if ((u8) var_s3_1->unk_1 < 0xFFU)
+        if (var_s3_1->unk_1 < 0xFF)
         {
             test_2 = &D_801F55B8[0]; /* cannot make duplicates of this use test_2 also??? */
             *var_s0_1 = ((xmap + *test_2) / var_s3_1->unk_1);
@@ -979,12 +954,11 @@ void DrawBG_gen(void)
         DrawBG_bande_h(temp_s2_1 - var_s5, var_s5, var_s6, *var_s0_1);
         var_s6 += temp_s2_1;
         var_s0_1++;
-        var_s1_1 = 1;
         new_var_2 = &D_801E63F8[0].unk_0; /* i don't even */
-        while (var_s1_1 < (u8) PS1_BandeBackCount)
+        for (var_s1_1 = 1; var_s1_1 < PS1_BandeBackCount; var_s1_1++)
         {
             temp_a2_1 = var_s3_1->unk_1;
-            if (temp_a2_1 < 0xFFU)
+            if (temp_a2_1 < 0xFF)
             {
                 *var_s0_1 = ((xmap + D_801F55B8[var_s1_1]) / temp_a2_1);
                 D_801F55B8[var_s1_1] = ((D_801F55B8[var_s1_1] + D_801F5788[var_s1_1]) % (PS1_FondWidth * var_s3_1->unk_1));
@@ -997,8 +971,7 @@ void DrawBG_gen(void)
             var_s3_1 += 1;
             DrawBG_bande_h(temp_s2_1, var_s6, var_s6 - var_s5, *var_s0_1);
             var_s6 += temp_s2_1;
-            var_s0_1 += 1;
-            var_s1_1 += 1;
+            var_s0_1++;
         }
 
         *var_s0_1 = (xmap + D_801F55B8[var_s1_1]) * D_801E63F8[0].unk_1;
@@ -1007,26 +980,23 @@ void DrawBG_gen(void)
     }
     else if ((PS1_FondType == 7) || (PS1_FondType == 0x0C))
     {
-        var_s1_1 = 0;
         D_801E4BC8 = 0;
+        var_s1_1 = 0;
         var_s2 = sp10;
         var_s0_1 = &var_s7[0];
-        while (var_s1_1 < (u8) PS1_BandeBackCount)
+        while (var_s1_1 < PS1_BandeBackCount)
         {
-            var_a1 = 0;
-            temp_hi = (ymap / var_s3_1->unk_1) % PS1_FondHeight;
-            *var_s2 = temp_hi;
-
-            var_s2 += 1;
-
-            while (var_a1 < var_s3_1->unk_0)
+            do
             {
-                *var_s0_1 = temp_hi;
-                var_s0_1 += 1;
-                var_a1 += 1;
-            }
-            var_s1_1 += 1;
-            var_s3_1 += 1;
+                var_s5 = (ymap / var_s3_1->unk_1) % PS1_FondHeight;
+                *var_s2++ = var_s5;
+                for (var_a1 = 0; var_a1 < var_s3_1->unk_0; var_a1++)
+                {
+                    *var_s0_1++ = var_s5;
+                }
+                var_s1_1++;
+                var_s3_1++;
+            } while (0);
         }
         if (PS1_FondType == 7)
         {
@@ -1059,7 +1029,6 @@ void DrawBG_gen(void)
     else
         DrawBG_new();
 }
-#endif
 
 /* 13198 80137998 -O2 -msoft-float */
 u8 PS1_GetTileOrderingTableIndex(u8 param_1, u8 param_2, s32 param_3)

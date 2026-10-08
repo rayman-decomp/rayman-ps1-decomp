@@ -25,16 +25,10 @@ Any help with these is greatly appreciated! Feel free to create a PR or open an 
 | src/sound.c                 | PlaySnd                          | 80166E94    | https://decomp.me/scratch/KzhV8 | 97.51%     |
 | src/collision/block_6E5E0.c | CALC_MOV_ON_BLOC                 | 80193A3C    | https://decomp.me/scratch/dYt2F | 94.69%     |
 | src/draw/draw_548CC.c       | Luciolle                         | 80179218    | https://decomp.me/scratch/4ai6p | 94.73%     |
-| src/draw/fond_10B3C.c       | init_bgi                         | 801356E0    | https://decomp.me/scratch/Qh0Tt | 98.41%     |
 | src/draw/fond_10B3C.c       | DrawBG_spr_h                     | 80135D5C    | https://decomp.me/scratch/gNtGz | 88.67%     |
-| src/draw/fond_10B3C.c       | DrawBG_bande_v                   | 80136340    | https://decomp.me/scratch/2zVov | 99.04%     |
 | src/draw/fond_10B3C.c       | DrawBG_new                       | 801366AC    | https://decomp.me/scratch/kHz3p | 97.66%     |
-| src/draw/fond_10B3C.c       | DrawBG_gen                       | 8013733C    | https://decomp.me/scratch/bRw9c | 99.05%     |
-| src/draw/text_18118.c       | display_text                     | 8013DA5C    | https://decomp.me/scratch/HLz85 | 99.25%     |
-| src/menu/menu_82008.c       | PS1_InitGameOptionsMenu          | 801A6808    | https://decomp.me/scratch/U35Nx | 96.68%     |
 | src/obj/bb1.c               | DO_BBMONT2_COMMAND               | 8017EAA4    | https://decomp.me/scratch/07j9E | 89.38%     |
 | src/obj/eyes_4BC40.c        | DO_ROLL_EYES                     | 80170440    | https://decomp.me/scratch/NR6Iv | 99.05%     |
-| src/obj/mite.c              | DO_MIT_ATTAK                     | 8016F4FC    | https://decomp.me/scratch/mitn7 | 98.67%     |
 | src/obj/spider_plafond.c    | DO_DARD_PLAFOND_ALWAYS           | 80178938    | https://decomp.me/scratch/SonmS | 92.47%     |
 | src/obj/ufo_idc.c           | DO_MOVING_WITH_INDICATOR_COMMAND | 80199230    | https://decomp.me/scratch/u9HGf | 93.81%     |
 

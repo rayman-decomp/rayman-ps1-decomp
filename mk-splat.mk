@@ -33,6 +33,7 @@ CC                := $(TOOLS_DIR)/gcc-2.5.7/cc1
 CC_FLAGS          := -quiet -mgas -msoft-float -G0 -O2 -fno-builtin -gcoff -Wimplicit
 MASPSX            := $(PYTHON) $(TOOLS_DIR)/maspsx/maspsx.py
 MASPSX_FLAGS      := --macro-inc --expand-div --aspsx-version=2.08
+CC_FIXUP          := sed 's/[[:space:]]*\# sp not trusted here//'
 AS                := $(CROSS)as
 AS_FLAGS          := -EL -mips2 -msoft-float -no-pad-sections -Iinclude
 LD                := $(CROSS)ld
@@ -73,14 +74,14 @@ $(BUILD_DIR)/%.s.o: %.s
 
 #see https://github.com/decompme/decomp.me/blob/45e8a9078424154a3177a4db5fa08aa930445295/backend/coreapp/compilers.py#L352
 $(O_SRC_O2) : $(BUILD_DIR)/%.o : %
-	$(CPP) $(CPP_FLAGS) $< | $(CC) $(CC_FLAGS) | $(MASPSX) $(MASPSX_FLAGS) | $(AS) $(AS_FLAGS) -o $@
+	$(CPP) $(CPP_FLAGS) $< | $(CC) $(CC_FLAGS) | $(CC_FIXUP) | $(MASPSX) $(MASPSX_FLAGS) | $(AS) $(AS_FLAGS) -o $@
 
 $(O_SRC_O1) : $(BUILD_DIR)/%.o : %
-	$(CPP) $(CPP_FLAGS) $< | $(CC) -quiet -mgas -msoft-float -G0 -O1 -fno-builtin -gcoff | $(MASPSX) $(MASPSX_FLAGS) | $(AS) $(AS_FLAGS) -o $@
+	$(CPP) $(CPP_FLAGS) $< | $(CC) -quiet -mgas -msoft-float -G0 -O1 -fno-builtin -gcoff | $(CC_FIXUP) | $(MASPSX) $(MASPSX_FLAGS) | $(AS) $(AS_FLAGS) -o $@
 
 CC_SCR := $(TOOLS_DIR)/gcc-2.5.7/cc1
 $(O_SRC_SCRATCH) : $(BUILD_DIR)/%.o : %
-	$(CPP) $(CPP_FLAGS) $< | $(CC_SCR) -quiet -mgas -msoft-float -G0 -O2 -fno-builtin -gcoff | $(MASPSX) $(MASPSX_FLAGS) | $(AS) $(AS_FLAGS) -o $@
+	$(CPP) $(CPP_FLAGS) $< | $(CC_SCR) -quiet -mgas -msoft-float -G0 -O2 -fno-builtin -gcoff | $(CC_FIXUP) | $(MASPSX) $(MASPSX_FLAGS) | $(AS) $(AS_FLAGS) -o $@
 
 check:
 	sha1sum --check $(EXE).sha1

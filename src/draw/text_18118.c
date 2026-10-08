@@ -418,13 +418,6 @@ void display_text_sin(u8 *text, s16 in_x, s16 in_y, s16 temps, u8 font_size, u8 
 #endif
 
 /* 1925C 8013DA5C -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/text_18118", display_text);
-#else
-/*
-score of 346
-stack size?
-*/
 void display_text(u8 *text, s16 in_x, s16 in_y, u8 font_size, u8 param_5)
 {
     u8 sprite_ind;
@@ -443,6 +436,8 @@ void display_text(u8 *text, s16 in_x, s16 in_y, u8 font_size, u8 param_5)
     u8 let;
     u8 temp_a1_2;
     u8 clut_x;
+    s32 pad1;
+    s32 pad2;
 
     /*var_s1 = saved_reg_s1;
     var_s7 = saved_reg_s7;*/
@@ -476,7 +471,7 @@ void display_text(u8 *text, s16 in_x, s16 in_y, u8 font_size, u8 param_5)
         break;
     case 0:
     default:
-        var_s5 = null;
+        var_s5 = (u8 *) (((pad1 << 16) & 0xffff) + ((pad2 << 16) & 0xffff));
         break;
     }
 
@@ -604,7 +599,6 @@ void display_text(u8 *text, s16 in_x, s16 in_y, u8 font_size, u8 param_5)
         } while (text[sp48] != 0);
     }
 }
-#endif
 
 /* 19990 8013E190 -O2 -msoft-float */
 void display_box_text(TextToDisplay *txt)
