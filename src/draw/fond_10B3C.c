@@ -900,13 +900,6 @@ void DrawBG_new(void)
 #endif
 
 /* 12B3C 8013733C -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", DrawBG_gen);
-#else
-/*
-score of 405
-DrawBG_bande_h param_4???
-*/
 void DrawBG_gen(void)
 {
     s16 sp10[12];
@@ -945,7 +938,7 @@ void DrawBG_gen(void)
             var_s5 = PS1_FondHeight - 0xF0;
 
         var_s0_1 = &sp28[0];
-        if ((u8) var_s3_1->unk_1 < 0xFFU)
+        if (var_s3_1->unk_1 < 0xFF)
         {
             test_2 = &D_801F55B8[0]; /* cannot make duplicates of this use test_2 also??? */
             *var_s0_1 = ((xmap + *test_2) / var_s3_1->unk_1);
@@ -961,12 +954,11 @@ void DrawBG_gen(void)
         DrawBG_bande_h(temp_s2_1 - var_s5, var_s5, var_s6, *var_s0_1);
         var_s6 += temp_s2_1;
         var_s0_1++;
-        var_s1_1 = 1;
         new_var_2 = &D_801E63F8[0].unk_0; /* i don't even */
-        while (var_s1_1 < (u8) PS1_BandeBackCount)
+        for (var_s1_1 = 1; var_s1_1 < PS1_BandeBackCount; var_s1_1++)
         {
             temp_a2_1 = var_s3_1->unk_1;
-            if (temp_a2_1 < 0xFFU)
+            if (temp_a2_1 < 0xFF)
             {
                 *var_s0_1 = ((xmap + D_801F55B8[var_s1_1]) / temp_a2_1);
                 D_801F55B8[var_s1_1] = ((D_801F55B8[var_s1_1] + D_801F5788[var_s1_1]) % (PS1_FondWidth * var_s3_1->unk_1));
@@ -979,8 +971,7 @@ void DrawBG_gen(void)
             var_s3_1 += 1;
             DrawBG_bande_h(temp_s2_1, var_s6, var_s6 - var_s5, *var_s0_1);
             var_s6 += temp_s2_1;
-            var_s0_1 += 1;
-            var_s1_1 += 1;
+            var_s0_1++;
         }
 
         *var_s0_1 = (xmap + D_801F55B8[var_s1_1]) * D_801E63F8[0].unk_1;
@@ -989,26 +980,23 @@ void DrawBG_gen(void)
     }
     else if ((PS1_FondType == 7) || (PS1_FondType == 0x0C))
     {
-        var_s1_1 = 0;
         D_801E4BC8 = 0;
+        var_s1_1 = 0;
         var_s2 = sp10;
         var_s0_1 = &var_s7[0];
-        while (var_s1_1 < (u8) PS1_BandeBackCount)
+        while (var_s1_1 < PS1_BandeBackCount)
         {
-            var_a1 = 0;
-            temp_hi = (ymap / var_s3_1->unk_1) % PS1_FondHeight;
-            *var_s2 = temp_hi;
-
-            var_s2 += 1;
-
-            while (var_a1 < var_s3_1->unk_0)
+            do
             {
-                *var_s0_1 = temp_hi;
-                var_s0_1 += 1;
-                var_a1 += 1;
-            }
-            var_s1_1 += 1;
-            var_s3_1 += 1;
+                var_s5 = (ymap / var_s3_1->unk_1) % PS1_FondHeight;
+                *var_s2++ = var_s5;
+                for (var_a1 = 0; var_a1 < var_s3_1->unk_0; var_a1++)
+                {
+                    *var_s0_1++ = var_s5;
+                }
+                var_s1_1++;
+                var_s3_1++;
+            } while (0);
         }
         if (PS1_FondType == 7)
         {
@@ -1041,7 +1029,6 @@ void DrawBG_gen(void)
     else
         DrawBG_new();
 }
-#endif
 
 /* 13198 80137998 -O2 -msoft-float */
 u8 PS1_GetTileOrderingTableIndex(u8 param_1, u8 param_2, s32 param_3)
