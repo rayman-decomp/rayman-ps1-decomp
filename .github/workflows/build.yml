@@ -5,7 +5,7 @@ on:
   pull_request:
   workflow_dispatch:
 jobs:
-  build:
+  build-us:
     runs-on: ubuntu-latest
     container: ghcr.io/rayman-decomp/rayman-ps1-build:main
     steps:
@@ -31,10 +31,45 @@ jobs:
         mkdir tools/gcc-2.5.7 &&
         tar -xzvf gcc-2.5.7.tar.gz -C tools/gcc-2.5.7
     - name: Extract
-      run: make -f mk-splat.mk extract
+      run: make -f mk-splat.mk extract VERSION=us
     - name: Make
       id: make
-      run: make -f mk-splat.mk
+      run: make -f mk-splat.mk VERSION=us
+    - if: always() && steps.make.outcome != 'success'
+      uses: actions/upload-artifact@v4
+      with:
+        path: build
+
+  build-eu:
+    runs-on: ubuntu-latest
+    container: ghcr.io/rayman-decomp/rayman-ps1-build:main
+    steps:
+    - name: Clone
+      uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+    - run: pip install -r requirements.txt --break-system-packages
+    - name: Cache other dependencies
+      id: other-cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          SLES-000.49
+          tools/gcc-2.5.7
+        key: other-cache
+    - if: steps.other-cache.outputs.cache-hit != 'true'
+      run: cp /exe/SLES_000.49 SLES-000.49
+    - if: steps.other-cache.outputs.cache-hit != 'true'
+      name: Get gcc
+      run:
+        wget https://github.com/decompals/old-gcc/releases/download/0.13/gcc-2.5.7.tar.gz &&
+        mkdir tools/gcc-2.5.7 &&
+        tar -xzvf gcc-2.5.7.tar.gz -C tools/gcc-2.5.7
+    - name: Extract
+      run: make -f mk-splat.mk extract VERSION=eu
+    - name: Make
+      id: make
+      run: make -f mk-splat.mk VERSION=eu
     - if: always() && steps.make.outcome != 'success'
       uses: actions/upload-artifact@v4
       with:

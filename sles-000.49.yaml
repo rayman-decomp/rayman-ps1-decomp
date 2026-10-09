@@ -1,0 +1,64 @@
+name: SLES-000.49
+sha1: 5791d1240c18521d7e98935c4f5e898416f51782
+options:
+  basename: sles-000.49
+  target_path: SLES-000.49
+  base_path: .
+  platform: psx
+  compiler: GCC
+
+  asm_path: asm/e
+  src_path: src
+  build_path: build/e
+
+  ld_script_path: sles-000.49.ld
+
+  find_file_boundaries: False
+  gp_value: 0x801cede4
+
+  o_as_suffix: False
+  use_legacy_include_asm: False
+  disassemble_all: True
+
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+
+  section_order: [".rodata", ".text", ".data", ".bss"]
+
+  symbol_addrs_path:
+    - addrs-e.txt
+    - funcs-e.txt
+  undefined_funcs_auto_path: undefined_funcs_auto-e.txt
+  undefined_syms_auto_path: undefined_syms_auto-e.txt
+  reloc_addrs_path:
+    - reloc_addrs-e.txt
+
+  extensions_path: tools/splat_ext
+
+  subalign: 2
+  ld_align_segment_vram_end: False
+  ld_align_section_vram_end: False
+
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+  pair_rodata_to_text: True
+  migrate_rodata_to_functions: True
+segments:
+  - name: header
+    type: header
+    start: 0x0
+
+  - name: main
+    type: code
+    start: 0x800
+    vram: 0x80125000
+    bss_size: 0x0
+    subalign: 4
+    subsegments:
+      - [0x800, rodata, 800]
+      - [0x7C4C, c, e/7C4C]
+      - [0x9DD24, data]
+  - [0xAC800]

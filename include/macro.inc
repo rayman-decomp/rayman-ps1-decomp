@@ -10,7 +10,6 @@
     .\visibility "\label"
     .type "\label", @function
     "\label":
-        .ent "\label"
 .endm
 
 .macro jlabel label
