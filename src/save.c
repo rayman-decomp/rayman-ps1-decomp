@@ -89,37 +89,17 @@ void saveGameState(Obj *obj, SaveState *state)
 }
 
 /* 3F484 80163C84 -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/save", restoreGameState);
-#else
-/* score of 385 */
 void restoreGameState(SaveState *save_param)
 {
-    Obj *temp_a2;
     s16 temp_v1_1;
     s16 var_a3_2;
-    s16 var_v0_3;
     u8 temp_a0;
-    s32 temp_v1_2;
-    s32 var_a1;
-    s32 var_a2_2;
     u8 var_a2_3;
-    s32 var_a2_4;
-    s32 var_v1_2;
     Obj *cur_obj;
-    u32 var_v0_4;
-    u32 var_v1;
-    u8 temp_a1;
-    u8 temp_a1_2; /* being used for two different save_param fields */
-    u8 temp_v0;
-    u8 temp_v0_2;
+    u8 temp_a1_2; /* shared by two save_param fields */
     u8 temp_v1_3;
     u8 var_v0_2;
     s16 nb_objs;
-    u8 test_1;
-    s16 test_2;
-    u8 test_3;
-    Obj *new_var;
 
     if (save_param->has_saved)
     {
@@ -147,16 +127,14 @@ void restoreGameState(SaveState *save_param)
             RayEvts.poing = save_param->rayevts_2;
             RayEvts.reverse = save_param->rayevts_0;
         }
-        /* tried using cur_obj */
         temp_v1_1 = save_param->save_obj_id;
         if (temp_v1_1 != -1)
         {
-            temp_a2 = &level.objects[temp_v1_1];
-            temp_a2->x_pos = save_param->save_obj_x_pos;
-            temp_a2->y_pos = save_param->save_obj_y_pos;
-            temp_a2->detect_zone_flag = save_param->save_obj_detect_zone_flag;
-            var_v0_3 = ((save_param->field18_0x14b & 1) << 8);
-            temp_a2->flags = (temp_a2->flags & ~0x100) | var_v0_3;
+            cur_obj = &level.objects[temp_v1_1];
+            cur_obj->x_pos = save_param->save_obj_x_pos;
+            cur_obj->y_pos = save_param->save_obj_y_pos;
+            cur_obj->detect_zone_flag = save_param->save_obj_detect_zone_flag;
+            cur_obj->flags = (cur_obj->flags & ~0x100) | ((save_param->field18_0x14b & 1) << 8);
         }
         if (save_param == &save1)
         {
@@ -222,15 +200,12 @@ void restoreGameState(SaveState *save_param)
         ray.speed_y = 0;
         ray.iframes_timer = -1;
 
-        /* ??? */
-        var_a3_2 = 0; /* this is s16, while var_a2_3 is u8 */
+        var_a3_2 = 0;
         cur_obj = &level.objects[var_a3_2];
         ray.flags |= 0xC00;
-        nb_objs = level.nb_objects;
-        /* ???*/
-
         h_scroll_speed = 0;
         v_scroll_speed = 0;
+        nb_objs = level.nb_objects;
 
         while (var_a3_2 < nb_objs)
         {
@@ -256,7 +231,6 @@ void restoreGameState(SaveState *save_param)
         gerbe = 0;
     }
 }
-#endif
 
 /* 3F9C0 801641C0 -O2 -msoft-float */
 void DO_PHOTOGRAPHE_CMD(void)
