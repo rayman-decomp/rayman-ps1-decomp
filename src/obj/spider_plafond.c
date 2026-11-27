@@ -288,336 +288,98 @@ void SPIDER_PLAFOND_REACT(Obj *obj)
 #endif
 
 /* 54138 80178938 -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/obj/spider_plafond", DO_DARD_PLAFOND_ALWAYS);
-#else
-/*
-score of 3650
-look at DO_DARK2_TOONS_COMMAND
-*/
 void DO_DARD_PLAFOND_ALWAYS(Obj *obj)
 {
-    s16 temp_a1_3;
-    s16 temp_a3;
-    s16 temp_v1_1;
-    s16 temp_v1_2;
-    s16 temp_v1_3;
-    s16 temp_v1_4;
-    s16 temp_v1_5;
-    s16 temp_v1_6;
-    s16 temp_v1_7;
-    s16 temp_v1_8;
-    s16 diff_y;
     s16 diff_x;
-    s16 var_v0_1;
-    s16 var_v0_11;
-    s32 var_v0_4;
-    s16 var_v0_6;
-    s16 var_v1_1;
-    s16 var_v1_2;
-    s16 var_v1_3;
-    s16 var_v1_4;
-    s16 var_v1_5;
-    s32 temp_a0_1;
-    s32 temp_a0_2;
-    s32 temp_a0_3;
-    s32 temp_a1_1;
-    s32 temp_a1_2;
-    s32 temp_v0_1;
-    s32 temp_v0_10;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 temp_v0_4;
-    s32 temp_v0_5;
-    s32 temp_v0_6;
-    s32 temp_v0_7;
-    s32 temp_v0_8;
-    s32 temp_v0_9;
-    s32 temp_v1_9;
-    s32 var_v0_2;
-    s32 var_v0_3;
-    s32 var_v0_5;
-    s32 var_v0_7;
-    s32 var_v0_8;
-    s32 var_v0_9;
-    u32 temp_v1_10;
-    u32 temp_v1_11;
-    u32 var_v0_10;
-    u32 var_v0_13;
-    u8 var_v0_12;
+    s16 diff_y;
+    s16 dist;
+    s16 abs_x;
+    s16 speed_y;
 
     if (obj->cmd != 1)
     {
-        diff_x = (ray.offset_bx + ray.x_pos) - (obj->offset_bx + (u16) obj->x_pos);
+        diff_x = (ray.offset_bx + ray.x_pos) - (obj->offset_bx + obj->x_pos);
         if (position_ray != 0)
         {
-            diff_y = (ray.offset_by + ray.y_pos) - (obj->offset_by + (u16) obj->y_pos);
+            diff_y = (ray.offset_by + ray.y_pos) - (obj->offset_by + obj->y_pos);
         }
         else
         {
-            diff_y = (((u8) ray.offset_by >> 1) + ray.y_pos) - (obj->offset_by + (u16) obj->y_pos);
+            diff_y = ((ray.offset_by >> 1) + ray.y_pos) - (obj->offset_by + obj->y_pos);
         }
-        var_v1_1 = __builtin_abs(diff_x);
-        var_v0_1 = __builtin_abs(diff_y);
-        temp_a3 = var_v1_1 + var_v0_1;
+        dist = __builtin_abs(diff_x) + __builtin_abs(diff_y);
         if (
             (ray.y_pos + ray.offset_by > obj->y_pos + (obj->offset_by - obj->offset_hy)) &&
             (
-                temp_a1_1 = ray.x_pos + ray.offset_bx,
-                temp_a0_1 = obj->x_pos + obj->offset_bx,
-                var_v0_2 = temp_a1_1 < temp_a0_1,
-                (
-                    temp_a0_1 < temp_a1_1 &&
-                    (var_v0_2 = temp_a1_1 < temp_a0_1, !(obj->flags & 0x4000))
-                ) ||
-                (var_v0_2 && obj->flags & 0x4000)
+                (ray.x_pos + ray.offset_bx > obj->x_pos + obj->offset_bx && !(obj->flags & 0x4000)) ||
+                (ray.x_pos + ray.offset_bx < obj->x_pos + obj->offset_bx && obj->flags & 0x4000)
             )
         )
         {
-            if (temp_a3 > 0)
+            if (dist > 0)
             {
-                diff_x = ashl16(diff_x, 5U) / temp_a3;
-                diff_y = ashl16(diff_y, 5U) / temp_a3;
+                diff_x = ashl16(diff_x, 5) / dist;
+                diff_y = ashl16(diff_y, 5) / dist;
             }
             obj->speed_y = MAX_1(MIN_1(SGN(diff_y - obj->speed_y) + obj->speed_y, 32), 0);
             if (obj->speed_y != 0)
             {
                 obj->speed_x = MAX_1(MIN_1(SGN(diff_x - obj->speed_x) + obj->speed_x, 32), -32);
             }
+            else if (obj->flags & 0x4000)
+            {
+                obj->speed_x = MAX_1(MIN_1(obj->speed_x - (obj->speed_x < diff_x), 32), -32);
+            }
             else
             {
-                /* should be similar to other obj->speed_x = ... but dunno rn */
-                if (obj->flags & 0x4000)
-                {
-                    temp_v1_1 = obj->speed_x;
-                    if (temp_v1_1 < diff_x)
-                    {
-                        var_v0_7 = diff_x << 0x10;
-                        if ((temp_v1_1 - 1) >= 0x20)
-                        {
-                            goto block_86;
-                        }
-                        goto block_81;
-                    }
-                    var_v0_7 = diff_x << 0x10;
-                    if (temp_v1_1 < 0x20)
-                    {
-block_81:
-                        /*if (obj->speed_x < (var_v0_7 >> 0x10))*/
-                        if (obj->speed_x < diff_x)
-                        {
-                            var_v0_4 = -0x0020;
-                            if ((obj->speed_x - 1) >= -0x1F)
-                            {
-                                goto block_85;
-                            }
-                        }
-                        else
-                        {
-                            var_v0_4 = -0x0020;
-                            if (obj->speed_x >= -0x1F)
-                            {
-                                goto block_85;
-                            }
-                        }
-                    }
-                    else
-                    {
-
-block_85:
-block_86:
-                        if (obj->speed_x < diff_x && (obj->speed_x - 1) >= 0x20)
-                        {
-                            var_v0_4 = 0x0020;
-                        }
-                        else if (obj->speed_x < diff_x || obj->speed_x < 0x20)
-                        {
-block_90:
-                            var_v0_4 = obj->speed_x - (obj->speed_x < diff_x);
-                        }
-                        else
-                        {
-                            var_v0_4 = 0x0020;
-                        }
-                    }
-                }
-                else
-                {
-
-                    /*if (
-                        (
-                            (var_s3 < obj->speed_x && (obj->speed_x + 1) < 0x20) ||
-                            (var_s3 >= obj->speed_x && obj->speed_x < 0x20)
-                        ) &&
-                        (
-                            ((var_s3) < obj->speed_x && (obj->speed_x + 1) >= -0x1F) ||
-                            ((var_s3) >= obj->speed_x && obj->speed_x >= -0x1F)
-                        )
-                    )
-                    {
-block_100:
-                        if (var_s3 < obj->speed_x && (obj->speed_x + 1) >= 0x20)
-                        {
-                            var_v0_4 = 0x0020;
-                        }
-                        else if (!(var_s3 >= obj->speed_x && obj->speed_x >= 0x20))
-                        {
-                            var_v0_4 = obj->speed_x + (var_s3 < obj->speed_x);
-                        }
-                        else
-                        {
-                            var_v0_4 = 0x0020;
-                        }
-                    }
-                    else
-                    {
-                        var_v0_4 = -0x0020;
-                    }*/
-                    temp_v1_1 = obj->speed_x;
-                    if (diff_x < temp_v1_1)
-                    {
-                        var_v0_8 = diff_x << 0x10;
-                        if ((temp_v1_1 + 1) < 0x20)
-                        {
-                            goto block_96;
-                        }
-                        else
-                            goto block_101;
-                    }
-                    var_v0_8 = diff_x << 0x10;
-                    if (temp_v1_1 < 0x20)
-                    {
-block_96:
-                        /*if ((var_v0_8 >> 0x10) < obj->speed_x)*/
-                        if ((diff_x) < obj->speed_x)
-                        {
-                            var_v0_4 = -0x0020;
-                            if ((obj->speed_x + 1) >= -0x1F)
-                            {
-                                goto block_100;
-                            }
-                        }
-                        else
-                        {
-                            var_v0_4 = -0x0020;
-                            if (obj->speed_x >= -0x1F)
-                            {
-                                goto block_100;
-                            }
-                        }
-                    }
-                    else
-                    {
-block_100:
-block_101:
-                        if (diff_x < obj->speed_x && (obj->speed_x + 1) >= 0x20)
-                        {
-                            var_v0_4 = 0x0020;
-                        }
-                        else if (!(diff_x >= obj->speed_x && obj->speed_x >= 0x20))
-                        {
-                            var_v0_4 = obj->speed_x + (diff_x < obj->speed_x);
-                        }
-                        else
-                        {
-                            var_v0_4 = 0x0020;
-                        }
-                    }
-                }
-                obj->speed_x = var_v0_4;
+                obj->speed_x = MAX_1(MIN_1(obj->speed_x + (diff_x < obj->speed_x), 32), -32);
             }
         }
         else
         {
-            var_v1_3 = obj->speed_x * 2;
-            var_v0_9 = var_v1_3 < -0x20;
-            if (var_v1_3 >= 0x21)
-            {
-                var_v1_3 = 0x0020;
-                var_v0_9 = 0x20 < -0x20;
-            }
-            if (var_v0_9 != 0)
-            {
-                var_v1_3 = -0x0020;
-            }
-            obj->speed_x = var_v1_3;
-            var_v1_4 = obj->speed_y * 2;
-            if (var_v1_4 >= 0x21)
-            {
-                var_v1_4 = 0x0020;
-            }
-            obj->speed_y = var_v1_4;
+            obj->speed_x = MAX_1(MIN_1(obj->speed_x * 2, 32), -32);
+            obj->speed_y = MIN_1(obj->speed_y * 2, 32);
         }
     }
     else
     {
-        temp_a1_2 = (s16) ray.x_pos + ray.offset_bx;
-        temp_a0_2 = obj->x_pos + obj->offset_bx;
-        if (temp_a0_2 < temp_a1_2)
+        if (ray.x_pos + ray.offset_bx > obj->x_pos + obj->offset_bx)
         {
-            var_v0_10 = obj->flags & ~0x4000;
-            goto block_119;
+            obj->flags &= ~0x4000;
         }
-        if (temp_a1_2 < temp_a0_2)
+        else if (ray.x_pos + ray.offset_bx < obj->x_pos + obj->offset_bx)
         {
-            var_v0_10 = obj->flags | 0x4000;
-block_119:
-            obj->flags = var_v0_10;
+            obj->flags |= 0x4000;
         }
     }
-    if ((s32) obj->speed_x == 0)
+    if (obj->speed_x == 0 && obj->speed_y == 0)
     {
-        var_v1_5 = 1;
-        if (obj->flags & 0x4000)
-        {
-            var_v1_5 = -1;
-        }
-        obj->speed_x = var_v1_5;
+        obj->speed_x = obj->flags & 0x4000 ? -1 : 1;
     }
-    var_v0_11 = obj->speed_x;
-    temp_a1_3 = obj->speed_y;
-    if (var_v0_11 < 0)
-    {
-        var_v0_11 = -var_v0_11;
-    }
-    temp_a0_3 = var_v0_11 * 3;
-    if ((temp_a0_3 < temp_a1_3) || (temp_v1_9 = temp_a1_3 * 3, (((var_v0_11 * 4) < temp_v1_9) != 0)))
+    abs_x = __builtin_abs(obj->speed_x);
+    speed_y = obj->speed_y;
+    if (abs_x * 3 < speed_y || abs_x * 4 < speed_y * 3)
     {
         obj->anim_frame = 0;
     }
+    else if (abs_x * 3 < speed_y * 4)
+    {
+        obj->anim_frame = 0x0B;
+    }
+    else if (abs_x < speed_y * 3)
+    {
+        obj->anim_frame = 0x0A;
+    }
     else
     {
-        var_v0_12 = 0x0B;
-        if (temp_a0_3 >= (temp_a1_3 * 4))
-        {
-            var_v0_12 = 0x0A;
-            if (var_v0_11 >= temp_v1_9)
-            {
-                var_v0_12 = 9;
-            }
-        }
-        obj->anim_frame = var_v0_12;
+        obj->anim_frame = 9;
     }
-    if (obj->speed_x > 0)
+    if (obj->speed_x > 0 && obj->flags & 0x4000)
     {
-        temp_v1_10 = obj->flags;
-        if (temp_v1_10 & 0x4000)
-        {
-            var_v0_13 = temp_v1_10 & ~0x4000;
-            goto block_139;
-        }
-        goto block_137;
+        obj->flags &= ~0x4000;
     }
-block_137:
-    if (obj->speed_x < 0)
+    else if (obj->speed_x < 0 && !(obj->flags & 0x4000))
     {
-        temp_v1_11 = obj->flags;
-        var_v0_13 = temp_v1_11 | 0x4000;
-        if (!(temp_v1_11 & 0x4000))
-        {
-block_139:
-            obj->flags = var_v0_13;
-        }
+        obj->flags |= 0x4000;
     }
 }
-#endif
