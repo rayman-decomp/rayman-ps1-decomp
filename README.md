@@ -23,7 +23,6 @@ Any help with these is greatly appreciated! Feel free to create a PR or open an 
 |-----------------------------|----------------------------------|-------------|---------------------------------|------------|
 | src/draw/fond_10B3C.c       | DrawBG_spr_h                     | 80135D5C    | https://decomp.me/scratch/gNtGz | 88.67%     |
 | src/obj/bb1.c               | DO_BBMONT2_COMMAND               | 8017EAA4    | https://decomp.me/scratch/07j9E | 89.38%     |
-| src/obj/ufo_idc.c           | DO_MOVING_WITH_INDICATOR_COMMAND | 80199230    | https://decomp.me/scratch/u9HGf | 93.81%     |
 
 ## Project to-do/dreams
 Below is a list of potential goals for the decomp. Since there aren't many people working on this project we would greatly appreciate any help anyone is willing to provide!
