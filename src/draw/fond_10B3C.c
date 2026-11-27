@@ -605,45 +605,34 @@ void DrawBG_bande_v(u16 *param_1, u32 param_2)
 }
 
 /* 11EAC 801366AC -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", DrawBG_new);
-#else
-/* score of 1905 */
 void DrawBG_new(void)
 {
+    u8 r;
+    u16 g;
+    u16 b;
     RECT local_88;
     u16 sp30;
     short local_80[12];
     s16 var_s5;
     s32 temp_a0_2;
     s32 temp_hi;
-    s32 temp_lo_1;
     s32 temp_lo_7;
     s32 temp_s7;
     s32 var_a0_1;
     s16 var_a0_2;
     u8 var_fp;
     u8 var_s0_1;
-    u8 var_s0_3;
     s16 var_s2;
     s16 var_s3;
     s32 var_s4;
     u16 var_s6;
-    s32 var_v1_1;
-    s16 temp_s1_1;
-    s16 new_var2;
+    s16 clip_top;
+    s32 screen_h = 0xF0;
 
-    u8 test_2;
-    s32 new_var = 0xF0;
-
-    /*var_s3 = saved_reg_s3;*/
     switch (PS1_FondType)
     {
     case 2:
-        if (
-            num_world == 1 &&
-            (num_level == 0x14 || num_level == 0x15 || num_level == 0x12 || num_level == 0x13)
-        )
+        if ((num_world == 1) && ((((num_level == 0x14) || (num_level == 0x15)) || (num_level == 0x12)) || (num_level == 0x13)))
         {
         case 0:
             var_s3 = 0;
@@ -653,15 +642,15 @@ void DrawBG_new(void)
         }
         else
         {
-            var_s3 = (-((ymapmax - ymap) + 0xf0) + PS1_FondHeight) / D_801F9900;
-            if ((PS1_FondHeight < 0xF0) && ((s16) var_s3 > (PS1_FondHeight - 0xF0)))
+            var_s3 = ((-((ymapmax - ymap) + 0xf0)) + PS1_FondHeight) / D_801F9900;
+            if ((PS1_FondHeight < 0xF0) && (var_s3 > (PS1_FondHeight - 0xF0)))
             {
                 var_s2 = 0xF0 - PS1_FondHeight;
                 var_s6 = 0;
             }
             else
             {
-                var_s6 = var_s3;
+                do { var_s6 = var_s3; } while (0); /* required to match */
                 if (var_s3 >= 0)
                 {
                     var_s2 = 0;
@@ -671,7 +660,7 @@ void DrawBG_new(void)
                     var_s3 = -var_s3;
                     MIN_2(var_s3, 0xf0);
                     var_s2 = var_s3;
-                    var_s6 = 0;
+                    do { var_s6 = 0; } while (0); /* required to match */
                 }
             }
             var_s5 = 0;
@@ -679,20 +668,18 @@ void DrawBG_new(void)
         }
         break;
     case 3:
-        /* never sets var_s3 */
         var_s6 = ymap / D_801F9900;
         if (var_s6 > PS1_FondHeight)
         {
-            var_s5 = 0x00F0;
+            do { var_s5 = 0x00F0; } while (0); /* required to match */
+        }
+        else if (var_s6 >= (PS1_FondHeight - 0xF0))
+        {
+            var_s5 = 0xF0 - (PS1_FondHeight - var_s6);
         }
         else
         {
-            if (var_s6 >= (PS1_FondHeight - 0xF0))
-            {
-                var_s5 = 0xF0 - (PS1_FondHeight - var_s6);
-            }
-            else
-                var_s5 = 0;
+            var_s5 = 0;
         }
         var_s2 = 0;
         break;
@@ -710,7 +697,7 @@ void DrawBG_new(void)
         }
         else
         {
-            var_s3 = (u16) PS1_FondHeight - 0xF0;
+            var_s3 = ((u16) PS1_FondHeight) - 0xF0;
         }
         var_s2 = 0;
         var_s5 = 0;
@@ -719,34 +706,26 @@ void DrawBG_new(void)
         var_s6 = 0;
         var_s2 = 0;
         var_s5 = 0;
-        var_s3 = (u16) PS1_FondHeight - 0xF0;
-
-        temp_s1_1 = PS1_FondWidth;
+        var_s3 = ((u16) PS1_FondHeight) - 0xF0;
+        temp_hi = (u16) PS1_FondWidth;
         PS1_FondWidth = 0x0180;
         var_s0_1 = 0;
-        while ((var_s0_1) < PS1_BandeBackCount)
+        while (var_s0_1 < PS1_BandeBackCount)
         {
-            local_80[var_s0_1] =
-                ((xmap + D_801F55B8[var_s0_1]) /
-                 D_801F8008[var_s0_1].unk_1);
-            D_801F55B8[var_s0_1] =
-                ((D_801F55B8[var_s0_1] + D_801F5788[var_s0_1]) %
-                 (PS1_FondWidth * D_801F8008[var_s0_1].unk_1));
+            local_80[var_s0_1] = (xmap + D_801F55B8[var_s0_1]) / D_801F8008[var_s0_1].unk_1;
+            D_801F55B8[var_s0_1] = (D_801F55B8[var_s0_1] + D_801F5788[var_s0_1]) % (PS1_FondWidth * D_801F8008[var_s0_1].unk_1);
             var_s0_1 += 1;
         }
         var_s0_1 = 0;
-        while ((var_s0_1) < PS1_BandeFrontCount)
+        while (var_s0_1 < PS1_BandeFrontCount)
         {
             temp_a0_2 = PS1_BandeBackCount + var_s0_1;
-            local_80[temp_a0_2] =
-                (xmap + (D_801F55B8[temp_a0_2] / D_801E63F8[var_s0_1].unk_1));
-            D_801F55B8[temp_a0_2] =
-                ((D_801F55B8[var_s0_1] + D_801F5788[var_s0_1]) %
-                 (PS1_FondWidth * D_801E63F8[var_s0_1].unk_1));
+            local_80[temp_a0_2] = xmap + (D_801F55B8[temp_a0_2] / D_801E63F8[var_s0_1].unk_1);
+            D_801F55B8[temp_a0_2] = (D_801F55B8[var_s0_1] + D_801F5788[var_s0_1]) % (PS1_FondWidth * D_801E63F8[var_s0_1].unk_1);
             var_s0_1 += 1;
         }
         draw_spr_brume(var_s3, local_80, (var_s3 - ymapmax) + ymap, PS1_FondWidth);
-        PS1_FondWidth = temp_s1_1;
+        PS1_FondWidth = temp_hi;
         break;
     case 9:
     case 10:
@@ -754,7 +733,7 @@ void DrawBG_new(void)
         var_s6 = 0;
         var_s2 = 0;
         var_s5 = 0;
-        if ((num_world != 2) || ((num_level != 4)))
+        if ((num_world != 2) || (num_level != 4))
         {
             draw_spr_fix(PS1_FondType);
         }
@@ -762,10 +741,10 @@ void DrawBG_new(void)
     case 11:
         sp30 = xmap;
         xmap = 0;
-        var_s6 = 0;
+        do { var_s6 = 0; } while (0); /* required to match */
         var_s2 = 0;
         var_s5 = 0;
-        var_s3 = (u16) PS1_FondHeight - 0xF0;
+        var_s3 = ((u16) PS1_FondHeight) - 0xF0;
         do_allume_vitraux(PS1_CurrentVitrailClignotement);
         break;
     default:
@@ -776,16 +755,9 @@ void DrawBG_new(void)
         break;
     }
 
-    /*sp48 = var_s6;*/
-    /*sp50 = var_s2 < 0xF0;*/
-    /*sp58 = (0xF0 - var_s6) - var_s2;*/
-    /*sp60 = 0xF0 - (s16) var_s2;*/
-    /*sp68 = 0xF0 - var_s2; */
-    /*var_v1_1 = 6 & 0xFF;*/
-    new_var2 = (s16) var_s2;
-    for (var_fp = 6; var_fp & 0xFF; var_fp--)
+    clip_top = (s16) var_s2;
+    for (var_fp = 6; var_fp; var_fp--)
     {
-
         if (var_fp == 6)
         {
             var_s0_1 = 0;
@@ -796,41 +768,37 @@ void DrawBG_new(void)
             var_s4 = 0;
             var_s0_1 = var_fp;
         }
-
-        if (var_s0_1 != 5 || (var_s4 = -0x64, (xmap / D_801F84E0) & 0x3F))
+        if ((var_s0_1 != 5) || ((var_s4 = -0x64, (xmap / D_801F84E0) & 0x3F)))
         {
             var_a0_1 = xmap / D_801F84E0;
-            temp_s7 = (var_s0_1 << 6) - (var_a0_1 - ((var_a0_1 / 64) << 6));
+            temp_s7 = (var_s0_1 << 6) - (var_a0_1 - ((var_a0_1 / 64) * 64));
             local_88.x = var_s4 + (temp_s7 + PS1_CurrentDisplay->drawing_environment.clip.x);
             local_88.w = 0x0040;
-            temp_hi = (var_s0_1 + (var_a0_1 / 64)) % PS1_FondImagesCount;
-            if (
-                var_s6 != 0 ||
-                (PS1_FondType == 2 && (new_var2 < 0xF0)) || /* var_s2 < 0xf0 not placed in sp50? */
-                (PS1_FondType == 3 && (s16) var_s5 < 0xF0)
-            )
+            temp_hi = var_s0_1 + (var_a0_1 / 64);
+            temp_hi = temp_hi % PS1_FondImagesCount;
+            if (((var_s6 != 0) || ((PS1_FondType == 2) && (clip_top < 0xF0))) || ((PS1_FondType == 3) && (var_s5 < 0xF0)))
             {
                 local_88.y = var_s2 + PS1_CurrentDisplay->drawing_environment.clip.y;
                 if ((PS1_FondType == 2) && (PS1_FondHeight < 0xF0))
                 {
-                    local_88.h = (0xF0 - var_s6) - var_s2; /* sp58 */
+                    local_88.h = (0xF0 - var_s6) - var_s2;
                 }
                 else
                 {
                     local_88.h = (PS1_FondHeight - var_s6) - var_s2;
                 }
-                if ((0xF0 - new_var2) < local_88.h) /* ??? */
+                if ((0xF0 - clip_top) < local_88.h)
                 {
-                    local_88.h = 0xF0 - (new_var2);
+                    local_88.h = 0xF0 - clip_top;
                 }
-                LoadImage(&local_88, &PS1_FondImages[temp_hi][((var_s3 + var_s6) << 7)]);
-                var_a0_2 = var_s5 + (var_s2 + (u16) local_88.h);
+                LoadImage(&local_88, &PS1_FondImages[temp_hi][(var_s3 + var_s6) << 7]);
+                var_a0_2 = var_s5 + (var_s2 + ((u16) local_88.h));
             }
             else
             {
                 var_a0_2 = 0;
             }
-            if ((u16) var_a0_2 < 0xF0U)
+            if ((u16) var_a0_2 < 0xF0)
             {
                 if (var_s6 == 0)
                 {
@@ -846,7 +814,7 @@ void DrawBG_new(void)
                 {
                     local_88.h = 0x00F0;
                 }
-                LoadImage(&local_88, &PS1_FondImages[temp_hi][((var_s3 << 7))]);
+                LoadImage(&local_88, &PS1_FondImages[temp_hi][var_s3 << 7]);
             }
             if (var_s0_1 == 5)
             {
@@ -875,29 +843,43 @@ void DrawBG_new(void)
         local_88.y = PS1_CurrentDisplay->drawing_environment.clip.y;
         local_88.w = 0x0140;
         local_88.h = var_s2;
-        /*ClearImage(&local_88, (PS1_FondImages[0][0].r * 8),
-                   (PS1_FondImages[0][0].g * 8),
-                   (PS1_FondImages[0][0].b * 8));*/
-        ClearImage(&local_88, (u8) ((*(ushort *) PS1_FondImages[0] & (0x1f << 0)) << 3), (u8) ((*(ushort *) PS1_FondImages[0] & (0x1f << 5)) >> 2), (u8) ((*(ushort *) PS1_FondImages[0] & (0x1f << 10)) >> 7));
+        {
+            u16 c;
+
+            /* two volatile reads and one plain read: required to match */
+            c = *(volatile u16 *) PS1_FondImages[0];
+            r = c & 0x1f;
+            c = *(volatile u16 *) PS1_FondImages[0];
+            g = c & 0x3e0;
+            c = *(u16 *) PS1_FondImages[0];
+            b = c & 0x7c00;
+            ClearImage(&local_88, r << 3, g >> 2, b >> 7);
+        }
     }
     if (var_s5 != 0)
     {
         local_88.x = PS1_CurrentDisplay->drawing_environment.clip.x;
-        local_88.y = PS1_CurrentDisplay->drawing_environment.clip.y - (var_s5 - new_var); /* TODO: new_var??? */
+        local_88.y = PS1_CurrentDisplay->drawing_environment.clip.y - (var_s5 - screen_h);
         local_88.w = 0x0140;
         local_88.h = var_s5;
-        /*ClearImage(&local_88, (PS1_FondImages[1][-1].r * 8),
-                   (PS1_FondImages[1][-1].g * 8),
-                   (PS1_FondImages[1][-1].b * 8));*/
-                                                     /* -1 index??? */
-        ClearImage(&local_88, (u8) ((*(ushort *) (PS1_FondImages[1] + -2) & (0x1f << 0)) << 3), (u8) ((*(ushort *) (PS1_FondImages[1] + -2) & (0x1f << 5)) >> 2), (u8) ((*(ushort *) (PS1_FondImages[1] + -2) & (0x1f << 10)) >> 7));
+        {
+            u16 c;
+
+            /* two volatile reads and one plain read: required to match */
+            c = *(volatile u16 *) (PS1_FondImages[1] - 2);
+            r = c & 0x1f;
+            c = *(volatile u16 *) (PS1_FondImages[1] - 2);
+            g = c & 0x3e0;
+            c = *(u16 *) (PS1_FondImages[1] - 2);
+            b = c & 0x7c00;
+            ClearImage(&local_88, r << 3, g >> 2, b >> 7);
+        }
     }
     if (PS1_FondType == 0x0B)
     {
         xmap = sp30;
     }
 }
-#endif
 
 /* 12B3C 8013733C -O2 -msoft-float */
 void DrawBG_gen(void)
