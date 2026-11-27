@@ -305,124 +305,98 @@ void DrawBG_spr_v(s16 param_1, s16 *param_2)
 }
 
 /* 1155C 80135D5C -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/draw/fond_10B3C", DrawBG_spr_h);
-#else
-/* score of 2810 */
 void DrawBG_spr_h(s32 param_1, u16 *param_2, s32 param_3, s16 param_4)
 {
-    s16 sVar1_1;
-    Display *pDVar2;
-    u32 *ppuVar3;
-    u8 bVar4;
-    s32 fw_1;
-    s32 fw_2;
-    s16 fw_3;
-    s16 fw_4;
-    u8 uVar7;
-    s16 sVar9;
-    SPRT *pSVar10;
+    s32 near_scroll_y;
+    s32 far_scroll_y;
+    s16 far_width;
+    s16 *vy;
     SPRT *cur_sprt;
+    SPRT *wrap_sprt;
+    Display *disp;
     DR_ENV *cur_dr_env;
     DVECTOR *cur_pos;
     Sprite *cur_bg_sprite;
-    u8 cnt_1;
-    s16 test_1;
-    s16 temp_v0_4;
-    u32 *new_var_1; /* ??? was permuter sugg. */
-    s16 new_var_2;
+    u8 cnt;
+    u8 id;
+    s16 i;
+    s16 y;
+    s16 sprt_y;
+    s16 sprt_x;
+    u16 width;
+    s16 x;
+    s16 wrap_x_2;
+    s16 wrap_x_1;
 
-    cnt_1 = 0;
-    fw_1 = PS1_FondWidth;
-    fw_2 = PS1_FondWidth * 2;
-    fw_4 = ((PS1_FondWidth * 2 - 0x140));
-    fw_3 = ((PS1_FondWidth - 0x140));
-    /*test_1 = ((NbSprite + 0xffff) << 0x10) >> 0x10;*/
-    test_1 = ((NbSprite - 1));
-    cur_pos = &PS1_BackgroundPositions[test_1];
-    pDVar2 = PS1_CurrentDisplay;
-    cur_bg_sprite = &PS1_BackgroundSprites[test_1];
+    disp = PS1_CurrentDisplay;
+    near_scroll_y = param_1;
+    far_scroll_y = param_3;
+    far_width = param_4;
+    width = PS1_FondWidth;
+    wrap_x_2 = width * 2 - 0x140;
+    i = NbSprite - 1;
+    cur_pos = &PS1_BackgroundPositions[i];
+    cur_bg_sprite = &PS1_BackgroundSprites[i];
     PS1_PrevPrim = &PS1_CurrentDisplay->ordering_table[8];
-    cur_dr_env = &PS1_CurrentDisplay->map_drawing_environment_primitives[9 + test_1];
-
-    cur_sprt = &PS1_CurrentDisplay->sprites[test_1];
-    bVar4 = NbSprite;
-    while (cnt_1 < bVar4)
+    cur_dr_env = &PS1_CurrentDisplay->map_drawing_environment_primitives[9 + i];
+    cur_sprt = &PS1_CurrentDisplay->sprites[i];
+    wrap_x_1 = PS1_FondWidth - 0x140;
+    for (cnt = 0; cnt < NbSprite; cnt++, cur_pos--, cur_bg_sprite--, cur_sprt--, cur_dr_env--)
     {
-        uVar7 = cur_bg_sprite->id - 1;
-        sVar9 = 1000;
-        if (uVar7 == PS1_BandeBackCount)
+        id = cur_bg_sprite->id - 1;
+        y = 1000;
+        if (id == PS1_BandeBackCount)
         {
-            sVar1_1 = param_2[uVar7] % param_4;
-            new_var_2 = cur_pos->vx - sVar1_1;
-            temp_v0_4 = cur_pos->vy - param_3;
-            if (sVar9 > temp_v0_4)
+            x = param_2[id] % far_width;
+            sprt_y = cur_pos->vy - far_scroll_y;
+            sprt_x = cur_pos->vx - x;
+            if (sprt_y < y)
             {
-                sVar9 = temp_v0_4;
+                y = sprt_y;
             }
-            cur_sprt[0].x0 = new_var_2;
-            cur_sprt[0].y0 = sVar9;
-            ppuVar3 = PS1_PrevPrim;
-            cur_sprt[0].tag = cur_sprt[0].tag & 0xff000000 | *ppuVar3 & 0xffffff;
-            *ppuVar3 = (*ppuVar3 & 0xff000000 | (uint) &cur_sprt[0] & 0xffffff);
-            if (fw_3 < sVar1_1)
+            cur_sprt[0].x0 = sprt_x;
+            cur_sprt[0].y0 = y;
+            addPrim(PS1_PrevPrim, &cur_sprt[0]);
+            if (wrap_x_1 < x)
             {
-                cur_sprt[0x10].x0 = param_4 + cur_sprt[0].x0;
-                cur_sprt[0x10].y0 = cur_sprt[0].y0;
-                new_var_1 = &cur_sprt[0x10].tag;
-                cur_sprt[0x10].tag = *new_var_1 & 0xff000000 | *ppuVar3 & 0xffffff;
-                *ppuVar3 = (*ppuVar3 & 0xff000000 | (uint) (&cur_sprt[0x10]) & 0xffffff);
+                cur_sprt[16].x0 = cur_sprt[0].x0 + far_width;
+                cur_sprt[16].y0 = cur_sprt[0].y0;
+                wrap_sprt = cur_sprt + 16;
+                addPrim(PS1_PrevPrim, wrap_sprt);
             }
         }
         else
         {
-            PS1_PrevPrim = pDVar2->ordering_table;
-            ppuVar3 = PS1_PrevPrim;
-            sVar1_1 = param_2[uVar7] % (s16) fw_1;
-            new_var_2 = cur_pos->vx - sVar1_1;
-            temp_v0_4 = cur_pos->vy - param_1;
-            if (sVar9 > temp_v0_4)
+            x = param_2[id] % PS1_FondWidth;
+            PS1_PrevPrim = &disp->ordering_table[0];
+            vy = &cur_pos->vy;
+            sprt_y = (*vy) - near_scroll_y;
+            sprt_x = cur_pos->vx - x;
+            if (sprt_y < y)
             {
-                sVar9 = temp_v0_4;
+                y = sprt_y;
             }
-            cur_sprt[0].x0 = new_var_2;
-            cur_sprt[0].y0 = sVar9;
-            cur_sprt[0].tag = cur_sprt[0].tag & 0xff000000 | *ppuVar3 & 0xffffff;
-            *ppuVar3 =
-                (*ppuVar3 & 0xff000000 | (uint) &cur_sprt[0] & 0xffffff);
-            if (fw_3 < sVar1_1)
+            cur_sprt[0].x0 = sprt_x;
+            cur_sprt[0].y0 = y;
+            addPrim(PS1_PrevPrim, &cur_sprt[0]);
+            if (wrap_x_1 < x)
             {
-                cur_sprt[0x10].x0 = cur_sprt[0].x0 + fw_1;
-                cur_sprt[0x10].y0 = cur_sprt[0].y0;
-                new_var_1 = &cur_sprt[0x10].tag;
-                cur_sprt[0x10].tag =
-                    *new_var_1 & 0xff000000 | *ppuVar3 & 0xffffff;
-                *ppuVar3 =
-                    (*ppuVar3 & 0xff000000 | (uint) (&cur_sprt[0x10]) & 0xffffff);
-                if (fw_4 < sVar1_1)
+                cur_sprt[16].x0 = cur_sprt[0].x0 + PS1_FondWidth;
+                cur_sprt[16].y0 = cur_sprt[0].y0;
+                wrap_sprt = cur_sprt + 16;
+                addPrim(PS1_PrevPrim, wrap_sprt);
+                if (wrap_x_2 < x)
                 {
-                    cur_sprt[0x20].x0 = cur_sprt[0].x0 + fw_2;
-                    cur_sprt[0x20].y0 = cur_sprt[0].y0;
-                    cur_sprt[0x20].tag = cur_sprt[0x20].tag & 0xff000000 | *ppuVar3 & 0xffffff;
-                    *ppuVar3 =
-                        (*ppuVar3 & 0xff000000 | (uint) (&cur_sprt[0x20]) & 0xffffff);
+                    cur_sprt[32].x0 = cur_sprt[0].x0 + width * 2;
+                    cur_sprt[32].y0 = cur_sprt[0].y0;
+                    wrap_sprt = cur_sprt + 32;
+                    addPrim(PS1_PrevPrim, wrap_sprt);
                 }
             }
         }
-
-        cnt_1++;
-        cur_pos--;
-        cur_bg_sprite--;
-        pSVar10--;
-        cur_sprt--;
-        ppuVar3 = PS1_PrevPrim;
-        bVar4 = NbSprite;
-        cur_dr_env->tag = cur_dr_env->tag & 0xff000000 | *ppuVar3 & 0xffffff;
-        *ppuVar3 = (*ppuVar3 & 0xff000000 | (uint) cur_dr_env & 0xffffff);
-        cur_dr_env--;
+        addPrim(PS1_PrevPrim, cur_dr_env);
     }
 }
-#endif
 
 /* 1193C 8013613C -O2 -msoft-float */
 #ifndef MATCHES_BUT
