@@ -487,63 +487,46 @@ s32 IS_ON_RESSORT_BLOC(Obj *obj)
 }
 
 /* 6F23C 80193A3C -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/collision/block_6E5E0", CALC_MOV_ON_BLOC);
-#else
-/* score of 2125 */
 void CALC_MOV_ON_BLOC(Obj *obj)
 {
-    s16 temp_s0_1;
-    s16 temp_s0_3;
-    s32 temp_s1_1;
-    s16 temp_s1_2;
-    u8 temp_v0_1;
-    s16 temp_v0_2;
-    s16 temp_v1_6;
-    s32 var_s1;
-    s16 var_v0_2;
-    s32 temp_a0;
-    s32 temp_s0_2;
-    s32 temp_s4;
-    s32 var_s0;
-    s32 var_s2_1;
-    s32 var_s2_2;
-    s32 var_s4;
-    s32 var_s5;
-    s32 var_v0;
-    u32 temp_v1_4;
-    u32 temp_v1_5;
-    u8 temp_v1;
-    u8 temp_v1_2;
-    u8 temp_v1_3;
+    s16 floor_y;
+    s16 floor_x;
+    u8 btyp;
+    s16 floor_dist;
+    s16 old_speed_y;
+    s16 y;
+    s16 diff_y;
+    s16 x;
+    s16 new_y;
+    s16 old_y;
+    s32 hor_speed;
+    u32 above_btyp;
+    u8 type;
 
-    /*var_s2_1 = saved_reg_s2;*/
-    temp_v1 = obj->type;
-    temp_a0 = temp_v1 * 4;
-    if ((flags[temp_v1].flags2 & 1) || (temp_v1 == 0x17))
+    type = obj->type;
+    if ((flags[type].flags2 & 1) || (type == 0x17))
     {
-        if ((((u8) flags[temp_v1].flags1 >> 4) & 1) && (temp_v1 != 0x17))
+        if (((flags[type].flags1 >> 4) & 1) && (type != 0x17))
         {
-            var_s5 = instantSpeed(obj->speed_x);
+            hor_speed = instantSpeed(obj->speed_x);
         }
         else
         {
-            var_s5 = (s32) (u16) obj->speed_x;
+            hor_speed = (u16) obj->speed_x;
         }
-        var_s0 = var_s5 + ((obj->offset_bx + (u16) obj->x_pos) & 0xF);
-        var_s4 = (obj->offset_by + (u16) obj->y_pos) & 0xF;
+        x = hor_speed + ((obj->offset_bx + obj->x_pos) & 0xF);
+        old_y = (obj->offset_by + obj->y_pos) & 0xF;
         if ((obj->type == 0x17) && (ray.field23_0x3c != -1))
         {
-            if ((s16) var_s5 > 0)
+            if ((s16) hor_speed > 0)
             {
-                var_s0 = 0x0000000F;
+                x = 0x0000000F;
             }
-            else if ((s16) var_s5 < 0)
+            else if ((s16) hor_speed < 0)
             {
-                var_s0 = 0;
+                x = 0;
             }
-            temp_v1_2 = obj->btypes[0];
-            switch (temp_v1_2)
+            switch (obj->btypes[0])
             {
             case 0:
             case 1:
@@ -551,49 +534,47 @@ void CALC_MOV_ON_BLOC(Obj *obj)
             case 10:
             case 24:
             case 25:
-                var_s2_1 = var_s4 + 1;
+                do { new_y = old_y + 1; } while (0); /* required to match */
                 break;
             case 2:
             case 18:
-                var_s2_1 = 0xF - var_s0;
+                new_y = 0xF - x;
                 break;
             case 3:
             case 19:
-                var_s2_1 = var_s0;
+                new_y = x;
                 break;
             case 4:
             case 20:
-                var_s2_1 = 0xF - (((s16) var_s0) >> 1);
+                new_y = 0xF - (((s16) x) >> 1);
                 break;
             case 5:
             case 21:
-                var_s2_1 = 7 - (((s16) var_s0) >> 1);
+                new_y = 7 - (((s16) x) >> 1);
                 break;
             case 6:
             case 22:
-                var_s2_1 = (((s16) var_s0) >> 1);
+                new_y = (((s16) x) >> 1);
                 break;
             case 7:
             case 23:
-                var_s2_1 = (((s16) var_s0) >> 1) + 8;
+                new_y = (((s16) x) >> 1) + 8;
                 break;
             case 12:
-                var_s2_1 = var_s4;
+                new_y = old_y;
                 break;
             case 9:
             case 14:
             case 15:
             case 30:
-                var_s2_1 = 0;
+                new_y = 0;
                 break;
             }
-            var_s4 = var_s2_1;
+            old_y = new_y;
         }
         else
         {
-            temp_v1_3 = obj->btypes[0];
-            /*var_s1 = saved_reg_s2 - var_s4;*/
-            switch (temp_v1_3)
+            switch (obj->btypes[0])
             {
             case 0:
             case 1:
@@ -601,50 +582,51 @@ void CALC_MOV_ON_BLOC(Obj *obj)
             case 10:
             case 24:
             case 25:
-                var_s2_1 = var_s4 + 1;
+                new_y = old_y + 1;
                 break;
             case 2:
             case 18:
-                var_s2_1 = 0xF - var_s0;
+                new_y = 0xF - x;
                 break;
             case 3:
             case 19:
-                var_s2_1 = var_s0;
+                new_y = x;
                 break;
             case 4:
             case 20:
-                var_s2_1 = 0xF - (((s16) var_s0) >> 1);
+                new_y = 0xF - (((s16) x) >> 1);
                 break;
             case 5:
             case 21:
-                var_s2_1 = 7 - (((s16) var_s0) >> 1);
+                new_y = 7 - (((s16) x) >> 1);
                 break;
             case 6:
             case 22:
-                var_s2_1 = (((s16) var_s0) >> 1);
+                new_y = (((s16) x) >> 1);
                 break;
             case 7:
             case 23:
-                var_s2_1 = (((s16) var_s0) >> 1) + 8;
+                new_y = (((s16) x) >> 1) + 8;
                 break;
             case 12:
-                var_s2_1 = var_s4;
+                new_y = old_y;
                 break;
             case 9:
             case 14:
             case 15:
             case 30:
-                var_s2_1 = 0;
+                new_y = 0;
                 break;
             }
         }
-        var_s1 = var_s2_1 - var_s4;
-        var_s0 = var_s5 + (obj->x_pos + obj->offset_bx);
-        temp_s1_1 = var_s1 + (obj->y_pos + obj->offset_by);
-        temp_v0_1 = BTYP((s16) var_s0, (s16) temp_s1_1);
-        var_s0 = var_s0 & 0xF;
-        var_s4 = temp_s1_1 & 0xF;
-        switch (temp_v0_1)
+        y = new_y - old_y;
+        diff_y = y;
+        x = hor_speed + (obj->offset_bx + obj->x_pos);
+        y += obj->offset_by + obj->y_pos;
+        btyp = BTYP((s16) x, (s16) y);
+        x = x & 0xF;
+        old_y = y & 0xF;
+        switch (btyp)
         {
         case 0:
         case 1:
@@ -652,74 +634,73 @@ void CALC_MOV_ON_BLOC(Obj *obj)
         case 10:
         case 24:
         case 25:
-            temp_s1_2 = var_s5 + (obj->x_pos + obj->offset_bx);
-            temp_s0_3 = var_s1 + (obj->y_pos + obj->offset_by) + 0x10;
-            temp_v0_2 = dist_to_bloc_floor(BTYP((s16) temp_s1_2, (s16) temp_s0_3), temp_s1_2 & 0xF, temp_s0_3 | ~0xF);
-            if (temp_v0_2 >= 3)
+            floor_x = hor_speed + (obj->offset_bx + obj->x_pos);
+            floor_y = diff_y + (obj->offset_by + obj->y_pos) + 0x10;
+            floor_dist = dist_to_bloc_floor(BTYP((s16) floor_x, (s16) floor_y), floor_x & 0xF, (u16) floor_y | ~0xF);
+            if (floor_dist >= 3)
             {
             case 12:
-                var_s2_1 = var_s4;
+                new_y = old_y;
             }
             else
             {
-                var_s2_1 = var_s4 + temp_v0_2;
+                new_y = old_y + floor_dist;
             }
             break;
         case 2:
         case 18:
-            var_s2_1 = 0xF - var_s0;
+            new_y = 0xF - x;
             break;
         case 3:
         case 19:
-            var_s2_1 = var_s0;
+            new_y = x;
             break;
         case 4:
         case 20:
-            var_s2_1 = 0xF - (((s16) var_s0) >> 1);
+            new_y = 0xF - (((s16) x) >> 1);
             break;
         case 5:
         case 21:
-            var_s2_1 = 7 - (((s16) var_s0) >> 1);
+            new_y = 7 - (((s16) x) >> 1);
             break;
         case 6:
         case 22:
-            var_s2_1 = (((s16) var_s0) >> 1);
+            new_y = (((s16) x) >> 1);
             break;
         case 7:
         case 23:
-            var_s2_1 = (((s16) var_s0) >> 1) + 8;
+            new_y = (((s16) x) >> 1) + 8;
             break;
         case 9:
         case 14:
         case 15:
         case 30:
-            temp_v1_5 = BTYP(obj->x_pos + obj->offset_bx + (s16) var_s5, (obj->y_pos + obj->offset_by + (s16) var_s1) - 0x10) & 0xFF;
-            var_s2_2 = 0;
-            switch (temp_v1_5)
+            above_btyp = BTYP(obj->x_pos + obj->offset_bx + (s16) hor_speed, (obj->y_pos + obj->offset_by + (s16) diff_y) - 0x10) & 0xFF;
+            switch (above_btyp)
             {
             case 2:
             case 18:
-                var_s2_2 = 0xF - var_s0;
+                new_y = 0xF - x;
                 break;
             case 3:
             case 19:
-                var_s2_2 = var_s0;
+                new_y = x;
                 break;
             case 4:
             case 20:
-                var_s2_2 = 0xF - (((s16) var_s0) >> 1);
+                new_y = 0xF - (((s16) x) >> 1);
                 break;
             case 5:
             case 21:
-                var_s2_2 = 7 - (((s16) var_s0) >> 1);
+                new_y = 7 - (((s16) x) >> 1);
                 break;
             case 6:
             case 22:
-                var_s2_2 = (((s16) var_s0) >> 1);
+                new_y = (((s16) x) >> 1);
                 break;
             case 7:
             case 23:
-                var_s2_2 = (((s16) var_s0) >> 1) + 8;
+                new_y = (((s16) x) >> 1) + 8;
                 break;
             case 0:
             case 1:
@@ -728,7 +709,7 @@ void CALC_MOV_ON_BLOC(Obj *obj)
             case 12:
             case 24:
             case 25:
-                var_s2_2 = 0x00000010;
+                new_y = 0x00000010;
                 break;
             case 9:
             case 11:
@@ -737,11 +718,14 @@ void CALC_MOV_ON_BLOC(Obj *obj)
             case 15:
             case 16:
             case 17:
-                var_s2_2 = 0;
+                new_y = 0;
+                break;
+            default:
+                new_y = 0;
                 break;
             }
-            var_s2_1 = (var_s2_2 - 0x10);
-            var_s2_1 = var_s4 + var_s2_1;
+            new_y = (new_y - 0x10);
+            new_y = old_y + new_y;
             break;
         }
         if (!(IS_ON_RESSORT_BLOC(obj) & 0xFF))
@@ -751,16 +735,17 @@ void CALC_MOV_ON_BLOC(Obj *obj)
                 if (
                     (ray.field20_0x36 == -1 && ray.main_etat != 2) &&
                     (
-                        temp_v1_6 = obj->speed_y,
-                        ((u32) (__builtin_abs(temp_v1_6) - 3) < 0xDU) &&
-                        !(((u8) block_flags[temp_v0_1 & 0xFF] >> 1) & 1)
+                        old_speed_y = obj->speed_y,
+                        ((u32) (__builtin_abs(old_speed_y) - 3) < 13) &&
+                        !((block_flags[btyp] >> 1) & 1)
                     )
                 )
                 {
-                    set_main_and_sub_etat(&ray, 0U, 0U);
+                    diff_y = old_speed_y;
+                    set_main_and_sub_etat(&ray, 0, 0);
                     button_released = 1;
                     ray_jump();
-                    obj->speed_y = temp_v1_6;
+                    obj->speed_y = diff_y;
                 }
                 else
                 {
@@ -770,21 +755,19 @@ void CALC_MOV_ON_BLOC(Obj *obj)
                         ((ray.sub_etat != 0x16)))
                     )
                     {
-                        obj->speed_y = (var_s1 + var_s2_1) - var_s4;
+                        obj->speed_y = (diff_y + new_y) - old_y;
                         TEST_FIN_BLOC(obj);
                     }
                 }
             }
             else
             {
-block_72:
-                obj->speed_y = (var_s1 + var_s2_1) - var_s4;
+                obj->speed_y = (diff_y + new_y) - old_y;
                 TEST_FIN_BLOC(obj);
             }
         }
     }
 }
-#endif
 
 /* 6F7E4 80193FE4 -O2 -msoft-float */
 void recale_position(Obj *obj)
