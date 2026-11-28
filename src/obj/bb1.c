@@ -1251,68 +1251,74 @@ void DO_BBMONT_TOUCHE(Obj *obj)
     WaitForFinAtan = 2;
 }
 
-/* 5A2A4 8017EAA4 -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/obj/bb1", DO_BBMONT2_COMMAND);
-#else
-/* score of ??? */
-static inline void test_123098(Obj *obj)
+static inline u8 bb_solid(s16 t)
+{
+    return block_flags[mp.map[t] >> 10] >> 1 & 1;
+}
+
+/* Dead loop: gcc forgets known values at its label, then deletes it. */
+#define BB_DEAD_LOOP \
+    if (n_ > 1)      \
+        do ; while (--n_ > 1)
+
+#define BB_BARRIER()  \
+    do                \
+    {                 \
+        s32 n_ = 1;   \
+        BB_DEAD_LOOP; \
+    } while (0)
+
+/*
+ * ABS(bb_x - (ray_zdc_x + (ray_zdc_w >> 1))).
+ * - The shift pair keeps the load and the shift as separate instructions.
+ * - The second and third evaluations need the dead loop to reload.
+ */
+#define BB_HALF_W() ((ray_zdc_w << 16) >> 17)
+#define BB_CENTRE_RELOAD() \
+    ({ s32 n_ = 1; BB_DEAD_LOOP; ray_zdc_x + BB_HALF_W(); })
+#define BB_DIFF_RELOAD() \
+    ({ s32 n_ = 1; BB_DEAD_LOOP; bb_x - (ray_zdc_x + BB_HALF_W()); })
+#define BB_RAY_DIST()                                                  \
+    ((bb_x - (ray_zdc_x + BB_HALF_W())) >= 0 ? BB_DIFF_RELOAD()        \
+                                             : -(bb_x - BB_CENTRE_RELOAD()))
+
+static inline void bb_set_walk_etat(Obj *obj)
 {
     switch (bb1.speed_x)
     {
     case 2:
-        set_main_and_sub_etat(obj, 1U, 1U);
+        set_main_and_sub_etat(obj, 1, 1);
         break;
     case 3:
-        set_main_and_sub_etat(obj, 1U, 2U);
+        set_main_and_sub_etat(obj, 1, 2);
         break;
     case 0:
     default:
-        set_main_and_sub_etat(obj, 1U, 0U);
+        set_main_and_sub_etat(obj, 1, 0);
         break;
     }
 }
 
+/* 5A2A4 8017EAA4 -O2 -msoft-float */
 void DO_BBMONT2_COMMAND(Obj *obj)
 {
-    s16 temp_s2;
-    s16 temp_s3;
-    s32 temp_v0_2;
-    s16 temp_v0_3;
-    s16 var_v0_2;
-    s16 var_v1;
-    s32 temp_v0;
-    s32 var_a0;
-    s32 var_v0_3;
-    s32 var_v0_4;
-    s32 var_v0_5;
-    s32 var_v0_6;
-    s32 var_v1_2;
-    u16 temp_v0_4;
-    u16 var_v0;
-    u8 temp_v1;
-    u8 temp_v1_2;
-    u8 temp_v1_3;
-    BB1Data *test_1;
-    s32 test_2;
-    s32 test_3;
-    u8 test_4;
-    u8 test_5;
-    u32 test_6;
+    s16 bb_x;
+    s16 bb_y;
+    s16 dist;
 
-    temp_s2 = (u16) obj->x_pos + obj->offset_bx;
-    temp_s3 = obj->offset_hy + (u16) obj->y_pos + 0x40;
-    if ((obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1)) && (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0))
-    {
-        FinAnim = 1;
-    }
+    bb_x = obj->x_pos + obj->offset_bx;
+    bb_y = obj->offset_hy + obj->y_pos + 0x40;
+    if (
+        obj->anim_frame == (obj->animations[obj->anim_index].frames_count - 1) &&
+        horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0
+    )
+        FinAnim = true;
     else
+        FinAnim = false;
+
+    if (Phase < 2 && obj->main_etat != 2 && (u32) (ray_zdc_x - bb_x + 16) <= 32 && ray_zdc_y < bb_y - 32)
     {
-        FinAnim = 0;
-    }
-    if (((u8) Phase < 2U) && (obj->main_etat != 2) && ((u32) ((ray_zdc_x - temp_s2) + 0x10) < 0x21U) && (ray_zdc_y < (temp_s3 - 0x20)))
-    {
-        set_main_and_sub_etat(obj, 0U, 0x10U);
+        set_main_and_sub_etat(obj, 0, 16);
         obj->speed_x = 0;
         obj->speed_y = 0;
     }
@@ -1320,82 +1326,66 @@ void DO_BBMONT2_COMMAND(Obj *obj)
     if (obj->main_etat == 1)
     {
         if (Phase == 0)
-        {
             Phase = 1;
-        }
         SET_X_SPEED(obj);
-        if ((u8) Phase < 4U)
-        {
+        if (Phase < 4)
             CALC_MOV_ON_BLOC(obj);
-        }
-        if ((FinAnim != 0) && (bb1.speed_x != (obj->sub_etat + 1)))
-        {
-            test_123098(obj);
-        }
+        if (FinAnim && (bb1.speed_x != obj->sub_etat + 1))
+            bb_set_walk_etat(obj);
     }
-    if ((bb1.field1_0x2 < 8) && (Phase != 0) && (Phase != 5))
+
+    if (bb1.field1_0x2 < 8 && Phase != 0 && Phase != 5)
     {
         if (scroll_end_x == xmapmax)
         {
             scroll_end_x = xmap;
-            if (xmap < temp_s2)
-            {
-                scroll_end_x = temp_s2;
-            }
+            if (scroll_end_x < bb_x)
+                scroll_end_x = bb_x;
         }
-        else if (scroll_end_x < temp_s2)
-        {
+        else if (scroll_end_x < bb_x)
             bb1.saved_cmd = 1;
-        }
         if (bb1.saved_cmd != 0)
         {
             if (obj->main_etat == 1)
-            {
-                scroll_end_x = (u16) scroll_end_x + (obj->sub_etat + 1);
-            }
+                scroll_end_x += obj->sub_etat + 1;
             else
-            {
-                scroll_end_x = scroll_end_x + (u16) obj->speed_x;
-            }
+                scroll_end_x += obj->speed_x;
         }
     }
     else
-    {
         scroll_end_x = xmapmax;
-    }
+
     switch (Phase)
     {
     case 0:
-        /* gotos-only does not fix this case */
-        temp_v0 = ((u8) block_flags[obj->btypes[0]] >> 1) & 1;
-        var_a0 = 0x28;
-        if ((temp_v0 == 0) && (var_a0 = 0x3C, (temp_v0 == 0)))
+        dist = !(block_flags[obj->btypes[0]] >> 1 & 1) ? 0x3C : 0x28;
+        if (!(block_flags[obj->btypes[0]] >> 1 & 1))
         {
-            if (((temp_s2 + var_a0) < ray_zdc_x) && (obj->main_etat == 0) && (bb1.speed_x != 0))
+            if (ray_zdc_x > bb_x + dist && obj->main_etat == 0 && bb1.speed_x != 0)
             {
-                obj->flags |= 0x4000;
-                set_main_and_sub_etat(obj, 2U, 1U);
+                obj->flags |= FLG(OBJ_FLIP_X);
+                set_main_and_sub_etat(obj, 2, 1);
                 obj->speed_y = 2;
-                return;
             }
         }
-        else if ((obj->main_etat == 0) && (obj->sub_etat == 0) && ((var_a0 + temp_s2) < ray_zdc_x))
+        else if (obj->main_etat == 0 && obj->sub_etat == 0 && bb_x + dist < ray_zdc_x)
         {
             Phase = 1;
-            test_123098(obj);
+            bb_set_walk_etat(obj);
         }
         break;
     case 1:
         if (
-            (obj->main_etat == 1) &&
-            !(block_flags [
-                (u16) mp.map [
-                    (s16) (((obj->x_pos + obj->offset_bx) >> 4) + mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
+            obj->main_etat == 1 &&
+            !(block_flags[
+                mp.map[
+                    (s16) (((obj->x_pos + obj->offset_bx) >> 4) +
+                    mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
                 ] >> 10
             ] >> 1 & 1)
         )
         {
-            set_main_and_sub_etat(obj, 2U, 4U);
+            set_main_and_sub_etat(obj, 2, 4);
             obj->gravity_value_2 = 5;
             obj->gravity_value_1 = 0;
             obj->speed_y = -8;
@@ -1404,15 +1394,16 @@ void DO_BBMONT2_COMMAND(Obj *obj)
         break;
     case 2:
         if (
-            (obj->main_etat == 1) &&
-            !(block_flags [
-                (u16) mp.map [
-                    (s16) (((obj->x_pos + (obj->offset_bx - 8)) >> 4) + mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
+            obj->main_etat == 1 &&
+            !(block_flags[
+                mp.map[
+                    (s16) (((obj->x_pos - 8 + obj->offset_bx) >> 4) +
+                    mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
                 ] >> 10
             ] >> 1 & 1)
         )
         {
-            set_main_and_sub_etat(obj, 2U, 1U);
+            set_main_and_sub_etat(obj, 2, 1);
             obj->gravity_value_2 = 5;
             obj->gravity_value_1 = 0;
             obj->speed_y = 0;
@@ -1421,74 +1412,67 @@ void DO_BBMONT2_COMMAND(Obj *obj)
         }
         break;
     case 3:
-        scroll_end_x = MAX_1(scroll_end_x, 0x15cc);
-
-        if (((temp_s2 + 0x20) < ray_zdc_x) && (bb1.field1_0x2 == -1) && (temp_s3 < ray_zdc_y))
+        scroll_end_x = MAX_1(scroll_end_x, 0x15CC);
+        if (bb_x + 32 < ray_zdc_x)
         {
-            if (bb1.speed_x != -1)
+            if (bb1.field1_0x2 == -1 && bb_y < ray_zdc_y)
             {
-                test_123098(obj);
-                bb1.field1_0x2 = 0;
-            }
-            else
-            {
-                if (obj->field23_0x3c < 0xC8)
+                /* Empty loops: needed for the saved bb1 field address. */
+                do {} while (0);
+                if (bb1.speed_x != -1)
                 {
-                    if (++obj->field23_0x3c == 0x00C8)
+                    bb_set_walk_etat(obj);
+                    bb1.field1_0x2 = 0;
+                }
+                else
+                {
+                    if (obj->field23_0x3c < 200)
                     {
-                        bb1.speed_x = 1;
-                        set_main_and_sub_etat(obj, 1U, 0U);
-                        bb1.field1_0x2 = 0;
-                        obj->field23_0x3c = 0x00FF;
+                        if (++obj->field23_0x3c == 200)
+                        {
+                            bb1.speed_x = 1;
+                            set_main_and_sub_etat(obj, 1, 0);
+                            bb1.field1_0x2 = 0;
+                            obj->field23_0x3c = 255;
+                        }
                     }
-                }
-                scroll_end_x = xmap;
-                if (scroll_end_x < temp_s2)
-                {
-                    test_2 = ray.speed_x;
-                    if (test_2 < 1)
-                        test_2 = 1;
-                    scroll_end_x = scroll_end_x + test_2;
+                    scroll_end_x = xmap;
+                    if (scroll_end_x < bb_x)
+                        scroll_end_x += MAX_1(ray.speed_x, 1);
                 }
             }
         }
-        if (FinAnim != 0)
-        {
-            if ((obj->main_etat == 0) && (obj->sub_etat == 0x10))
-            {
-                test_123098(obj);
-            }
-            if ((FinAnim != 0) && (obj->main_etat == 0) && (obj->sub_etat == 1))
-            {
-                test_123098(obj);
-            }
-        }
+        if (FinAnim && obj->main_etat == 0 && obj->sub_etat == 16)
+            bb_set_walk_etat(obj);
+        if (FinAnim && obj->main_etat == 0 && obj->sub_etat == 1)
+            bb_set_walk_etat(obj);
         if (obj->main_etat == 1)
         {
             if (
-                !(block_flags [
-                    (u16) mp.map [
-                        (s16) (((obj->x_pos + (obj->offset_bx - 8)) >> 4) + mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
+                !(block_flags[
+                    mp.map[
+                        (s16) (((obj->x_pos - 8 + obj->offset_bx) >> 4) +
+                        mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
                     ] >> 10
                 ] >> 1 & 1)
             )
             {
                 obj->speed_y = -6;
                 obj->speed_x = 3;
-                set_main_and_sub_etat(obj, 2U, 4U);
+                set_main_and_sub_etat(obj, 2, 4);
                 obj->gravity_value_2 = 5;
                 obj->gravity_value_1 = 0;
             }
-            if ((obj->main_etat != 2) && ((u32) ((ray_zdc_x - temp_s2) + 0x10) < 0x21U))
+            if (obj->main_etat != 2 && (u32) (ray_zdc_x - bb_x + 16) <= 32)
             {
-                if (ray_zdc_y < (temp_s3 - 0x20))
+                if (ray_zdc_y < bb_y - 32)
                 {
-                    set_main_and_sub_etat(obj, 0U, 0x10U);
+                    set_main_and_sub_etat(obj, 0, 16);
                     obj->speed_y = 0;
                 }
                 else
                 {
-                    set_main_and_sub_etat(obj, 0U, 1U);
+                    set_main_and_sub_etat(obj, 0, 1);
                     obj->speed_y = 0;
                 }
                 obj->speed_x = 0;
@@ -1497,26 +1481,26 @@ void DO_BBMONT2_COMMAND(Obj *obj)
         break;
     case 4:
         if (bb1.sprite6_y < scroll_end_y)
+            --scroll_end_y;
+        if (FinAnim)
         {
-            scroll_end_y -= 1;
-        }
-        if (FinAnim != 0)
-        {
-            if ((obj->main_etat == 2) && (obj->sub_etat == 2))
+            if (obj->main_etat == 2 && obj->sub_etat == 2)
             {
                 bb1.speed_x = 1;
-                set_main_and_sub_etat(obj, 1U, 0U);
+                set_main_and_sub_etat(obj, 1, 0);
             }
-            else if ((obj->main_etat == 0) && (obj->sub_etat == 5))
+            else if (obj->main_etat == 0 && obj->sub_etat == 5)
             {
                 if (++bb1.sprite6_x < 3)
                 {
+                    do {} while (0);
                     bb1.speed_x = 1;
-                    set_main_and_sub_etat(obj, 1U, 0U);
+                    set_main_and_sub_etat(obj, 1, 0);
                 }
                 else
                 {
-                    set_main_and_sub_etat(obj, 0U, 2U);
+                    do {} while (0);
+                    set_main_and_sub_etat(obj, 0, 2);
                     Phase = 5;
                     bb1.sprite6_y = ymap;
                 }
@@ -1525,92 +1509,65 @@ void DO_BBMONT2_COMMAND(Obj *obj)
         if (obj->main_etat == 1)
         {
             if (
-                !(block_flags [
-                    (u16) mp.map [
-                        (s16) (((obj->x_pos + obj->offset_bx + (!(obj->flags & 0x4000) ? -0x10 : 0x10)) >> 4) + mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
-                    ] >> 10
-                ] >> 1 & 1)
+                !bb_solid(
+                    (s16) ((((obj->x_pos + (obj->flags & FLG(OBJ_FLIP_X) ? 16 : -16)) + obj->offset_bx) >> 4) +
+                    mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
+                )
             )
             {
                 obj->speed_y = 0;
                 obj->speed_x = 0;
-                /* see also: makeUturn() case TYPE_SPIDER_PLAFOND */
-                obj->flags = obj->flags & ~0x4000 | (((1 - ((obj->flags >> 0xE) & 1)) & 1) << 0xE);
-                set_main_and_sub_etat(obj, 0U, 5U);
+                /* volatile: flags is loaded twice */
+                obj->flags = *(volatile u32 *) &obj->flags & ~FLG(OBJ_FLIP_X) | ((1 - (obj->flags >> OBJ_FLIP_X & 1)) & 1) << OBJ_FLIP_X;
+                set_main_and_sub_etat(obj, 0, 5);
             }
         }
-        if ((temp_s2 - (ray_zdc_x + ((s16) ray_zdc_w >> 1))) >= 0)
+        if (BB_RAY_DIST() > 250)
         {
-            if ((temp_s2 - (ray_zdc_x + ((s16) ray_zdc_w >> 1))) >= 0xFB)
-            {
-                goto block_172;
-            }
-            return;
-        }
-        if (((ray_zdc_x + ((s16) ray_zdc_w >> 1)) - temp_s2) >= 0xFB)
-        {
-block_172:
-            obj->flags &= ~0x400;
-            IsBossThere = 0;
+            obj->flags &= ~FLG(OBJ_ALIVE);
+            IsBossThere = false;
             Phase = 0;
             scroll_end_x = xmapmax;
+            obj->flags &= ~FLG(OBJ_ACTIVE);
             scroll_end_y = ymapmax;
-            obj->flags &= ~0x800;
         }
         break;
     case 5:
         if (bb1.field1_0x2 < 0)
         {
+            BB_BARRIER();
             scroll_end_y = bb1.sprite6_y - horloge[5];
             bb1.field1_0x2 = bb1.field1_0x2 + 1;
         }
-        if (FinAnim != 0)
+        if (FinAnim && obj->main_etat == 0 && obj->sub_etat == 5)
         {
-            if (obj->main_etat == 0)
-            {
-                if (obj->sub_etat == 5)
-                {
-                    do { } while (0); /* TODO: ??? */
-                    bb1.speed_x = 3;
-                    test_123098(obj);
-                }
-                goto block_147;
-            }
+            bb1.speed_x = 3;
+            bb_set_walk_etat(obj);
         }
-        else
+        if (obj->main_etat == 0 && obj->sub_etat == 2)
         {
-block_147:
-            if ((obj->main_etat == 0) && (obj->sub_etat == 2))
+            BB_BARRIER();
+            if (FinAnim)
             {
-                if (FinAnim != 0)
-                {
-                    bb1.speed_x = 2;
-                    test_123098(obj);
-                }
-                else
-                {
-                    /* already knows main_etat and sub_etat ... */
-                    if ((obj->anim_frame == 0x15) && (horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0))
-                    {
-                        bb1.field1_0x2 = -0x001E;
-                    }
-                }
+                bb1.speed_x = 2;
+                bb_set_walk_etat(obj);
             }
+            else if (obj->anim_frame == 21 && horloge[obj->eta[obj->main_etat][obj->sub_etat].anim_speed & 0xF] == 0)
+                bb1.field1_0x2 = -30;
         }
         if (obj->main_etat == 1)
         {
             if (
-                !(block_flags [
-                    (u16) mp.map [
-                        (s16) (((obj->x_pos + obj->offset_bx + (!(obj->flags & 0x4000) ? -0x10 : 0x10)) >> 4) + mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
-                    ] >> 10
-                ] >> 1 & 1)
+                !bb_solid(
+                    (s16) ((((obj->x_pos + (obj->flags & FLG(OBJ_FLIP_X) ? 16 : -16)) + obj->offset_bx) >> 4) +
+                    mp.width * ((obj->y_pos + obj->offset_by + 8) >> 4))
+                )
             )
             {
                 if (bb1.speed_x == 3)
                 {
-                    set_main_and_sub_etat(obj, 2U, 4U);
-                    obj->gravity_value_2 = 0xFF;
+                    set_main_and_sub_etat(obj, 2, 4);
+                    obj->gravity_value_2 = 255;
                     obj->gravity_value_1 = 0;
                     obj->speed_y = -2;
                     obj->speed_x = 4;
@@ -1621,33 +1578,24 @@ block_147:
                 {
                     obj->speed_y = 0;
                     obj->speed_x = 0;
-                    obj->flags = obj->flags & ~0x4000 | (((1 - ((obj->flags >> 0xE) & 1)) & 1) << 0xE);
-                    set_main_and_sub_etat(obj, 0U, 5U);
+                    /* volatile: flags is loaded twice */
+                    obj->flags = *(volatile u32 *) &obj->flags & ~FLG(OBJ_FLIP_X) | ((1 - (obj->flags >> OBJ_FLIP_X & 1)) & 1) << OBJ_FLIP_X;
+                    set_main_and_sub_etat(obj, 0, 5);
                 }
             }
         }
-        if ((temp_s2 - (ray_zdc_x + ((s16) ray_zdc_w >> 1))) >= 0)
+        if (BB_RAY_DIST() > 400)
         {
-            if ((temp_s2 - (ray_zdc_x + ((s16) ray_zdc_w >> 1))) >= 0x191)
-            {
-                goto block_173;
-            }
-            return;
-        }
-        if (((ray_zdc_x + ((s16) ray_zdc_w >> 1)) - temp_s2) >= 0x191)
-        {
-block_173:
-            obj->flags &= ~0x400;
-            IsBossThere = 0;
+            obj->flags &= ~FLG(OBJ_ALIVE);
+            IsBossThere = false;
             Phase = 0;
             scroll_end_x = xmapmax;
+            obj->flags &= ~FLG(OBJ_ACTIVE);
             scroll_end_y = ymapmax;
-            obj->flags &= ~0x800;
         }
         break;
     }
 }
-#endif
 
 /* 5B388 8017FB88 -O2 -msoft-float */
 void DO_BBMONT2_MARCHE(s16 hp)

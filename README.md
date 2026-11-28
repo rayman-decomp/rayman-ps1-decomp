@@ -17,11 +17,7 @@ make -f mk-splat.mk
 sha1sum should print OK
 
 ## Remaining non-matching functions
-Any help with these is greatly appreciated! Feel free to create a PR or open an issue if you get any of them to match. 
-
-| File                        | Function                         | Address | Link                            | % matching |
-|-----------------------------|----------------------------------|-------------|---------------------------------|------------|
-| src/obj/bb1.c               | DO_BBMONT2_COMMAND               | 8017EAA4    | https://decomp.me/scratch/07j9E | 89.38%     |
+No game function is non-matching. The `INCLUDE_ASM` lines in `src/` are inactive because `include/common.h` defines `MATCHES_BUT`; only the PsyQ SDK libraries and startup code are still built from assembly. Many matched functions still need cleanup (see the `TODO` comments).
 
 ## Project to-do/dreams
 Below is a list of potential goals for the decomp. Since there aren't many people working on this project we would greatly appreciate any help anyone is willing to provide!
