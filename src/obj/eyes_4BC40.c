@@ -1,34 +1,14 @@
 #include "obj/eyes_4BC40.h"
 
 /* 4BC40 80170440 -O2 -msoft-float */
-#ifndef NONMATCHINGS
-INCLUDE_ASM("asm/nonmatchings/obj/eyes_4BC40", DO_ROLL_EYES);
-#else
-/*
-score of ???
-dunno... see DO_BAT_FLASH
-*/
 void DO_ROLL_EYES(Obj *obj)
 {
-    s32 temp_a0_3;
-    s16 temp_v0_1;
-    s16 temp_v0_2;
-    s16 temp_v0_3;
-    s16 temp_v0_5;
+    s32 screen_x;
     s16 unk_x_1;
     s16 unk_y_1;
     s16 diff_x;
-    s32 temp_a0_2;
     s16 diff_y;
     s16 temp_lo;
-    s32 temp_s3;
-    s32 temp_s4;
-    s32 temp_v0_4;
-    s32 var_v0_1;
-    s32 var_v0_2;
-    s16 temp_s2;
-    u16 temp_v1_2;
-    u8 temp_v1_1;
     s16 fire_par_3;
     u8 y_gt_0;
     u8 x_gt_0;
@@ -47,7 +27,10 @@ void DO_ROLL_EYES(Obj *obj)
         case 1:
             if (--obj->iframes_timer == 0)
             {
-                obj->sub_etat = 2;
+                do
+                {
+                    obj->sub_etat = 2;
+                } while (0); /* required to match */
                 obj->iframes_timer = 5;
             }
             break;
@@ -73,7 +56,7 @@ void DO_ROLL_EYES(Obj *obj)
         unk_y_1 = diff_y + 0x23;
     }
     x_gt_0 = unk_x_1 > 0;
-    y_gt_0 = (unk_y_1 > 0);
+    y_gt_0 = unk_y_1 > 0;
     if (x_gt_0 == 0)
     {
         unk_x_1 = -unk_x_1;
@@ -101,7 +84,7 @@ void DO_ROLL_EYES(Obj *obj)
                 fire_par_3 = 9;
             }
             else
-                fire_par_3 = -1; /* s32 or s16? */
+                fire_par_3 = -1;
         }
     }
     else
@@ -122,8 +105,11 @@ void DO_ROLL_EYES(Obj *obj)
             }
             else
             {
-                fire_par_3 = 0;
-                if (temp_lo < (s16) LEN(N_anim))
+                if (temp_lo >= (s16) LEN(N_anim))
+                {
+                    fire_par_3 = 0;
+                }
+                else
                 {
                     fire_par_3 = N_anim[temp_lo];
                 }
@@ -131,16 +117,22 @@ void DO_ROLL_EYES(Obj *obj)
         }
         else if (y_gt_0)
         {
-            fire_par_3 = 0x12;
-            if (temp_lo < (s16) LEN(N_anim))
+            if (temp_lo >= (s16) LEN(N_anim))
+            {
+                fire_par_3 = 0x12;
+            }
+            else
             {
                 fire_par_3 = N_anim[temp_lo] + 0x12;
             }
         }
         else
         {
-            fire_par_3 = 9;
-            if (temp_lo < (s16) LEN(N_anim))
+            if (temp_lo >= (s16) LEN(N_anim))
+            {
+                fire_par_3 = 9;
+            }
+            else
             {
                 fire_par_3 = N_anim[temp_lo] + 9;
             }
@@ -150,14 +142,13 @@ void DO_ROLL_EYES(Obj *obj)
     {
         if ((--obj->iframes_timer) == 0)
         {
-            temp_s2 = obj->screen_y_pos;
-            /*unk_y_1 = obj->screen_y_pos;*/
-            temp_a0_3 = obj->screen_x_pos;
+            unk_y_1 = obj->screen_y_pos;
+            screen_x = unk_x_1 = obj->screen_x_pos;
             obj->sub_etat = 1;
             obj->iframes_timer = 0x003C;
             if (
-                (temp_a0_3 >= -0x33) && (temp_s2 >= -0x23) &&
-                (temp_a0_3 < 0x131) && (temp_s2 < 0xEB)
+                (screen_x >= -0x33) && (unk_y_1 >= -0x23) &&
+                (screen_x < 0x131) && (unk_y_1 < 0xEB)
             )
             {
                 DO_REDEYE_FIRE(obj->x_pos, obj->y_pos, fire_par_3);
@@ -168,9 +159,8 @@ void DO_ROLL_EYES(Obj *obj)
             }
         }
     }
-    if ((fire_par_3) != -1)
+    if (fire_par_3 != -1)
     {
         obj->anim_frame = fire_par_3 - 1;
     }
 }
-#endif
